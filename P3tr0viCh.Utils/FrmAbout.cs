@@ -1,0 +1,253 @@
+﻿using System.Drawing.Drawing2D;
+using System.Drawing;
+using System.Reflection;
+using System.Windows.Forms;
+using System;
+
+namespace P3tr0viCh.Utils
+{
+    public static class FrmAbout
+    {
+        private static readonly string IDS_ABOUT_EULA_1_1 = "• Распространяется свободно (FREEWARE).";
+        private static readonly string IDS_ABOUT_EULA_1_2 = "• ЗАПРЕЩЕНО использование программы в коммерческих целях без согласования с автором.";
+        private static readonly string IDS_ABOUT_EULA_2 = "• ЗАПРЕЩЕНО распространение программы в коммерческих целях без согласования с автором.";
+        private static readonly string IDS_ABOUT_EULA_3 = "• ЗАПРЕЩЕНО любое изменение, адаптирование, перевод, дизассемблирование данной программы.";
+        private static readonly string IDS_ABOUT_EULA_4 = "• Поставляется «КАК ЕСТЬ», то есть автор не дает никаких гарантий работоспособности программы, а также не несет никакой ответственности за любой прямой, косвенный или иной ущерб, понесенный в результате ее использования.\nВы используете это программное обеспечение на свой риск.";
+
+        private static readonly string IDS_ABOUT_CAPTION = "О программе";
+
+        private static readonly string IDS_ABOUT_VERSION = "Версия {0}";
+#if DEBUG
+        private static readonly string IDS_ABOUT_VERSION_DEBUG = " (debug)";
+#endif
+
+        public class Options
+        {
+            public int AppNameFontSize = 26;
+            public int AppNameLineBreak = -1;
+
+            public string Text = string.Empty;
+
+            public string Link = string.Empty;
+            public string LinkText = string.Empty;
+        }
+
+        public static void Show(Assembly assembly, Options options = null)
+        {
+            if (options == null)
+            {
+                options = new Options();
+            }
+
+            using (var frm = new Form())
+            using (var pnlIcon = new Panel())
+            using (var pbIcon = new PictureBox())
+            using (var pnlAppName = new Panel())
+            using (var lblCopyright = new Label())
+            using (var lblLink = new LinkLabel())
+            using (var ttlink = new ToolTip())
+            using (var lblVersion = new Label())
+            using (var lblBuildDate = new Label())
+            using (var lblText = new Label())
+            using (var btnClose = new Button())
+            {
+
+                var rnd = new Random();
+
+                string caption;
+                string appName;
+                string version;
+                string copyright;
+                string linkLink;
+                string linkText;
+
+                DateTime buildDate;
+
+                if (Control.ModifierKeys.HasFlag(Keys.Shift) &&
+                    Control.ModifierKeys.HasFlag(Keys.Control) &&
+                    Control.ModifierKeys.HasFlag(Keys.Alt))
+                {
+                    caption = "Автор";
+                    appName = "Дураев Константин Петрович";
+                    version = "Рандом говорит нам:";
+                    copyright = "";
+                    linkLink = "https://github.com/P3tr0viCh";
+                    linkText = string.Empty;
+                    buildDate = new DateTime(1981, 3, 29);
+                    options.AppNameFontSize = 16;
+                    options.AppNameLineBreak = 0;
+
+                    options.Text = Str.Random(35, rnd);
+                    for (int i = 0; i < 9; i++)
+                    {
+                        options.Text += Str.Eol + Str.Random(35, rnd);
+                    }
+                }
+                else
+                {
+                    caption = IDS_ABOUT_CAPTION;
+
+                    var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
+                    var assemblyCopyright = (AssemblyCopyrightAttribute)assembly.GetCustomAttribute(typeof(AssemblyCopyrightAttribute));
+
+                    appName = assemblyProduct.Product;
+                    copyright = assemblyCopyright.Copyright;
+
+                    linkLink = options.Link;
+                    linkText = options.LinkText;
+
+                    var assemblyVersion = assembly.GetName().Version;
+
+                    version = assemblyVersion.ToString();
+
+                    buildDate = new DateTime(2000, 1, 1).AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.MinorRevision * 2);
+
+                    if (options.Text == string.Empty)
+                    {
+                        options.Text = IDS_ABOUT_EULA_1_1 + "\n" + IDS_ABOUT_EULA_2 + "\n" + IDS_ABOUT_EULA_3 + "\n" + IDS_ABOUT_EULA_4;
+                    }
+                    else
+                    {
+                        if (options.Text == "LIC_#2")
+                        {
+                            options.Text = IDS_ABOUT_EULA_1_2 + "\n" + IDS_ABOUT_EULA_2 + "\n" + IDS_ABOUT_EULA_3 + "\n" + IDS_ABOUT_EULA_4;
+                        }
+                    }
+                    version = string.Format(IDS_ABOUT_VERSION, version);
+#if DEBUG
+                    version += IDS_ABOUT_VERSION_DEBUG;
+#endif
+                }
+
+                if (options.AppNameLineBreak != -1)
+                {
+                    var i = appName.IndexOfNth(Str.Space, options.AppNameLineBreak);
+
+                    appName = appName.Substring(0, i) + Str.Eol + appName.Substring(i + 1);
+                }
+
+                frm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                frm.Font = new Font("Segoe UI", 10);
+                frm.MaximizeBox = false;
+                frm.MinimizeBox = false;
+                frm.Size = new Size(440, 168);
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.ShowInTaskbar = false;
+
+                frm.Text = caption;
+
+                pnlIcon.Parent = frm;
+                pnlIcon.SetBounds(8, 8, 64, 64);
+                pnlIcon.BorderStyle = BorderStyle.Fixed3D;
+                pnlIcon.BackColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+
+                pbIcon.Parent = pnlIcon;
+                pbIcon.Dock = DockStyle.Fill;
+                pbIcon.SizeMode = PictureBoxSizeMode.CenterImage;
+                pbIcon.Image = Icon.ExtractAssociatedIcon(Application.ExecutablePath).ToBitmap();
+
+                var stringFormat = new StringFormat()
+                {
+                    LineAlignment = StringAlignment.Center,
+                    Alignment = StringAlignment.Center
+                };
+
+                var versionFont = new Font(frm.Font.Name, 8, FontStyle.Bold);
+
+                pnlAppName.Parent = frm;
+                pnlAppName.Font = new Font(frm.Font.Name, options.AppNameFontSize, FontStyle.Bold | FontStyle.Italic);
+                pnlAppName.BorderStyle = BorderStyle.Fixed3D;
+                pnlAppName.SetBounds(80, 8, frm.ClientSize.Width - 88, 64);
+
+                var rectangleAppName = pnlAppName.ClientRectangle;
+                var rectangleAppName1 = pnlAppName.ClientRectangle;
+                rectangleAppName1.Offset(4, 4);
+                var rectangleAppName2 = pnlAppName.ClientRectangle;
+
+                var brushAppName = new LinearGradientBrush(rectangleAppName, pnlIcon.BackColor, Color.Black, LinearGradientMode.Horizontal);
+
+                pnlAppName.Paint += (s, e) =>
+                {
+                    e.Graphics.FillRectangle(brushAppName, rectangleAppName);
+
+                    e.Graphics.DrawString(appName, pnlAppName.Font, Brushes.Black, rectangleAppName1, stringFormat);
+                    e.Graphics.DrawString(appName, pnlAppName.Font, Brushes.White, rectangleAppName2, stringFormat);
+                };
+
+                var textWidth = frm.ClientSize.Width - 16;
+                var linkWidth = string.IsNullOrEmpty(linkLink) ? 0 : 80;
+
+                lblCopyright.Parent = frm;
+                lblCopyright.BackColor = Color.White;
+                lblCopyright.Font = new Font(frm.Font.Name, 10, FontStyle.Bold);
+                lblCopyright.SetBounds(8, 80, textWidth - linkWidth, 32);
+                lblCopyright.Text = copyright;
+
+                if (linkWidth != 0)
+                {
+                    if (string.IsNullOrEmpty(linkText))
+                    {
+                        if (linkLink.Contains("github.com"))
+                        {
+                            linkText = "GitHub";
+                        }
+                        else
+                        {
+                            linkText = "link";
+                        }
+                    }
+
+                    lblLink.Parent = frm;
+                    lblLink.BackColor = Color.White;
+                    lblLink.Font = new Font(frm.Font.Name, 10, FontStyle.Bold);
+                    lblLink.SetBounds(lblCopyright.Left + lblCopyright.Width, 80, linkWidth, 32);
+                    lblLink.Text = linkText;
+                    lblLink.TextAlign = ContentAlignment.TopRight;
+                    lblLink.LinkClicked += (s, e) =>
+                    {
+                        System.Diagnostics.Process.Start(linkLink);
+                    };
+
+                    ttlink.SetToolTip(lblLink, linkLink);
+                }
+
+                var buildDateWidth = 88;
+
+                lblVersion.Parent = frm;
+                lblVersion.BackColor = Color.White;
+                lblVersion.Font = new Font(frm.Font.Name, 10);
+                lblVersion.SetBounds(8, lblCopyright.Top + lblCopyright.Height, textWidth - buildDateWidth, 32);
+                lblVersion.Text = version;
+
+                lblBuildDate.Parent = frm;
+                lblBuildDate.BackColor = Color.White;
+                lblBuildDate.Font = new Font(frm.Font.Name, 10);
+                lblBuildDate.SetBounds(textWidth - buildDateWidth + 8, lblVersion.Top, buildDateWidth, 32);
+                lblBuildDate.TextAlign = ContentAlignment.TopRight;
+                lblBuildDate.Text = buildDate.ToString("yyyy.MM.dd");
+
+                lblText.Parent = frm;
+                lblText.BackColor = Color.White;
+                lblText.Font = new Font(frm.Font.Name, 10);
+                lblText.SetBounds(8, lblVersion.Top + lblVersion.Height, textWidth, 0);
+                lblText.MinimumSize = new Size(textWidth, 0);
+                lblText.MaximumSize = new Size(textWidth, 0);
+                lblText.Text = options.Text;
+                lblText.AutoSize = true;
+
+                frm.Height += lblCopyright.Height + lblVersion.Height + lblText.Height;
+
+                btnClose.Parent = frm;
+                btnClose.Text = "OK";
+                btnClose.DialogResult = DialogResult.OK;
+                btnClose.SetBounds(frm.ClientSize.Width - 88, frm.ClientSize.Height - 40, 80, 32);
+                btnClose.TabIndex = 0;
+
+                frm.AcceptButton = btnClose;
+                frm.CancelButton = btnClose;
+
+                frm.ShowDialog();
+            }
+        }
+    }
+}
