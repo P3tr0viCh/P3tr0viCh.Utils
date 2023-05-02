@@ -22,10 +22,14 @@ namespace P3tr0viCh.Utils
                 ".config";
         }
 
-        public static string DatabaseFileName()
+        public static string DatabaseFileName(string path)
         {
-            return Path.Combine(SettingsDirectory(),
-                Path.GetFileNameWithoutExtension(Application.ExecutablePath) +
+            if (string.IsNullOrEmpty(path))
+            {
+                path = SettingsDirectory();
+            }
+
+            return Path.Combine(path, Path.GetFileNameWithoutExtension(Application.ExecutablePath) +
 #if DEBUG
                 ".debug" +
 #endif
