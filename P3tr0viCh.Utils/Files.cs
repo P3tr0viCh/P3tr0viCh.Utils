@@ -6,41 +6,36 @@ namespace P3tr0viCh.Utils
 {
     public static class Files
     {
-        public static string SettingsDirectory()
+        public static string ExecutableName()
         {
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                Path.GetFileNameWithoutExtension(Application.ExecutablePath));
+            return Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+        }
+
+        public static string ExecutableDirectory()
+        {
+            return Path.GetDirectoryName(Application.ExecutablePath);
+        }
+
+        public static string AppDataDirectory()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ExecutableName());
         }
 
         public static string SettingsFileName()
         {
-            return Path.GetFileNameWithoutExtension(Application.ExecutablePath) +
-#if DEBUG
-                ".debug" +
-#endif
-                ".config";
+            return ExecutableName() + ".config";
         }
 
-        public static string DatabaseFileName(string path)
+        public static string DatabaseFileName()
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                path = SettingsDirectory();
-            }
-
-            return Path.Combine(path, Path.GetFileNameWithoutExtension(Application.ExecutablePath) +
-#if DEBUG
-                ".debug" +
-#endif
-                ".sqlite");
+            return ExecutableName() + ".sqlite";
         }
 
         public static string TempFileName(string fileName)
         {
             if (string.IsNullOrEmpty(fileName)) fileName = "xxx";
 
-            var dir = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Application.ExecutablePath));
+            var dir = Path.Combine(Path.GetTempPath(), ExecutableName());
 
             Directory.CreateDirectory(dir);
 

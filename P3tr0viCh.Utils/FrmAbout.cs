@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace P3tr0viCh.Utils
 {
@@ -17,9 +19,7 @@ namespace P3tr0viCh.Utils
         private static readonly string IDS_ABOUT_CAPTION = "О программе";
 
         private static readonly string IDS_ABOUT_VERSION = "Версия {0}";
-#if DEBUG
         private static readonly string IDS_ABOUT_VERSION_DEBUG = " (debug)";
-#endif
 
         public class Options
         {
@@ -32,7 +32,7 @@ namespace P3tr0viCh.Utils
             public string LinkText = string.Empty;
         }
 
-        public static void Show(Assembly assembly, Options options = null)
+        public static void Show(Options options = null)
         {
             if (options == null)
             {
@@ -87,6 +87,8 @@ namespace P3tr0viCh.Utils
                 {
                     caption = IDS_ABOUT_CAPTION;
 
+                    var assembly = Assembly.LoadFrom(Process.GetCurrentProcess().MainModule.FileName);
+
                     var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
                     var assemblyCopyright = (AssemblyCopyrightAttribute)assembly.GetCustomAttribute(typeof(AssemblyCopyrightAttribute));
 
@@ -113,10 +115,15 @@ namespace P3tr0viCh.Utils
                             options.Text = IDS_ABOUT_EULA_1_2 + "\n" + IDS_ABOUT_EULA_2 + "\n" + IDS_ABOUT_EULA_3 + "\n" + IDS_ABOUT_EULA_4;
                         }
                     }
+
                     version = string.Format(IDS_ABOUT_VERSION, version);
-#if DEBUG
-                    version += IDS_ABOUT_VERSION_DEBUG;
-#endif
+
+                    var assemblyConfiguration = (AssemblyConfigurationAttribute)assembly.GetCustomAttribute(typeof(AssemblyConfigurationAttribute));
+
+                    if ("Debug".Equals(assemblyConfiguration.Configuration))
+                    {
+                        version += IDS_ABOUT_VERSION_DEBUG;
+                    }
                 }
 
                 if (options.AppNameLineBreak != -1)
