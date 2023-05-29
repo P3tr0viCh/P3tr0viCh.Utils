@@ -14,6 +14,11 @@ namespace P3tr0viCh.Utils
             public Rectangle Bounds { get; set; } = default;
             public bool Maximized { get; set; } = false;
         }
+        
+        public class ColumnsState
+        {
+            public int[] Widths { get; set; } = null;
+        }
 
         private static T defaultInstance = new T();
 
@@ -159,29 +164,30 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static void SaveDataGridColumns(DataGridView dataGridView, int[] columns)
+        public static void SaveDataGridColumns(DataGridView dataGridView, ColumnsState columns)
         {
-            if (columns == null)
+            if (columns.Widths == null)
             {
-                columns = new int[dataGridView.Columns.Count];
+                columns.Widths = new int[dataGridView.Columns.Count];
             }
 
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
-                columns[column.Index] = column.Width;
+                columns.Widths[column.Index] = column.Width;
             }
         }
 
-        public static void LoadDataGridColumns(DataGridView dataGridView, int[] columns)
+        public static void LoadDataGridColumns(DataGridView dataGridView, ColumnsState columns)
         {
             try
             {
-                if (columns == null) return;
-                if (columns.Length < dataGridView.Columns.Count) return;
+                if (columns.Widths == null) return;
+
+                if (columns.Widths.Length < dataGridView.Columns.Count) return;
 
                 foreach (DataGridViewColumn column in dataGridView.Columns)
                 {
-                    column.Width = columns[column.Index];
+                    column.Width = columns.Widths[column.Index];
                 }
             }
             catch (Exception)
