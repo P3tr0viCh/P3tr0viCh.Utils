@@ -14,7 +14,7 @@ namespace P3tr0viCh.Utils
             public Rectangle Bounds { get; set; } = default;
             public bool Maximized { get; set; } = false;
         }
-        
+
         public class ColumnsState
         {
             public int[] Widths { get; set; } = null;
@@ -82,15 +82,9 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static void SaveFormState(Form form, FormState state)
+        public static FormState SaveFormState(Form form)
         {
-            if (state.Bounds == default)
-            {
-                state.Bounds = new Rectangle(
-                    (Screen.FromControl(form).WorkingArea.Width - form.Width) / 2,
-                    (Screen.FromControl(form).WorkingArea.Height - form.Height) / 2,
-                    form.Width, form.Height);
-            }
+            var state = new FormState();
 
             switch (form.FormBorderStyle)
             {
@@ -122,50 +116,65 @@ namespace P3tr0viCh.Utils
                 default:
                     break;
             }
+
+            return state;
         }
 
         public static void LoadFormState(Form form, FormState state)
         {
-            if (state.Bounds == default)
+            try
             {
-                state.Bounds = new Rectangle(
-                    (Screen.FromControl(form).WorkingArea.Width - form.Width) / 2,
-                    (Screen.FromControl(form).WorkingArea.Height - form.Height) / 2,
-                    form.Width, form.Height);
+                if (state == null)
+                {
+                    state = new FormState();
+                }
+
+                if (state.Bounds == default)
+                {
+                    state.Bounds = new Rectangle(
+                        (Screen.FromControl(form).WorkingArea.Width - form.Width) / 2,
+                        (Screen.FromControl(form).WorkingArea.Height - form.Height) / 2,
+                        form.Width, form.Height);
+                }
+
+                form.StartPosition = FormStartPosition.Manual;
+
+                switch (form.FormBorderStyle)
+                {
+                    case FormBorderStyle.None:
+                    case FormBorderStyle.Sizable:
+                        form.Bounds = state.Bounds;
+
+                        if (state.Maximized)
+                        {
+                            form.WindowState = FormWindowState.Maximized;
+                        }
+
+                        break;
+                    case FormBorderStyle.Fixed3D:
+                    case FormBorderStyle.FixedSingle:
+                    case FormBorderStyle.FixedDialog:
+                    case FormBorderStyle.FixedToolWindow:
+                        form.Location = new Point(state.Bounds.Left, state.Bounds.Top);
+
+                        break;
+                    case FormBorderStyle.SizableToolWindow:
+                        form.Bounds = state.Bounds;
+
+                        break;
+                    default:
+                        break;
+                }
             }
-
-            form.StartPosition = FormStartPosition.Manual;
-
-            switch (form.FormBorderStyle)
+            catch (Exception)
             {
-                case FormBorderStyle.None:
-                case FormBorderStyle.Sizable:
-                    form.Bounds = state.Bounds;
-
-                    if (state.Maximized)
-                    {
-                        form.WindowState = FormWindowState.Maximized;
-                    }
-
-                    break;
-                case FormBorderStyle.Fixed3D:
-                case FormBorderStyle.FixedSingle:
-                case FormBorderStyle.FixedDialog:
-                case FormBorderStyle.FixedToolWindow:
-                    form.Location = new Point(state.Bounds.Left, state.Bounds.Top);
-
-                    break;
-                case FormBorderStyle.SizableToolWindow:
-                    form.Bounds = state.Bounds;
-
-                    break;
-                default:
-                    break;
             }
         }
 
-        public static void SaveDataGridColumns(DataGridView dataGridView, ColumnsState columns)
+        public static ColumnsState SaveDataGridColumns(DataGridView dataGridView)
         {
+            var columns = new ColumnsState();
+
             if (columns.Widths == null)
             {
                 columns.Widths = new int[dataGridView.Columns.Count];
@@ -175,12 +184,16 @@ namespace P3tr0viCh.Utils
             {
                 columns.Widths[column.Index] = column.Width;
             }
+
+            return columns;
         }
 
         public static void LoadDataGridColumns(DataGridView dataGridView, ColumnsState columns)
         {
             try
             {
+                if (columns == null) return;
+
                 if (columns.Widths == null) return;
 
                 if (columns.Widths.Length < dataGridView.Columns.Count) return;
