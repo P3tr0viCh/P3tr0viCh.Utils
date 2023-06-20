@@ -19,5 +19,15 @@ namespace P3tr0viCh.Utils
         {
             MessageBox.Show(text, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        public static void Error(string format, object arg0)
+        {
+            Error(string.Format(format, arg0));
+        }
+
+        public static void Error(string format, object arg0, object arg1)
+        {
+            Error(string.Format(format, arg0, arg1));
+        }
     }
 }
