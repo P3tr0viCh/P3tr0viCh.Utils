@@ -3,8 +3,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using System;
-using System.Diagnostics;
-using System.IO;
+using P3tr0viCh.Utils.Properties;
 
 namespace P3tr0viCh.Utils
 {
@@ -15,11 +14,6 @@ namespace P3tr0viCh.Utils
         private static readonly string IDS_ABOUT_EULA_2 = "• ЗАПРЕЩЕНО распространение программы в коммерческих целях без согласования с автором.";
         private static readonly string IDS_ABOUT_EULA_3 = "• ЗАПРЕЩЕНО любое изменение, адаптирование, перевод, дизассемблирование данной программы.";
         private static readonly string IDS_ABOUT_EULA_4 = "• Поставляется «КАК ЕСТЬ», то есть автор не дает никаких гарантий работоспособности программы, а также не несет никакой ответственности за любой прямой, косвенный или иной ущерб, понесенный в результате ее использования.\nВы используете это программное обеспечение на свой риск.";
-
-        private static readonly string IDS_ABOUT_CAPTION = "О программе";
-
-        private static readonly string IDS_ABOUT_VERSION = "Версия {0}";
-        private static readonly string IDS_ABOUT_VERSION_DEBUG = " (debug)";
 
         public class Options
         {
@@ -51,7 +45,6 @@ namespace P3tr0viCh.Utils
             using (var lblText = new Label())
             using (var btnClose = new Button())
             {
-
                 var rnd = new Random();
 
                 string caption;
@@ -85,9 +78,9 @@ namespace P3tr0viCh.Utils
                 }
                 else
                 {
-                    caption = IDS_ABOUT_CAPTION;
+                    caption = Resources.FrmAboutCaption;
 
-                    var assembly = Assembly.LoadFrom(Process.GetCurrentProcess().MainModule.FileName);
+                    var assembly = Assembly.LoadFrom(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
 
                     var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
                     var assemblyCopyright = (AssemblyCopyrightAttribute)assembly.GetCustomAttribute(typeof(AssemblyCopyrightAttribute));
@@ -106,23 +99,23 @@ namespace P3tr0viCh.Utils
 
                     if (options.Text == string.Empty)
                     {
-                        options.Text = IDS_ABOUT_EULA_1_1 + "\n" + IDS_ABOUT_EULA_2 + "\n" + IDS_ABOUT_EULA_3 + "\n" + IDS_ABOUT_EULA_4;
+                        options.Text = IDS_ABOUT_EULA_1_1 + Str.Eol + IDS_ABOUT_EULA_2 + Str.Eol + IDS_ABOUT_EULA_3 + Str.Eol + IDS_ABOUT_EULA_4;
                     }
                     else
                     {
                         if (options.Text == "LIC_#2")
                         {
-                            options.Text = IDS_ABOUT_EULA_1_2 + "\n" + IDS_ABOUT_EULA_2 + "\n" + IDS_ABOUT_EULA_3 + "\n" + IDS_ABOUT_EULA_4;
+                            options.Text = IDS_ABOUT_EULA_1_2 + Str.Eol + IDS_ABOUT_EULA_2 + Str.Eol + IDS_ABOUT_EULA_3 + Str.Eol + IDS_ABOUT_EULA_4;
                         }
                     }
 
-                    version = string.Format(IDS_ABOUT_VERSION, version);
+                    version = string.Format(Resources.FrmAboutVersion, version);
 
                     var assemblyConfiguration = (AssemblyConfigurationAttribute)assembly.GetCustomAttribute(typeof(AssemblyConfigurationAttribute));
 
                     if ("Debug".Equals(assemblyConfiguration.Configuration))
                     {
-                        version += IDS_ABOUT_VERSION_DEBUG;
+                        version += " (debug)";
                     }
                 }
 
