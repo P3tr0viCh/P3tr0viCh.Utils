@@ -132,6 +132,12 @@
   <data name="LogFormatDateTimeText" xml:space="preserve">
     <value>yyyy-MM-dd HH:mm:ss.fff</value>
   </data>
+  <data name="LogFormClose" xml:space="preserve">
+    <value>{0}: close ({1})</value>
+  </data>
+  <data name="LogFormOpen" xml:space="preserve">
+    <value>{0}: open</value>
+  </data>
   <data name="LogProgramStart" xml:space="preserve">
     <value>&gt;&gt;&gt;&gt;&gt;&gt;&gt; START PROGRAM {0} {1}</value>
   </data>

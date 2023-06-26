@@ -1,9 +1,9 @@
-﻿using System.Drawing.Drawing2D;
+﻿using P3tr0viCh.Utils.Properties;
+using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Windows.Forms;
-using System;
-using P3tr0viCh.Utils.Properties;
 
 namespace P3tr0viCh.Utils
 {

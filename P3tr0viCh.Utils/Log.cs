@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
 {
@@ -64,6 +65,16 @@ namespace P3tr0viCh.Utils
         public void WriteProgramStop()
         {
             Write(Resources.LogProgramStop);
+        }
+
+        public void WriteFormOpen(Form frm)
+        {
+            Write(string.Format(Resources.LogFormOpen, frm.Name));
+        }
+
+        public void WriteFormClose(Form frm)
+        {
+            Write(string.Format(Resources.LogFormClose, frm.Name, frm.DialogResult));
         }
     }
 }

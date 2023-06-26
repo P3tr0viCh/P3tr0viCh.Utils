@@ -106,6 +106,24 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}: close ({1}).
+        /// </summary>
+        internal static string LogFormClose {
+            get {
+                return ResourceManager.GetString("LogFormClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: open.
+        /// </summary>
+        internal static string LogFormOpen {
+            get {
+                return ResourceManager.GetString("LogFormOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &gt;&gt;&gt;&gt;&gt;&gt;&gt; START PROGRAM {0} {1}.
         /// </summary>
         internal static string LogProgramStart {
