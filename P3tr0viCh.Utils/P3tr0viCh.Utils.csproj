@@ -61,6 +61,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Reo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Str.cs" />
   </ItemGroup>
