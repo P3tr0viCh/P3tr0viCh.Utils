@@ -9,12 +9,6 @@ namespace P3tr0viCh.Utils
 {
     public static class FrmAbout
     {
-        private static readonly string IDS_ABOUT_EULA_1_1 = "• Распространяется свободно (FREEWARE).";
-        private static readonly string IDS_ABOUT_EULA_1_2 = "• ЗАПРЕЩЕНО использование программы в коммерческих целях без согласования с автором.";
-        private static readonly string IDS_ABOUT_EULA_2 = "• ЗАПРЕЩЕНО распространение программы в коммерческих целях без согласования с автором.";
-        private static readonly string IDS_ABOUT_EULA_3 = "• ЗАПРЕЩЕНО любое изменение, адаптирование, перевод, дизассемблирование данной программы.";
-        private static readonly string IDS_ABOUT_EULA_4 = "• Поставляется «КАК ЕСТЬ», то есть автор не дает никаких гарантий работоспособности программы, а также не несет никакой ответственности за любой прямой, косвенный или иной ущерб, понесенный в результате ее использования.\nВы используете это программное обеспечение на свой риск.";
-
         public class Options
         {
             public int AppNameFontSize = 26;
@@ -80,7 +74,7 @@ namespace P3tr0viCh.Utils
                 {
                     caption = Resources.FrmAboutCaption;
 
-                    var assembly = Assembly.LoadFrom(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+                    var assembly = Misc.MainModuleAssembly();
 
                     var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
                     var assemblyCopyright = (AssemblyCopyrightAttribute)assembly.GetCustomAttribute(typeof(AssemblyCopyrightAttribute));
@@ -91,32 +85,23 @@ namespace P3tr0viCh.Utils
                     linkLink = options.Link;
                     linkText = options.LinkText;
 
-                    var assemblyVersion = assembly.GetName().Version;
-
-                    version = assemblyVersion.ToString();
+                    var assemblyVersion = Misc.AssemblyVersion(assembly);
 
                     buildDate = new DateTime(2000, 1, 1).AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.MinorRevision * 2);
 
                     if (options.Text == string.Empty)
                     {
-                        options.Text = IDS_ABOUT_EULA_1_1 + Str.Eol + IDS_ABOUT_EULA_2 + Str.Eol + IDS_ABOUT_EULA_3 + Str.Eol + IDS_ABOUT_EULA_4;
+                        options.Text = Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4;
                     }
                     else
                     {
                         if (options.Text == "LIC_#2")
                         {
-                            options.Text = IDS_ABOUT_EULA_1_2 + Str.Eol + IDS_ABOUT_EULA_2 + Str.Eol + IDS_ABOUT_EULA_3 + Str.Eol + IDS_ABOUT_EULA_4;
+                            options.Text = Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4;
                         }
                     }
 
-                    version = string.Format(Resources.FrmAboutVersion, version);
-
-                    var assemblyConfiguration = (AssemblyConfigurationAttribute)assembly.GetCustomAttribute(typeof(AssemblyConfigurationAttribute));
-
-                    if ("Debug".Equals(assemblyConfiguration.Configuration))
-                    {
-                        version += " (debug)";
-                    }
+                    version = string.Format(Resources.FrmAboutVersion, Misc.AssemblyVersionToString(true, assembly));
                 }
 
                 if (options.AppNameLineBreak != -1)

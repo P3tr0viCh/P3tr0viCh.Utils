@@ -52,6 +52,7 @@
     <Compile Include="FrmAbout.cs" />
     <Compile Include="Geo.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Misc.cs" />
     <Compile Include="Msg.cs" />
     <Compile Include="Osm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

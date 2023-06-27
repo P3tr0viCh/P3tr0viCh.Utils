@@ -70,6 +70,52 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to • Распространяется свободно (FREEWARE)..
+        /// </summary>
+        internal static string FrmAboutEULA_1_1 {
+            get {
+                return ResourceManager.GetString("FrmAboutEULA_1_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • ЗАПРЕЩЕНО использование программы в коммерческих целях без согласования с автором..
+        /// </summary>
+        internal static string FrmAboutEULA_1_2 {
+            get {
+                return ResourceManager.GetString("FrmAboutEULA_1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • ЗАПРЕЩЕНО распространение программы в коммерческих целях без согласования с автором..
+        /// </summary>
+        internal static string FrmAboutEULA_2 {
+            get {
+                return ResourceManager.GetString("FrmAboutEULA_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • ЗАПРЕЩЕНО любое изменение, адаптирование, перевод, дизассемблирование данной программы..
+        /// </summary>
+        internal static string FrmAboutEULA_3 {
+            get {
+                return ResourceManager.GetString("FrmAboutEULA_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Поставляется «КАК ЕСТЬ», то есть автор не дает никаких гарантий работоспособности программы, а также не несет никакой ответственности за любой прямой, косвенный или иной ущерб, понесенный в результате ее использования.
+        ///Вы используете это программное обеспечение на свой риск..
+        /// </summary>
+        internal static string FrmAboutEULA_4 {
+            get {
+                return ResourceManager.GetString("FrmAboutEULA_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Версия {0}.
         /// </summary>
         internal static string FrmAboutVersion {

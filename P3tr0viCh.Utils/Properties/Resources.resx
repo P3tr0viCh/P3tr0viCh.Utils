@@ -120,6 +120,22 @@
   <data name="FrmAboutCaption" xml:space="preserve">
     <value>О программе</value>
   </data>
+  <data name="FrmAboutEULA_1_1" xml:space="preserve">
+    <value>• Распространяется свободно (FREEWARE).</value>
+  </data>
+  <data name="FrmAboutEULA_1_2" xml:space="preserve">
+    <value>• ЗАПРЕЩЕНО использование программы в коммерческих целях без согласования с автором.</value>
+  </data>
+  <data name="FrmAboutEULA_2" xml:space="preserve">
+    <value>• ЗАПРЕЩЕНО распространение программы в коммерческих целях без согласования с автором.</value>
+  </data>
+  <data name="FrmAboutEULA_3" xml:space="preserve">
+    <value>• ЗАПРЕЩЕНО любое изменение, адаптирование, перевод, дизассемблирование данной программы.</value>
+  </data>
+  <data name="FrmAboutEULA_4" xml:space="preserve">
+    <value>• Поставляется «КАК ЕСТЬ», то есть автор не дает никаких гарантий работоспособности программы, а также не несет никакой ответственности за любой прямой, косвенный или иной ущерб, понесенный в результате ее использования.
+Вы используете это программное обеспечение на свой риск.</value>
+  </data>
   <data name="FrmAboutVersion" xml:space="preserve">
     <value>Версия {0}</value>
   </data>

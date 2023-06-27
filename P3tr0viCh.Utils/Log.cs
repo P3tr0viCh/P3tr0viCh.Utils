@@ -55,11 +55,7 @@ namespace P3tr0viCh.Utils
 
         public void WriteProgramStart()
         {
-            var assembly = Assembly.LoadFrom(Process.GetCurrentProcess().MainModule.FileName);
-            var assemblyVersion = assembly.GetName().Version;
-            var version = assemblyVersion.ToString();
-
-            Write(string.Format(Resources.LogProgramStart, Files.ExecutableName(), version));
+            Write(string.Format(Resources.LogProgramStart, Files.ExecutableName(), Misc.AssemblyVersionToString()));
         }
 
         public void WriteProgramStop()
