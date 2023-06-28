@@ -55,7 +55,7 @@ namespace P3tr0viCh.Utils
 
         public void WriteProgramStart()
         {
-            Write(string.Format(Resources.LogProgramStart, Files.ExecutableName(), Misc.AssemblyVersionToString()));
+            Write(string.Format(Resources.LogProgramStart, Files.ExecutableName(), new Misc.AssemblyDecorator().ToString()));
         }
 
         public void WriteProgramStop()

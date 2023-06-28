@@ -5,48 +5,87 @@ namespace P3tr0viCh.Utils
 {
     public static class Misc
     {
-        public static Assembly MainModuleAssembly()
+        public class AssemblyDecorator
         {
-            return Assembly.LoadFrom(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-        }
-
-        public static Version AssemblyVersion(Assembly assembly = null)
-        {
-            if (assembly == null)
+            public AssemblyDecorator()
             {
-                assembly = MainModuleAssembly();
+                Assembly = Assembly.LoadFrom(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             }
 
-            return assembly.GetName().Version;
-        }
-
-        public static bool AssemblyVersionIsDebug(Assembly assembly = null)
-        {
-            if (assembly == null)
+            public AssemblyDecorator(Assembly assembly)
             {
-                assembly = MainModuleAssembly();
+                Assembly = assembly;
             }
 
-            var assemblyConfiguration = (AssemblyConfigurationAttribute)assembly.GetCustomAttribute(typeof(AssemblyConfigurationAttribute));
+            private Assembly assembly;
 
-            return "Debug".Equals(assemblyConfiguration.Configuration);
-        }
-
-        public static string AssemblyVersionToString(bool full = true, Assembly assembly = null)
-        {
-            if (assembly == null)
+            public Assembly Assembly
             {
-                assembly = MainModuleAssembly();
+                get
+                {
+                    return assembly;
+                }
+                set
+                {
+                    assembly = value;
+
+                    version = assembly.GetName().Version;
+
+                    var assemblyConfiguration = (AssemblyConfigurationAttribute)assembly.GetCustomAttribute(typeof(AssemblyConfigurationAttribute));
+                    isDebug = "Debug".Equals(assemblyConfiguration.Configuration);
+
+                    var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
+                    product = assemblyProduct.Product;
+
+                    var assemblyCopyright = (AssemblyCopyrightAttribute)assembly.GetCustomAttribute(typeof(AssemblyCopyrightAttribute));
+                    copyright = assemblyCopyright.Copyright;
+                }
             }
 
-            var versionString = AssemblyVersion(assembly).ToString(full ? 4 : 2);
-
-            if (AssemblyVersionIsDebug(assembly))
+            private bool isDebug;
+            public bool IsDebug
             {
-                versionString += " (debug build)";
+                get { return isDebug; }
             }
 
-            return versionString;
+            private Version version;
+            public Version Version
+            {
+                get
+                {
+                    return version;
+                }
+            }
+
+            private string product;
+            public string Product
+            {
+                get
+                {
+                    return product;
+                }
+            }
+
+            private string copyright;
+            public string Copyright
+            {
+                get
+                {
+                    return copyright;
+                }
+            }
+
+            public string VersionString(bool full = true, bool withDebug = true)
+            {
+                var versionString = version.ToString(full ? 4 : 2);
+
+                if (withDebug && isDebug)
+                {
+                    versionString += " (debug build)";
+                }
+
+                return versionString;
+            }
         }
     }
 }

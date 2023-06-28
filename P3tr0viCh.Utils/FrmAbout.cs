@@ -74,20 +74,16 @@ namespace P3tr0viCh.Utils
                 {
                     caption = Resources.FrmAboutCaption;
 
-                    var assembly = Misc.MainModuleAssembly();
+                    var assemblyDecorator = new Misc.AssemblyDecorator();
 
-                    var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
-                    var assemblyCopyright = (AssemblyCopyrightAttribute)assembly.GetCustomAttribute(typeof(AssemblyCopyrightAttribute));
-
-                    appName = assemblyProduct.Product;
-                    copyright = assemblyCopyright.Copyright;
+                    appName = assemblyDecorator.Product;
+                    copyright = assemblyDecorator.Copyright;
 
                     linkLink = options.Link;
                     linkText = options.LinkText;
 
-                    var assemblyVersion = Misc.AssemblyVersion(assembly);
-
-                    buildDate = new DateTime(2000, 1, 1).AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.MinorRevision * 2);
+                    buildDate = new DateTime(2000, 1, 1)
+                        .AddDays(assemblyDecorator.Version.Build).AddSeconds(assemblyDecorator.Version.MinorRevision * 2);
 
                     if (options.Text == string.Empty)
                     {
@@ -101,7 +97,7 @@ namespace P3tr0viCh.Utils
                         }
                     }
 
-                    version = string.Format(Resources.FrmAboutVersion, Misc.AssemblyVersionToString(true, assembly));
+                    version = string.Format(Resources.FrmAboutVersion, assemblyDecorator.VersionString());
                 }
 
                 if (options.AppNameLineBreak != -1)
