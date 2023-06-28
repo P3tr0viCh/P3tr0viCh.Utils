@@ -2,7 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
@@ -55,7 +54,8 @@ namespace P3tr0viCh.Utils
 
         public void WriteProgramStart()
         {
-            Write(string.Format(Resources.LogProgramStart, Files.ExecutableName(), new Misc.AssemblyDecorator().ToString()));
+            Write(string.Format(Resources.LogProgramStart, Files.ExecutableName(), 
+                new Misc.AssemblyDecorator().VersionString()));
         }
 
         public void WriteProgramStop()

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crypto.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="FrmAbout.cs" />
     <Compile Include="Geo.cs" />
