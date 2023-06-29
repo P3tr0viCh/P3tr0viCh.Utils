@@ -1,5 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,39 +16,146 @@ namespace P3tr0viCh.Utils
     {
         public class WeightControl
         {
+            [Required()]
+            [DisplayName("Идентификатор выгрузки ТС")]
             public string id { get; set; }
-            public string dateBefore { get; set; }
-            public string dateAfter { get; set; }
+
+            [Required()]
+            [DisplayName("Дата и время заезда ТС")]
+            public DateTime? dateBefore { get; set; }
+
+            [Required()]
+            [DisplayName("Дата и время выезда ТС")]
+            public DateTime? dateAfter { get; set; }
+
+            [Required()]
+            [DisplayName("Государственный регистрационный номер ТС")]
             public string registrationNumber { get; set; }
+
+            [DisplayName("Вид ТС")]
             public string garbageTruckType { get; set; }
+
+            [DisplayName("Марка ТС")]
             public string garbageTruckBrand { get; set; }
+
+            [DisplayName("Модель/кузов ТС")]
             public string garbageTruckModel { get; set; }
+
+            [Required()]
+            [DisplayName("Наименование транспортирующей организации")]
             public string companyName { get; set; }
+
+            [Required()]
+            [DisplayName("ИНН организации")]
             public string companyInn { get; set; }
+
+            [DisplayName("КПП организации")]
             public string companyKpp { get; set; }
+
+            [Required()]
+            [DisplayName("Вес ТС на въезде, кг")]
             public int weightBefore { get; set; }
+
+            [Required()]
+            [DisplayName("Вес ТС на выезде, кг ")]
             public int weightAfter { get; set; }
+
+            [DisplayName("Вес водителя, кг")]
             public int weightDriver { get; set; }
-            public int coefficient { get; set; }
+
+            [Required()]
+            [DisplayName("Коэффициент уплотнения мусора")]
+            public float coefficient { get; set; } = 1;
+
+            [Required()]
+            [DisplayName("Вес мусора, кг")]
             public int garbageWeight { get; set; }
+
+            [DisplayName("Вид мусора")]
             public string garbageType { get; set; }
         }
 
         public class Data
         {
-            public Data()
-            {
-                weightControls = new List<WeightControl>();
-            }
-
+            [Required()]
+            [DisplayName("Идентификатор объекта, на котором расположен данный пункт весового контроля")]
             public string objectId { get; set; }
+
+            [Required()]
+            [DisplayName("Ключ доступа для передачи информации")]
             public string accessKey { get; set; }
 
-            public List<WeightControl> weightControls { get; }
+            [Required()]
+            [DisplayName("Информация с пункта весового контроля")]
+            public List<WeightControl> weightControls { get; } = new List<WeightControl>();
+
+            public string ToJson()
+            {
+                return JsonConvert.SerializeObject(this, Formatting.Indented,
+                    new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-ddTHH:mm" });
+            }
         }
 #pragma warning restore IDE1006
 
-        public class Send
+        public class CheckData
+        {
+            private void CheckString(string value, string field)
+            {
+                if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(field);
+            }
+
+            private void CheckInt(int value, string field)
+            {
+                if (value <= 0) throw new ArgumentOutOfRangeException(field);
+            }
+
+            private void CheckFloat(float value, string field)
+            {
+                if (value <= 0) throw new ArgumentOutOfRangeException(field);
+            }
+
+            private void CheckDateTime(DateTime? value, string field)
+            {
+                if (value == null) throw new ArgumentNullException(field);
+            }
+
+            public void Check(Data data)
+            {
+                if (data == null) throw new ArgumentNullException();
+
+                CheckString(data.objectId, nameof(data.objectId));
+                CheckString(data.accessKey, nameof(data.accessKey));
+
+                if (data.weightControls == null) throw new ArgumentNullException(nameof(data.weightControls));
+
+                foreach (var weightControl in data.weightControls)
+                {
+                    CheckString(weightControl.id, nameof(weightControl.id));
+
+                    CheckDateTime(weightControl.dateBefore, nameof(weightControl.dateBefore));
+                    CheckDateTime(weightControl.dateAfter, nameof(weightControl.dateAfter));
+
+                    CheckString(weightControl.registrationNumber, nameof(weightControl.registrationNumber));
+
+                    CheckString(weightControl.companyName, nameof(weightControl.companyName));
+                    CheckString(weightControl.companyInn, nameof(weightControl.companyInn));
+
+                    CheckInt(weightControl.weightBefore, nameof(weightControl.weightBefore));
+                    CheckInt(weightControl.weightAfter, nameof(weightControl.weightAfter));
+                    CheckInt(weightControl.garbageWeight, nameof(weightControl.garbageWeight));
+
+                    CheckFloat(weightControl.coefficient, nameof(weightControl.coefficient));
+
+                    if (weightControl.weightBefore <= weightControl.weightAfter)
+                        throw new ArgumentOutOfRangeException("weightBefore <= weightAfter");
+
+                    if (weightControl.dateBefore > weightControl.dateAfter)
+                        throw new ArgumentOutOfRangeException("dateBefore > dateAfter");
+                }
+            }
+        }
+
+        public class SendData
         {
             public Data Data { get; set; }
 
@@ -60,7 +171,7 @@ namespace P3tr0viCh.Utils
                 File.Delete(fileNameResponse);
                 File.Delete(fileNameResponseContent);
 
-                File.WriteAllText(fileNameData, JsonConvert.SerializeObject(Data, Formatting.Indented));
+                File.WriteAllText(fileNameData, Data.ToJson());
 
                 using (var client = new HttpClient())
                 using (var multipartFormContent = new MultipartFormDataContent())
