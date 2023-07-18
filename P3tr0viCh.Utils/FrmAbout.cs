@@ -2,7 +2,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
@@ -13,6 +12,15 @@ namespace P3tr0viCh.Utils
         {
             public int AppNameFontSize = 26;
             public int AppNameLineBreak = -1;
+
+            public enum LicenseType
+            {
+                Free,
+                Commercial,
+                Custom
+            }
+
+            public LicenseType License = LicenseType.Free;
 
             public string Text = string.Empty;
 
@@ -85,16 +93,14 @@ namespace P3tr0viCh.Utils
                     buildDate = new DateTime(2000, 1, 1)
                         .AddDays(assemblyDecorator.Version.Build).AddSeconds(assemblyDecorator.Version.MinorRevision * 2);
 
-                    if (options.Text == string.Empty)
+                    switch (options.License)
                     {
-                        options.Text = Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4;
-                    }
-                    else
-                    {
-                        if (options.Text == "LIC_#2")
-                        {
+                        case Options.LicenseType.Free:
                             options.Text = Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4;
-                        }
+                            break;
+                        case Options.LicenseType.Commercial:
+                            options.Text = Resources.FrmAboutEULA_1_2 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4;
+                            break;
                     }
 
                     version = string.Format(Resources.FrmAboutVersion, assemblyDecorator.VersionString());
