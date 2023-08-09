@@ -53,5 +53,17 @@ namespace P3tr0viCh.Utils
                 return Encoding.UTF8.GetString(resultArray);
             }
         }
+
+        public static string Crc(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+
+            using (var MD5CryptoService = new MD5CryptoServiceProvider())
+            {
+                var hash = MD5CryptoService.ComputeHash(Encoding.UTF8.GetBytes(value));
+
+                return BitConverter.ToString(hash);
+            }
+        }
     }
 }
