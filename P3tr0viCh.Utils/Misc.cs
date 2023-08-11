@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 
 namespace P3tr0viCh.Utils
@@ -86,6 +88,19 @@ namespace P3tr0viCh.Utils
 
                 return versionString;
             }
+        }
+
+        public static string Description(this object value)
+        {
+            var field = value is FieldInfo ? value as FieldInfo : value.GetType().GetField(value.ToString());
+
+            if (field.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes
+                && attributes.Any())
+            {
+                return attributes.First().Description;
+            }
+
+            return value.ToString();
         }
     }
 }

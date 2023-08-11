@@ -34,13 +34,21 @@ namespace P3tr0viCh.Utils
             EmptySecurityKey,
         }
 
+        private class InternalLicenseInfoData
+        {
+            public string Crc { get; set; }
+
+            public string Data { get; set; }
+        }
+
         private class InternalLicenseInfo<T>
         {
             public string Id { get; set; }
 
             public string Name { get; set; }
 
-            public string Crc { get; set; }
+            [JsonIgnore]
+            public InternalLicenseInfoData InternalData { get; set; } = new InternalLicenseInfoData();
 
             public string Data { get; set; }
 
@@ -51,27 +59,30 @@ namespace P3tr0viCh.Utils
             public InternalLicenseInfo(LicenseInfo<T> licenseInfo)
             {
                 FromLicenseInfo(licenseInfo);
-
-                Crc = GetCrc();
             }
 
             public string GetCrc()
             {
-                return Crypto.Crc(Id + Name + Data);
+                return Crypto.Crc(Id + Name + InternalData.Data);
             }
 
             public void FromLicenseInfo(LicenseInfo<T> licenseInfo)
             {
                 Id = licenseInfo.Id;
                 Name = licenseInfo.Name;
-                Data = JsonConvert.SerializeObject(licenseInfo.Data);
+
+                InternalData.Data = JsonConvert.SerializeObject(licenseInfo.Data);
+                
+                InternalData.Crc = GetCrc();
+
+                Data = JsonConvert.SerializeObject(InternalData);
             }
 
             public void ToLicenseInfo(LicenseInfo<T> licenseInfo)
             {
                 licenseInfo.Id = Id;
                 licenseInfo.Name = Name;
-                licenseInfo.Data = JsonConvert.DeserializeObject<T>(Data);
+                licenseInfo.Data = JsonConvert.DeserializeObject<T>(InternalData.Data);
             }
         }
 
@@ -105,7 +116,6 @@ namespace P3tr0viCh.Utils
                 {
                     var internalLicenseInfo = new InternalLicenseInfo<T>(LicenseInfo);
 
-                    internalLicenseInfo.Crc = Crypto.Encrypt(internalLicenseInfo.Crc, SecurityKey);
                     internalLicenseInfo.Data = Crypto.Encrypt(internalLicenseInfo.Data, SecurityKey);
 
                     var content = JsonConvert.SerializeObject(internalLicenseInfo, Formatting.Indented);
@@ -130,7 +140,6 @@ namespace P3tr0viCh.Utils
 
                         try
                         {
-                            internalLicenseInfo.Crc = Crypto.Decrypt(internalLicenseInfo.Crc, SecurityKey);
                             internalLicenseInfo.Data = Crypto.Decrypt(internalLicenseInfo.Data, SecurityKey);
                         }
                         catch (Exception e)
@@ -140,9 +149,11 @@ namespace P3tr0viCh.Utils
                             return LoadResult.ErrorDecrypt;
                         }
 
+                        internalLicenseInfo.InternalData = JsonConvert.DeserializeObject<InternalLicenseInfoData>(internalLicenseInfo.Data);
+
                         var crc = internalLicenseInfo.GetCrc();
 
-                        if (!string.Equals(crc, internalLicenseInfo.Crc))
+                        if (!string.Equals(crc, internalLicenseInfo.InternalData.Crc))
                         {
                             return LoadResult.ErrorCrc;
                         }
