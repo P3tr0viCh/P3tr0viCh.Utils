@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -15,9 +14,12 @@ namespace P3tr0viCh.Utils
             public bool Maximized { get; set; } = false;
         }
 
-        public class ColumnsState
+        public class ColumnState
         {
-            public int[] Widths { get; set; } = null;
+            public int Index { get; set; } = default;
+            public int Width { get; set; } = default;
+            public bool Visible { get; set; } = true;
+            public int DisplayIndex { get; set; } = default;
         }
 
         private static T defaultInstance = new T();
@@ -81,6 +83,8 @@ namespace P3tr0viCh.Utils
                 return filePath;
             }
         }
+
+        public static Exception LastError { get; private set; } = null;
 
         public static FormState SaveFormState(Form form)
         {
@@ -171,45 +175,59 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static ColumnsState SaveDataGridColumns(DataGridView dataGridView)
+        public static ColumnState[] SaveDataGridColumns(DataGridView dataGridView)
         {
-            var columns = new ColumnsState();
-
-            if (columns.Widths == null)
-            {
-                columns.Widths = new int[dataGridView.Columns.Count];
-            }
+            var columns = new ColumnState[dataGridView.Columns.Count];
 
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
-                columns.Widths[column.Index] = column.Width;
+                columns[column.Index] = new ColumnState
+                {
+                    Index = column.Index,
+                    Width = column.Width,
+                    Visible = column.Visible,
+                    DisplayIndex = column.DisplayIndex
+                };
             }
 
             return columns;
         }
 
-        public static void LoadDataGridColumns(DataGridView dataGridView, ColumnsState columns)
+        public static void LoadDataGridColumns(DataGridView dataGridView, ColumnState[] columns)
         {
             try
             {
                 if (columns == null) return;
 
-                if (columns.Widths == null) return;
-
-                if (columns.Widths.Length < dataGridView.Columns.Count) return;
+                if (columns.Length < dataGridView.Columns.Count) return;
 
                 foreach (DataGridViewColumn column in dataGridView.Columns)
                 {
-                    column.Width = columns.Widths[column.Index];
+                    if (columns[column.Index].Width != default)
+                    {
+                        column.Width = columns[column.Index].Width;
+                    }
+
+                    if (columns[column.Index].Visible != default)
+                    {
+                        column.Visible = columns[column.Index].Visible;
+                    }
+
+                    if (columns[column.Index].DisplayIndex != default)
+                    {
+                        column.DisplayIndex = columns[column.Index].DisplayIndex;
+                    }
                 }
             }
-            catch (Exception)
+            catch
             {
             }
         }
 
         public void Save()
         {
+            LastError = null;
+
             try
             {
                 if (!System.IO.Directory.Exists(Directory))
@@ -224,14 +242,16 @@ namespace P3tr0viCh.Utils
                     writer.Write(content);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                Debug.WriteLine("appsettings save");
+                LastError = e;
             }
         }
 
         public void Load()
         {
+            LastError = null;
+
             if (!File.Exists(FilePath)) return;
 
             try
@@ -241,9 +261,9 @@ namespace P3tr0viCh.Utils
                     defaultInstance = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
                 }
             }
-            catch
+            catch (Exception e)
             {
-                Debug.WriteLine("appsettings load");
+                LastError = e;
             }
         }
     }
