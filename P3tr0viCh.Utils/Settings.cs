@@ -208,10 +208,7 @@ namespace P3tr0viCh.Utils
                         column.Width = columns[column.Index].Width;
                     }
 
-                    if (columns[column.Index].Visible != default)
-                    {
-                        column.Visible = columns[column.Index].Visible;
-                    }
+                    column.Visible = columns[column.Index].Visible;
 
                     if (columns[column.Index].DisplayIndex != default)
                     {
@@ -224,7 +221,7 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public void Save()
+        public bool Save()
         {
             LastError = null;
 
@@ -241,29 +238,37 @@ namespace P3tr0viCh.Utils
 
                     writer.Write(content);
                 }
+
+                return true;
             }
             catch (Exception e)
             {
                 LastError = e;
+
+                return false;
             }
         }
 
-        public void Load()
+        public bool Load()
         {
             LastError = null;
 
-            if (!File.Exists(FilePath)) return;
-
             try
             {
+                if (!File.Exists(FilePath)) throw new FileNotFoundException();
+
                 using (var reader = File.OpenText(FilePath))
                 {
                     defaultInstance = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
                 }
+
+                return true;
             }
             catch (Exception e)
             {
                 LastError = e;
+
+                return false;
             }
         }
     }
