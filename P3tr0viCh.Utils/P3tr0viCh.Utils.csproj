@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Converters.cs" />
     <Compile Include="Crypto.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="FrmAbout.cs" />
     <Compile Include="Geo.cs" />
