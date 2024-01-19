@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
 {
@@ -14,5 +15,24 @@ namespace P3tr0viCh.Utils
     {
         public static string ToHoursMinutesString(this TimeSpan timeSpan) =>
             $"{((timeSpan.TotalHours > 23) ? (int)timeSpan.TotalHours : timeSpan.Hours):D2}:{timeSpan.Minutes:D2}";
+    }
+
+    public static class ControlExtentions
+    {
+        public static void InvokeIfNeeded(this Control control, Action doit)
+        {
+            if (control.InvokeRequired)
+                control.Invoke(doit);
+            else
+                doit();
+        }
+
+        public static void InvokeIfNeeded<T>(this Control control, Action<T> doit, T arg)
+        {
+            if (control.InvokeRequired)
+                control.Invoke(doit, arg);
+            else
+                doit(arg);
+        }
     }
 }
