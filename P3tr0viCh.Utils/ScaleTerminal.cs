@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.IO.Ports;
-using System.Threading.Tasks;
 
 namespace P3tr0viCh.Utils
 {
@@ -13,6 +12,23 @@ namespace P3tr0viCh.Utils
             Newton42,
             MidlVda12,
             MicrosimM0601,
+            TokvesSh50,
+        }
+
+        public enum MassUnit
+        {
+            kg,
+            tn,
+        }
+
+        public class LineEventArgs : EventArgs
+        {
+            public LineEventArgs(string line)
+            {
+                Line = line;
+            }
+
+            public string Line { get; private set; } = string.Empty;
         }
 
         public class WeightEventArgs : EventArgs
@@ -28,22 +44,22 @@ namespace P3tr0viCh.Utils
         private readonly SerialPort serialPort = new SerialPort();
         public SerialPort SerialPort => serialPort;
 
+        public delegate void LineReceivedEventHandler(object sender, LineEventArgs e);
+        public event LineReceivedEventHandler LineReceived;
+
         public delegate void WeightReceivedEventHandler(object sender, WeightEventArgs e);
-
         public event WeightReceivedEventHandler WeightReceived;
-
-        private TerminalType terminalType;
 
         private delegate int GetWeight(string line);
         private GetWeight getWeight;
 
         public ScaleTerminal()
         {
-            //this.container = container;
-
             serialPort.DataReceived += SerialPortDataReceived;
         }
 
+
+        private TerminalType terminalType = TerminalType.None;
         public TerminalType Type
         {
             get
@@ -80,6 +96,12 @@ namespace P3tr0viCh.Utils
                         getWeight = new GetWeight(GetWeightMicrosimM0601);
 
                         break;
+                    case TerminalType.TokvesSh50:
+                        serialPort.NewLine = "\x3D";
+
+                        getWeight = new GetWeight(GetWeightTokvesSh50);
+
+                        break;
                     default:
                         serialPort.NewLine = string.Empty;
 
@@ -95,28 +117,32 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        private enum MassUnit
-        {
-            tn,
-            kg
-        }
+        public MassUnit TerminalMassUnit { get; set; }
 
-        private int GetWeightFromLine(string line, int startIndex, int length, MassUnit massUnit)
+        private int GetWeightFromLine(string line, int startIndex, int length)
         {
             try
             {
-                var weight = line.Substring(startIndex, length);
+                var weight = line.Substring(startIndex, length).Trim();
 
-                switch (massUnit)
+                if (weight.Length == 0) return 0;
+
+                if (float.TryParse(weight, NumberStyles.Float | NumberStyles.AllowThousands,
+                    CultureInfo.InvariantCulture, out float f))
                 {
-                    case MassUnit.tn:
-                        return float.TryParse(weight, NumberStyles.Float | NumberStyles.AllowThousands,
-                            CultureInfo.InvariantCulture, out float tn) ? (int)tn * 1000 : 0;
-                    case MassUnit.kg:
-                        return int.TryParse(weight, NumberStyles.Integer,
-                            CultureInfo.InvariantCulture, out int kg) ? kg : 0;
-                    default:
-                        return 0;
+                    switch (TerminalMassUnit)
+                    {
+                        case MassUnit.tn:
+                            return Convert.ToInt32(f * 1000);
+                        case MassUnit.kg:
+                            return Convert.ToInt32(f);
+                        default:
+                            return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
                 }
             }
             catch (Exception)
@@ -131,7 +157,7 @@ namespace P3tr0viCh.Utils
             //     0.00 G .
             // 7F 20 20 20 20 30 2E 30 30 20 47 20 0D
 
-            return GetWeightFromLine(line, 2, 7, MassUnit.tn);
+            return GetWeightFromLine(line, 2, 7);
         }
 
         private int GetWeightMidlVda12(string line)
@@ -141,16 +167,25 @@ namespace P3tr0viCh.Utils
             // WW00004.0kg..
             // 57 57 30 30 30 30 2E 30 30 6B 67 0D 0A
 
-            return GetWeightFromLine(line, 2, 7, MassUnit.kg);
+            return GetWeightFromLine(line, 2, 7);
         }
 
         private int GetWeightMicrosimM0601(string line)
         {
             // Микросим М0601
-            // Б 172.60 B 
+            // Б_172.60_B 
             // 81 20 20 31 37 32 2E 36 30 20 42 20 20 0D 0A
 
-            return GetWeightFromLine(line, 2, 7, MassUnit.tn);
+            return GetWeightFromLine(line, 2, 7);
+        }
+
+        private int GetWeightTokvesSh50(string line)
+        {
+            // Токвес SH-50
+            // =____2.85B0
+            // 3D 20 20 20 20 32 2E 38 35 42 30 
+
+            return GetWeightFromLine(line, 1, 7);
         }
 
         public string PortName => serialPort.PortName;
@@ -159,6 +194,8 @@ namespace P3tr0viCh.Utils
 
         public void Open()
         {
+            if (serialPort.IsOpen) return;
+
             serialPort.Open();
 
             serialPort.DiscardInBuffer();
@@ -179,17 +216,18 @@ namespace P3tr0viCh.Utils
         {
             try
             {
-                LineReceived(serialPort.ReadLine());
+                DataReceived(serialPort.ReadLine());
             }
             catch (Exception)
             {
             }
         }
 
-        private async void LineReceived(string line)
+        private void DataReceived(string line)
         {
-            await Task.Run(() =>
-             WeightReceived?.Invoke(this, new WeightEventArgs(getWeight(line))));
+            LineReceived?.Invoke(this, new LineEventArgs(line));
+
+            WeightReceived?.Invoke(this, new WeightEventArgs(getWeight(line)));
         }
     }
 }
