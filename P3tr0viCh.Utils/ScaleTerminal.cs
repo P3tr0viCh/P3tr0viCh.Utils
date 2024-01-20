@@ -173,7 +173,7 @@ namespace P3tr0viCh.Utils
         private int GetWeightMicrosimM0601(string line)
         {
             // Микросим М0601
-            // Б_172.60_B 
+            // Б 172.60 B 
             // 81 20 20 31 37 32 2E 36 30 20 42 20 20 0D 0A
 
             return GetWeightFromLine(line, 2, 7);
@@ -182,7 +182,7 @@ namespace P3tr0viCh.Utils
         private int GetWeightTokvesSh50(string line)
         {
             // Токвес SH-50
-            // =____2.85B0
+            // =    2.85B0
             // 3D 20 20 20 20 32 2E 38 35 42 30 
 
             return GetWeightFromLine(line, 1, 7);
@@ -195,6 +195,12 @@ namespace P3tr0viCh.Utils
         public void Open()
         {
             if (serialPort.IsOpen) return;
+
+            if (Type == TerminalType.None)
+                throw new Exception("TerminalType = None");
+
+            if (string.IsNullOrEmpty(PortName))
+                throw new Exception("PortName = None");
 
             serialPort.Open();
 
