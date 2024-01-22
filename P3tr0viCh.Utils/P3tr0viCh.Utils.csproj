@@ -68,8 +68,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Reo.cs" />
-    <Compile Include="ScaleTerminal.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Sql.cs" />
     <Compile Include="Str.cs" />
