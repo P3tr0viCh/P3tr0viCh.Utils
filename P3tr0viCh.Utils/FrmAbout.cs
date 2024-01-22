@@ -15,9 +15,9 @@ namespace P3tr0viCh.Utils
 
             public enum LicenseType
             {
+                None,
                 Free,
                 Commercial,
-                Custom
             }
 
             public LicenseType License = LicenseType.Free;
@@ -96,10 +96,10 @@ namespace P3tr0viCh.Utils
                     switch (options.License)
                     {
                         case Options.LicenseType.Free:
-                            options.Text = Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4;
+                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4);
                             break;
                         case Options.LicenseType.Commercial:
-                            options.Text = Resources.FrmAboutEULA_1_2 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4;
+                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Resources.FrmAboutEULA_1_2 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4);
                             break;
                     }
 
