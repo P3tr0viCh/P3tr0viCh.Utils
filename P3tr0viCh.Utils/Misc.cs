@@ -102,5 +102,5 @@ namespace P3tr0viCh.Utils
 
             return value.ToString();
         }
-    }
+     }
 }

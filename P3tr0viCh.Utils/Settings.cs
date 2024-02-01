@@ -257,16 +257,22 @@ namespace P3tr0viCh.Utils
             {
                 if (!File.Exists(FilePath)) throw new FileNotFoundException();
 
+                if (Files.FileLength(FilePath) == 0) throw new DivideByZeroException();
+
                 using (var reader = File.OpenText(FilePath))
                 {
                     defaultInstance = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
                 }
+
+                if (defaultInstance ==  null) throw new NullReferenceException();
 
                 return true;
             }
             catch (Exception e)
             {
                 LastError = e;
+
+                defaultInstance = new T();
 
                 return false;
             }
