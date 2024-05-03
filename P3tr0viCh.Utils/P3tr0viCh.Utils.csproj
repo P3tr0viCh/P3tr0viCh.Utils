@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppOneInstance.cs" />
+    <Compile Include="Gpx.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Extensions.cs" />
