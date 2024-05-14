@@ -30,7 +30,7 @@ namespace P3tr0viCh.Utils
         {
             return ExecutableName() + ".sqlite";
         }
-        
+
         public static string TempDirectory()
         {
             var dir = Path.Combine(Path.GetTempPath(), ExecutableName());
@@ -50,6 +50,19 @@ namespace P3tr0viCh.Utils
         public static long FileLength(string fileName)
         {
             return new FileInfo(fileName).Length;
+        }
+
+        public static void DirectoryRename(string sourceDirFullName, string destDirOnlyName)
+        {
+            Directory.Move(sourceDirFullName, Path.Combine(Path.GetDirectoryName(sourceDirFullName), destDirOnlyName));
+        }
+
+        public static void DirectoryDelete(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
         }
     }
 }
