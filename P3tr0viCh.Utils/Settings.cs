@@ -221,7 +221,7 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public bool Save()
+        public static bool Save()
         {
             LastError = null;
 
@@ -249,7 +249,7 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public bool Load()
+        public static bool Load()
         {
             LastError = null;
 
@@ -264,7 +264,7 @@ namespace P3tr0viCh.Utils
                     defaultInstance = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
                 }
 
-                if (defaultInstance ==  null) throw new NullReferenceException();
+                if (defaultInstance == null) throw new NullReferenceException();
 
                 return true;
             }

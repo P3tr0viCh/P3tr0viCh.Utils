@@ -52,5 +52,10 @@ namespace P3tr0viCh.Utils
 
             return s + separator + value;
         }
+        
+        public static bool IsEmpty(this string s)
+        {
+            return string.IsNullOrWhiteSpace(s);
+        }
     }
 }

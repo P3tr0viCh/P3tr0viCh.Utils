@@ -57,6 +57,7 @@
     <Compile Include="Files.cs" />
     <Compile Include="FrmAbout.cs" />
     <Compile Include="Geo.cs" />
+    <Compile Include="Http.cs" />
     <Compile Include="License.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Misc.cs" />
