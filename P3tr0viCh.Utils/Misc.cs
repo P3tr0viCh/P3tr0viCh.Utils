@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace P3tr0viCh.Utils
 {
@@ -158,5 +160,25 @@ namespace P3tr0viCh.Utils
             return float.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture,
                 out _);
         }
-    }
+        
+        public static string GetFileTitle(FileVersionInfo info)
+        {
+            return info.FileDescription;
+        }
+
+        public static string GetFileTitle(string filePath)
+        {
+            return FileVersionInfo.GetVersionInfo(filePath).FileDescription;
+        }
+
+        public static Version GetFileVersion(FileVersionInfo info)
+        {
+            return new Version(info.FileVersion);
+        }
+
+        public static Version GetFileVersion(string filePath)
+        {
+            return GetFileVersion(FileVersionInfo.GetVersionInfo(filePath));
+        }
+     }
 }

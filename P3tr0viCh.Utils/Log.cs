@@ -48,7 +48,7 @@ namespace P3tr0viCh.Utils
             }
             catch (Exception e)
             {
-                Debug.WriteLine("log write error: " + e.Message);
+                DebugWrite.Line($"log write error: {e.Message}");
             }
         }
 

@@ -144,7 +144,7 @@ namespace P3tr0viCh.Utils
                         }
                         catch (Exception e)
                         {
-                            Debug.WriteLine(e.Message);
+                            DebugWrite.Line(e.Message);
 
                             return LoadResult.ErrorDecrypt;
                         }
@@ -163,7 +163,7 @@ namespace P3tr0viCh.Utils
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e.Message);
+                    DebugWrite.Line(e.Message);
 
                     if (e is JsonException)
                     {

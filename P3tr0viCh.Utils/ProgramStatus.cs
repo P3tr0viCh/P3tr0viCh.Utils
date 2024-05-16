@@ -46,11 +46,16 @@ namespace P3tr0viCh.Utils
             StatusChanged?.Invoke(this, Current);
         }
 
+        public bool IsIdle()
+        {
+            return statuses.Count == 0;
+        }
+
         public T Current
         {
             get
             {
-                if (statuses.Count == 0)
+                if (IsIdle())
                 {
                     return idle;
                 }
