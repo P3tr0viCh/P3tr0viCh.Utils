@@ -6,11 +6,13 @@ namespace P3tr0viCh.Utils
 {
     public class DebugWrite
     {
+        [Conditional("DEBUG")]
         public static void Line(string s, [CallerMemberName] string memberName = "")
         {
             Debug.WriteLine($"{memberName}: {s}");
         }
 
+        [Conditional("DEBUG")]
         public static void Error(Exception e, [CallerMemberName] string memberName = "")
         {
             if (e == null) return;
@@ -20,6 +22,7 @@ namespace P3tr0viCh.Utils
             Error(e.InnerException, memberName);
         }
 
+        [Conditional("DEBUG")]
         public static void Error(string err, [CallerMemberName] string memberName = "")
         {
             Debug.WriteLine($"{memberName} fail: {err}");
