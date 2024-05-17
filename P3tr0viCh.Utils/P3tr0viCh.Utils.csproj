@@ -60,6 +60,7 @@
     <Compile Include="Geo.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="License.cs" />
+    <Compile Include="LocalizedAttribute.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="Msg.cs" />
