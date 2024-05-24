@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 
 namespace P3tr0viCh.Utils
@@ -33,10 +31,11 @@ namespace P3tr0viCh.Utils
             public DateTime DateTimeStart { get; set; } = default;
             public DateTime DateTimeFinish { get; set; } = default;
 
-            public string DurationAsString => (DateTimeFinish - DateTimeStart).ToHoursMinutesString();
+            public long Duration { get; set; } = 0;
+            public long DurationInMove { get; set; } = 0;
 
             public double Distance { get; set; } = 0;
-            
+
             public float EleAscent { get; set; } = 0;
 
             public List<Point> Points { get; set; } = null;
@@ -47,6 +46,9 @@ namespace P3tr0viCh.Utils
 
                 DateTimeStart = default;
                 DateTimeFinish = default;
+
+                Duration = 0;
+                DurationInMove = 0;
 
                 Distance = 0;
 
@@ -68,6 +70,9 @@ namespace P3tr0viCh.Utils
 
                 DateTimeStart = source.DateTimeStart;
                 DateTimeFinish = source.DateTimeFinish;
+
+                Duration = source.Duration;
+                DurationInMove = source.DurationInMove;
 
                 Distance = source.Distance;
 
@@ -146,12 +151,14 @@ namespace P3tr0viCh.Utils
                     throw new Exception("empty track");
                 }
 
+                DurationInMove = 0;
+                
                 Distance = 0;
 
                 var pointPrev = Points.First();
 
-                float ele1 = pointPrev.Ele;
-                float ele2;
+                long pointDuration;
+                double pointSpeed;
 
                 foreach (var point in Points)
                 {
@@ -159,30 +166,34 @@ namespace P3tr0viCh.Utils
 
                     Distance += point.Distance;
 
-                    pointPrev = point;
-
-                    ele2 = point.Ele;
-
-                    if (ele2 > ele1)
+                    pointDuration = (long)(point.DateTime - pointPrev.DateTime).TotalSeconds;
+                    
+                    if (point.Distance > 0 && pointDuration > 0)
                     {
-                        EleAscent += ele2 - ele1;
+                        pointSpeed = point.Distance / pointDuration;
+                    }
+                    else
+                    {
+                        pointSpeed = 0;
                     }
 
-                    ele1 = ele2;
+                    if (pointSpeed > 0.1 && pointDuration < 60)
+                    {
+                        DurationInMove += pointDuration;
+                    }
+
+                    if (pointSpeed > 0.1 && point.Ele > pointPrev.Ele)
+                    {
+                        EleAscent += point.Ele - pointPrev.Ele;
+                    }
+
+                    pointPrev = point;
                 }
 
                 DateTimeStart = Points.First().DateTime;
                 DateTimeFinish = Points.Last().DateTime;
 
-                if (DateTimeStart == default)
-                {
-                    DateTimeStart = Misc.DateTimeParse(
-                        XmlGetText(trackXml.DocumentElement["metadata"]?["time"]), DATETIME_FORMAT_GPX, DateTime.Now);
-                }
-                if (DateTimeFinish == default)
-                {
-                    DateTimeFinish = DateTimeStart;
-                }
+                Duration = (long)(DateTimeFinish - DateTimeStart).TotalSeconds;
             }
         }
     }
