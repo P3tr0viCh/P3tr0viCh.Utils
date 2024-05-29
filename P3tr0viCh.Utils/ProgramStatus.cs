@@ -65,5 +65,26 @@ namespace P3tr0viCh.Utils
                 }
             }
         }
+
+        public int Count(T status) { 
+            var count = 0;
+            
+            foreach (var stat in statuses)
+            {
+                if (stat.Value.Equals(status)) count++;
+            }
+
+            return count;
+        }
+
+        public bool Contains(T status)
+        {
+            foreach (var stat in statuses)
+            {
+                if (stat.Value.Equals(status)) return true;
+            }
+
+            return false;
+        }
     }
 }
