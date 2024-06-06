@@ -102,7 +102,7 @@ namespace P3tr0viCh.Utils
                     {
                         state.Maximized = false;
 
-                        state.Bounds = form.Bounds;
+                        state.Bounds = form.WindowState == FormWindowState.Minimized ? form.RestoreBounds : form.Bounds;
                     }
 
                     break;
@@ -114,7 +114,7 @@ namespace P3tr0viCh.Utils
 
                     break;
                 case FormBorderStyle.SizableToolWindow:
-                    state.Bounds = form.Bounds;
+                    state.Bounds = form.WindowState == FormWindowState.Minimized ? form.RestoreBounds : form.Bounds;
 
                     break;
                 default:
