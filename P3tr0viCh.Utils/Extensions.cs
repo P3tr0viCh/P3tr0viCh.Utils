@@ -34,5 +34,13 @@ namespace P3tr0viCh.Utils
             else
                 doit(arg);
         }
+
+        public static bool MouseIsOverControl(this Control control) =>
+            control.ClientRectangle.Contains(control.PointToClient(Cursor.Position));
+    }
+
+    public static class EnumExtensions
+    {
+        public static int ToInt(this Enum enumValue) => Convert.ToInt32(enumValue);
     }
 }
