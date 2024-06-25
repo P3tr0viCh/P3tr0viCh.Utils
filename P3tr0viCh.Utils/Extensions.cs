@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -42,5 +43,16 @@ namespace P3tr0viCh.Utils
     public static class EnumExtensions
     {
         public static int ToInt(this Enum enumValue) => Convert.ToInt32(enumValue);
+    }
+
+    public static class BitArrayExtensions
+    {
+        public static byte ToByte(this BitArray bitArray)
+        {
+            byte result = 0;
+            for (byte index = 0, m = 1; index < 8; index++, m *= 2)
+                result += bitArray.Get(index) ? m : (byte)0;
+            return result;
+        }
     }
 }
