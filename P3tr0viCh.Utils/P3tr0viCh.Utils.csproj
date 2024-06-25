@@ -60,6 +60,7 @@
     <Compile Include="FrmAbout.cs" />
     <Compile Include="Geo.cs" />
     <Compile Include="Http.cs" />
+    <Compile Include="ImageBtn.cs" />
     <Compile Include="License.cs" />
     <Compile Include="LocalizedAttribute.cs" />
     <Compile Include="Log.cs" />
