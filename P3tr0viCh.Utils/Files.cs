@@ -21,14 +21,24 @@ namespace P3tr0viCh.Utils
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ExecutableName());
         }
 
+        public static string SettingsFileName(string fileName)
+        {
+            return Path.ChangeExtension(Path.GetFileName(fileName), "config");
+        }
+
         public static string SettingsFileName()
         {
-            return ExecutableName() + ".config";
+            return SettingsFileName(Application.ExecutablePath);
+        }
+
+        public static string DatabaseFileName(string fileName)
+        {
+            return Path.ChangeExtension(Path.GetFileName(fileName), "sqlite");
         }
 
         public static string DatabaseFileName()
         {
-            return ExecutableName() + ".sqlite";
+            return DatabaseFileName(Application.ExecutablePath);
         }
 
         public static string TempDirectory()
