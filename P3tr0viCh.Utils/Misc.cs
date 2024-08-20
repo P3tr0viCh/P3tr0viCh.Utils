@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace P3tr0viCh.Utils
 {
@@ -14,7 +13,7 @@ namespace P3tr0viCh.Utils
         {
             public AssemblyDecorator()
             {
-                Assembly = Assembly.LoadFrom(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+                Assembly = Assembly.LoadFrom(Process.GetCurrentProcess().MainModule.FileName);
             }
 
             public AssemblyDecorator(Assembly assembly)
@@ -34,57 +33,32 @@ namespace P3tr0viCh.Utils
                 {
                     assembly = value;
 
-                    version = assembly.GetName().Version;
+                    Version = assembly.GetName().Version;
 
                     var assemblyConfiguration = (AssemblyConfigurationAttribute)assembly.GetCustomAttribute(typeof(AssemblyConfigurationAttribute));
-                    isDebug = "Debug".Equals(assemblyConfiguration.Configuration);
+                    IsDebug = "Debug".Equals(assemblyConfiguration.Configuration);
 
                     var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
-                    product = assemblyProduct.Product;
+                    Product = assemblyProduct.Product;
 
                     var assemblyCopyright = (AssemblyCopyrightAttribute)assembly.GetCustomAttribute(typeof(AssemblyCopyrightAttribute));
-                    copyright = assemblyCopyright.Copyright;
+                    Copyright = assemblyCopyright.Copyright;
                 }
             }
 
-            private bool isDebug;
-            public bool IsDebug
-            {
-                get { return isDebug; }
-            }
+            public bool IsDebug { get; private set; }
 
-            private Version version;
-            public Version Version
-            {
-                get
-                {
-                    return version;
-                }
-            }
+            public Version Version { get; private set; }
 
-            private string product;
-            public string Product
-            {
-                get
-                {
-                    return product;
-                }
-            }
+            public string Product { get; private set; }
 
-            private string copyright;
-            public string Copyright
-            {
-                get
-                {
-                    return copyright;
-                }
-            }
+            public string Copyright { get; private set; }
 
             public string VersionString(bool full = true, bool withDebug = true)
             {
-                var versionString = version.ToString(full ? 4 : 2);
+                var versionString = Version.ToString(full ? 4 : 2);
 
-                if (withDebug && isDebug)
+                if (withDebug && IsDebug)
                 {
                     versionString += " (debug build)";
                 }
@@ -160,7 +134,7 @@ namespace P3tr0viCh.Utils
             return float.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture,
                 out _);
         }
-        
+
         public static string GetFileTitle(FileVersionInfo info)
         {
             return info.FileDescription;
@@ -180,5 +154,5 @@ namespace P3tr0viCh.Utils
         {
             return GetFileVersion(FileVersionInfo.GetVersionInfo(filePath));
         }
-     }
+    }
 }

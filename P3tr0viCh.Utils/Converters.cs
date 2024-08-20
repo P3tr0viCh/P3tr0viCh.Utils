@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Globalization;
 using System.IO.Ports;
+using System.Linq;
 
 namespace P3tr0viCh.Utils
 {
@@ -104,14 +105,6 @@ namespace P3tr0viCh.Utils
             public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
             {
                 return ((string)value).Equals(TrueValue);
-            }
-        }
-
-        public class ExpandableObjectEmptyConverter : ExpandableObjectConverter
-        {
-            public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destType)
-            {
-                return string.Empty;
             }
         }
     }

@@ -93,7 +93,7 @@ namespace P3tr0viCh.Utils
             {
                 get
                 {
-                    if (string.IsNullOrEmpty(fileName))
+                    if (fileName.IsEmpty())
                     {
                         fileName = Path.Combine(Files.ExecutableDirectory(), Files.ExecutableName() + ".key");
                     }
@@ -128,7 +128,7 @@ namespace P3tr0viCh.Utils
             {
                 LicenseInfo.Clear();
 
-                if (string.IsNullOrEmpty(SecurityKey)) return LoadResult.EmptySecurityKey;
+                if (SecurityKey.IsEmpty()) return LoadResult.EmptySecurityKey;
 
                 if (!File.Exists(FileName)) return LoadResult.FileNotExists;
 

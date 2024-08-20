@@ -65,14 +65,14 @@ namespace P3tr0viCh.Utils
         {
             get
             {
-                if (string.IsNullOrEmpty(filePath))
+                if (filePath.IsEmpty())
                 {
-                    if (string.IsNullOrEmpty(Directory))
+                    if (Directory.IsEmpty())
                     {
                         directory = Files.AppDataDirectory();
                     }
 
-                    if (string.IsNullOrEmpty(FileName))
+                    if (FileName.IsEmpty())
                     {
                         fileName = Files.SettingsFileName();
                     }

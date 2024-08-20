@@ -162,7 +162,7 @@ namespace P3tr0viCh.Utils
                 };
 
                 var textWidth = frm.ClientSize.Width - 16;
-                var linkWidth = string.IsNullOrEmpty(linkLink) ? 0 : 80;
+                var linkWidth = linkLink.IsEmpty() ? 0 : 80;
 
                 lblCopyright.Parent = frm;
                 lblCopyright.BackColor = Color.White;
@@ -172,7 +172,7 @@ namespace P3tr0viCh.Utils
 
                 if (linkWidth != 0)
                 {
-                    if (string.IsNullOrEmpty(linkText))
+                    if (linkText.IsEmpty())
                     {
                         if (linkLink.Contains("github.com"))
                         {

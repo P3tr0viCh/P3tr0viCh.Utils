@@ -19,7 +19,7 @@ namespace P3tr0viCh.Utils
 
             public string Select()
             {
-                if (string.IsNullOrEmpty(fields))
+                if (fields.IsEmpty())
                 {
                     fields = "*";
                 }
@@ -58,9 +58,9 @@ namespace P3tr0viCh.Utils
         {
             var sql = name.ToLower();
 
-            if (!string.IsNullOrEmpty(table)) sql = table + "." + sql;
+            if (!table.IsEmpty()) sql = table + "." + sql;
 
-            if (!string.IsNullOrEmpty(alias)) sql += " AS " + alias;
+            if (!alias.IsEmpty()) sql += " AS " + alias;
 
             return sql;
         }

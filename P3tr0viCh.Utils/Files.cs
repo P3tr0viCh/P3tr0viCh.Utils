@@ -52,7 +52,7 @@ namespace P3tr0viCh.Utils
 
         public static string TempFileName(string fileName)
         {
-            if (string.IsNullOrEmpty(fileName)) fileName = "xxx";
+            if (fileName.IsEmpty()) fileName = "xxx";
 
             return Path.Combine(TempDirectory(), fileName);
         }

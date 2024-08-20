@@ -26,7 +26,7 @@ namespace P3tr0viCh.Utils
 
         public static string Encrypt(string plainText, string securityKey)
         {
-            if (string.IsNullOrEmpty(plainText)) return string.Empty;
+            if (plainText.IsEmpty() || securityKey.IsEmpty()) return string.Empty;
 
             using (var TripleDESCryptoService = GetTripleDESCryptoService(securityKey))
             using (var CryptoTransform = TripleDESCryptoService.CreateEncryptor())
@@ -41,7 +41,7 @@ namespace P3tr0viCh.Utils
 
         public static string Decrypt(string cipherText, string securityKey)
         {
-            if (string.IsNullOrEmpty(cipherText)) return string.Empty;
+            if (cipherText.IsEmpty() || securityKey.IsEmpty()) return string.Empty;
 
             using (var TripleDESCryptoService = GetTripleDESCryptoService(securityKey))
             using (var CryptoTransform = TripleDESCryptoService.CreateDecryptor())
@@ -56,7 +56,7 @@ namespace P3tr0viCh.Utils
 
         public static string Crc(string value)
         {
-            if (string.IsNullOrEmpty(value)) return string.Empty;
+            if (value.IsEmpty()) return string.Empty;
 
             using (var MD5CryptoService = new MD5CryptoServiceProvider())
             {
