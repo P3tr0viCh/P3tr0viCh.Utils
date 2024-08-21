@@ -55,4 +55,14 @@ namespace P3tr0viCh.Utils
             return result;
         }
     }
+
+    public static class DateTimeExtensions
+    {
+        public static DateTime ChangeTime(this DateTime dateTime, int hour, int minute, int second, int millisecond)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,
+                hour, minute, second, millisecond,
+                dateTime.Kind);
+        }
+    }
 }
