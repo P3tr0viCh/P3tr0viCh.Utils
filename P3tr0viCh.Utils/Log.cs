@@ -1,6 +1,5 @@
 ﻿using P3tr0viCh.Utils.Properties;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -44,7 +43,7 @@ namespace P3tr0viCh.Utils
 
                 File.AppendAllText(logFileName,
                     dateTime.ToString(Resources.LogFormatDateTimeText) +
-                        Str.Space + s.Replace(Str.Eol, Str.Space).Trim() + Str.Eol);
+                        Str.Space + s.Replace(Str.Eol, Str.Space).Trim() + Environment.NewLine);
             }
             catch (Exception e)
             {
