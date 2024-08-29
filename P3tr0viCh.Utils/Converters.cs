@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using P3tr0viCh.Utils.Properties;
 using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO.Ports;
-using System.Linq;
 
 namespace P3tr0viCh.Utils
 {
@@ -106,6 +105,14 @@ namespace P3tr0viCh.Utils
             {
                 return ((string)value).Equals(TrueValue);
             }
+        }
+
+        public class BooleanTypeOnOffConverter : BooleanTypeConverter
+        {
+            public BooleanTypeOnOffConverter() : base(
+                Misc.GetResourceString("OnOffConverter.On", "Properties.Resources.Utils"),
+                Misc.GetResourceString("OnOffConverter.Off", "Properties.Resources.Utils"))
+            { }
         }
     }
 }

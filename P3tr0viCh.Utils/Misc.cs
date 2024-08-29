@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 
 namespace P3tr0viCh.Utils
 {
@@ -153,6 +154,32 @@ namespace P3tr0viCh.Utils
         public static Version GetFileVersion(string filePath)
         {
             return GetFileVersion(FileVersionInfo.GetVersionInfo(filePath));
+        }
+
+        public static string GetResourceString(string ResourceKey, string ResourcesName)
+        {
+            if (ResourcesName.IsEmpty())
+            {
+                return ResourceKey;
+            }
+
+            var assembly = Assembly.GetEntryAssembly();
+
+            var baseName = $"{assembly.GetName().Name}.{ResourcesName}";
+
+            var res = new ResourceManager(baseName, assembly);
+
+            var str = string.Empty;
+
+            try
+            {
+                str = res.GetString(ResourceKey);
+            }
+            catch (Exception)
+            {
+            }
+
+            return str.IsEmpty() ? ResourceKey : str;
         }
     }
 }
