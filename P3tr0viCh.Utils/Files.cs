@@ -16,9 +16,24 @@ namespace P3tr0viCh.Utils
             return Path.GetDirectoryName(Application.ExecutablePath);
         }
 
-        public static string AppDataDirectory()
+        public static string AppDataLocalDirectory(string dir)
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ExecutableName());
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), dir);
+        }
+
+        public static string AppDataLocalDirectory()
+        {
+            return AppDataLocalDirectory(ExecutableName());
+        }
+
+        public static string AppDataRoamingDirectory(string dir)
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), dir);
+        }
+
+        public static string AppDataRoamingDirectory()
+        {
+            return AppDataRoamingDirectory(ExecutableName());
         }
 
         public static string SettingsFileName(string fileName)

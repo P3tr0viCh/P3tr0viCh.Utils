@@ -69,7 +69,7 @@ namespace P3tr0viCh.Utils
                 {
                     if (Directory.IsEmpty())
                     {
-                        directory = Files.AppDataDirectory();
+                        directory = Files.AppDataLocalDirectory();
                     }
 
                     if (FileName.IsEmpty())
