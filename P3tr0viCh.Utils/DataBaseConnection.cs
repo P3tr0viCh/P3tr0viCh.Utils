@@ -1,5 +1,6 @@
 ﻿using P3tr0viCh.Utils.Properties;
 using System.ComponentModel;
+using static P3tr0viCh.Utils.Converters;
 
 namespace P3tr0viCh.Utils
 {
@@ -29,10 +30,6 @@ namespace P3tr0viCh.Utils
             [PropertyOrder(101)]
             [LocalizedAttribute.DisplayName("Connection.Port.DisplayName", "Properties.Resources.Utils")]
             public int Port { get; set; } = 0;
-
-            [PropertyOrder(400)]
-            [LocalizedAttribute.DisplayName("Connection.Driver.DisplayName", "Properties.Resources.Utils")]
-            public string Driver { get; set; }
         }
 
         public class ConnectionMySql : ConnectionServer
@@ -56,8 +53,7 @@ namespace P3tr0viCh.Utils
                     Host.IsEmpty() ? DefaultHost : Host,
                     Port == 0 ? DefaultPort : Port,
                     Database,
-                    Login.User, Login.Password,
-                    Driver);
+                    Login.User, Login.Password);
             }
         }
     }

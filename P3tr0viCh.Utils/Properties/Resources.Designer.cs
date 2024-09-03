@@ -61,7 +61,7 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};DRIVER={5};.
+        ///   Looks up a localized string similar to SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};.
         /// </summary>
         internal static string ConnectionStringMySql {
             get {

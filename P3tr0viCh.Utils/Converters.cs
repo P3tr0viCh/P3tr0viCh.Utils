@@ -1,8 +1,9 @@
-﻿using P3tr0viCh.Utils.Properties;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO.Ports;
+using System.Linq;
 
 namespace P3tr0viCh.Utils
 {
@@ -18,6 +19,31 @@ namespace P3tr0viCh.Utils
                 var ports = SerialPort.GetPortNames();
 
                 return new StandardValuesCollection(ports);
+            }
+        }
+
+        public class StringListConverter : StringConverter
+        {
+            private readonly List<string> drivers;
+
+            private readonly bool exclusive;
+
+            public StringListConverter(string resourceKey, string resourcesName, bool exclusive)
+            {
+                var driverResource = Misc.GetResourceString(resourceKey, resourcesName);
+
+                drivers = driverResource.Split(
+                    new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                this.exclusive = exclusive;
+            }
+
+            public override bool GetStandardValuesSupported(ITypeDescriptorContext context) { return true; }
+            public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) { return exclusive; }
+
+            public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+            {
+                return new StandardValuesCollection(drivers);
             }
         }
 

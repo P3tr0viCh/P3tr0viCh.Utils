@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConnectionStringMySql" xml:space="preserve">
-    <value>SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};DRIVER={5};</value>
+    <value>SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};</value>
   </data>
   <data name="FrmAboutCaption" xml:space="preserve">
     <value>О программе</value>
