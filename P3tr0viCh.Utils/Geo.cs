@@ -41,5 +41,10 @@ namespace P3tr0viCh.Utils
 
             return C * EARTH_RADIUS;
         }
+
+        public static double LongitudeLenghtForLatitude(double lat)
+        {
+            return 1 / (111319.44 * Math.Cos(DegToRad(lat)));
+        }
     }
 }
