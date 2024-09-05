@@ -6,6 +6,9 @@ namespace P3tr0viCh.Utils
 {
     public static class Files
     {
+        public const string ExtConfig = "config";
+        public const string ExtSqLite = "sqlite";
+
         public static string ExecutableName()
         {
             return Path.GetFileNameWithoutExtension(Application.ExecutablePath);
@@ -38,7 +41,7 @@ namespace P3tr0viCh.Utils
 
         public static string SettingsFileName(string fileName)
         {
-            return Path.ChangeExtension(Path.GetFileName(fileName), "config");
+            return Path.ChangeExtension(Path.GetFileName(fileName), ExtConfig);
         }
 
         public static string SettingsFileName()
@@ -48,7 +51,7 @@ namespace P3tr0viCh.Utils
 
         public static string DatabaseFileName(string fileName)
         {
-            return Path.ChangeExtension(Path.GetFileName(fileName), "sqlite");
+            return Path.ChangeExtension(Path.GetFileName(fileName), ExtSqLite);
         }
 
         public static string DatabaseFileName()
