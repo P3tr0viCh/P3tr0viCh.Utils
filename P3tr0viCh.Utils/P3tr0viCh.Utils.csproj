@@ -82,6 +82,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Sql.cs" />
     <Compile Include="Str.cs" />
+    <Compile Include="WrapperCancellationTokenSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
