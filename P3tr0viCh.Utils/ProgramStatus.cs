@@ -13,7 +13,7 @@ namespace P3tr0viCh.Utils
                 this.status = status;
             }
 
-            public T Value { get { return status; } }
+            public T Value => status;
         }
 
         private readonly List<Status> statuses = new List<Status>();
@@ -46,16 +46,13 @@ namespace P3tr0viCh.Utils
             StatusChanged?.Invoke(this, Current);
         }
 
-        public bool IsIdle()
-        {
-            return statuses.Count == 0;
-        }
+        public bool IsIdle => statuses.Count == 0;
 
         public T Current
         {
             get
             {
-                if (IsIdle())
+                if (IsIdle)
                 {
                     return idle;
                 }
@@ -66,9 +63,10 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public int Count(T status) { 
+        public int Count(T status)
+        {
             var count = 0;
-            
+
             foreach (var stat in statuses)
             {
                 if (stat.Value.Equals(status)) count++;
