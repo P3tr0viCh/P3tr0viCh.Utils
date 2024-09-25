@@ -8,7 +8,7 @@ namespace P3tr0viCh.Utils
 
         public void Finally()
         {
-            cancellationTokenSource.Dispose();
+            cancellationTokenSource?.Dispose();
             cancellationTokenSource = null;
         }
 
