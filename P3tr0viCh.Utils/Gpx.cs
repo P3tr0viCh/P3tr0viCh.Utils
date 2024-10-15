@@ -12,16 +12,51 @@ namespace P3tr0viCh.Utils
 
         public class Point
         {
-            public int Num { get; set; }
+            public int Num { get; set; } = 0;
 
-            public DateTime DateTime { get; set; }
+            public DateTime DateTime { get; set; } = default;
 
-            public double Lat { get; set; }
-            public double Lng { get; set; }
+            public double Lat { get; set; } = default;
+            public double Lng { get; set; } = default;
 
-            public float Ele { get; set; }
+            public float Ele { get; set; } = 0;
 
-            public double Distance { get; set; }
+            public double Distance { get; set; } = 0;
+
+            public void Clear()
+            {
+                Num = 0;
+
+                DateTime = default;
+
+                Lat = default;
+                Lng = default;
+
+                Ele = 0;
+
+                Distance = 0;
+            }
+
+            public void Assign(Point source)
+            {
+                if (source == null)
+                {
+                    Clear();
+
+                    return;
+                }
+
+                Num = source.Num;
+
+                DateTime = source.DateTime;
+
+                Lat = source.Lat;
+                Lng = source.Lng;
+
+                Ele = source.Ele;
+
+                Distance = source.Distance;
+            }
         }
 
         public class Track
@@ -110,11 +145,11 @@ namespace P3tr0viCh.Utils
 
                 var trkname = XmlGetText(trackXml.DocumentElement["trk"]?["name"]);
 
-                if (string.IsNullOrWhiteSpace(trkname))
+                if (trkname.IsEmpty())
                 {
                     trkname = XmlGetText(trackXml.DocumentElement["metadata"]?["name"]);
 
-                    if (string.IsNullOrWhiteSpace(trkname))
+                    if (trkname.IsEmpty())
                     {
                         trkname = Path.GetFileNameWithoutExtension(path);
                     }
@@ -146,13 +181,19 @@ namespace P3tr0viCh.Utils
                     }
                 }
 
+                NotifyPointsChanged();
+            }
+
+            public void NotifyPointsChanged()
+            {
+
                 if (Points.Count < 2)
                 {
                     throw new Exception("empty track");
                 }
 
                 DurationInMove = 0;
-                
+
                 Distance = 0;
 
                 var pointPrev = Points.First();
@@ -167,7 +208,7 @@ namespace P3tr0viCh.Utils
                     Distance += point.Distance;
 
                     pointDuration = (long)(point.DateTime - pointPrev.DateTime).TotalSeconds;
-                    
+
                     if (point.Distance > 0 && pointDuration > 0)
                     {
                         pointSpeed = point.Distance / pointDuration;
