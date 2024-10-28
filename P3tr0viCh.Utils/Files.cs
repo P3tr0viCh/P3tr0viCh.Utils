@@ -92,5 +92,17 @@ namespace P3tr0viCh.Utils
                 Directory.Delete(path, true);
             }
         }
+
+        public static string PathNormalize(string path)
+        {
+            return Path.GetFullPath(new Uri(path).LocalPath)
+                       .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                       .ToUpperInvariant();
+        }
+
+        public static bool PathEquals(string path1, string path2)
+        {
+            return string.Equals(PathNormalize(path1), PathNormalize(path2));
+        }
     }
 }
