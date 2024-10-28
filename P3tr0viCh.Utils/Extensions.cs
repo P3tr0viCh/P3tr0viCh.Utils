@@ -65,4 +65,13 @@ namespace P3tr0viCh.Utils
                 dateTime.Kind);
         }
     }
+
+    public static class TimerExtensions
+    {
+        public static void Restart(this Timer timer)
+        {
+            timer.Stop();
+            timer.Start();
+        }
+    }
 }
