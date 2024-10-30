@@ -67,13 +67,46 @@ namespace P3tr0viCh.Utils
             public DateTime DateTimeFinish { get; set; } = default;
 
             public long Duration { get; set; } = 0;
-            public long DurationInMove { get; set; } = 0;
 
-            public double Distance { get; set; } = 0;
+            private long durationInMove = 0;
+            public long DurationInMove
+            {
+                get => durationInMove;
+                set
+                {
+                    durationInMove = value;
+
+                    AverageSpeed = GetAverageSpeed();
+                }
+            }
+
+            private double distance = 0;
+            public double Distance
+            {
+                get => distance;
+                set
+                {
+                    distance = value;
+
+                    AverageSpeed = GetAverageSpeed();
+                }
+            }
+
+            public float AverageSpeed { get; private set; } = 0;
 
             public float EleAscent { get; set; } = 0;
 
             public List<Point> Points { get; set; } = null;
+
+            private float GetAverageSpeed()
+            {
+                if (distance == 0 || durationInMove == 0)
+                {
+                    return 0;
+                }
+
+                return (float)(distance / durationInMove);
+            }
 
             public void Clear()
             {
@@ -86,6 +119,8 @@ namespace P3tr0viCh.Utils
                 DurationInMove = 0;
 
                 Distance = 0;
+
+                AverageSpeed = 0;
 
                 EleAscent = 0;
 
@@ -110,6 +145,8 @@ namespace P3tr0viCh.Utils
                 DurationInMove = source.DurationInMove;
 
                 Distance = source.Distance;
+
+                AverageSpeed = source.AverageSpeed;
 
                 EleAscent = source.EleAscent;
 
@@ -195,6 +232,8 @@ namespace P3tr0viCh.Utils
                 DurationInMove = 0;
 
                 Distance = 0;
+
+                AverageSpeed = 0;
 
                 var pointPrev = Points.First();
 
