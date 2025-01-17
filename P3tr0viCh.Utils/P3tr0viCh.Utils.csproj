@@ -53,6 +53,7 @@
     <Compile Include="DataTableFile.cs" />
     <Compile Include="DataBaseConnection.cs" />
     <Compile Include="DebugWrite.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="Gpx.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="Crypto.cs" />

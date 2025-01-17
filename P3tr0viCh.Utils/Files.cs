@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using static P3tr0viCh.Utils.Exceptions;
 
 namespace P3tr0viCh.Utils
 {
@@ -103,6 +104,32 @@ namespace P3tr0viCh.Utils
         public static bool PathEquals(string path1, string path2)
         {
             return string.Equals(PathNormalize(path1), PathNormalize(path2));
+        }
+        
+        public static void CheckDirectoryExists(string path)
+        {
+            if (path.IsEmpty())
+            {
+                throw new DirectoryPathEmptyException();
+            }
+
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException(path);
+            }
+        }
+
+        public static void CheckFileExists(string path)
+        {
+            if (path.IsEmpty())
+            {
+                throw new FilePathEmptyException();
+            }
+
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException(path);
+            }
         }
     }
 }
