@@ -105,30 +105,20 @@ namespace P3tr0viCh.Utils
         {
             return string.Equals(PathNormalize(path1), PathNormalize(path2));
         }
-        
+
         public static void CheckDirectoryExists(string path)
         {
-            if (path.IsEmpty())
+            if (path.IsEmpty() || !Directory.Exists(path))
             {
-                throw new DirectoryPathEmptyException();
-            }
-
-            if (!Directory.Exists(path))
-            {
-                throw new DirectoryNotFoundException(path);
+                throw new DirectoryNotExistsException(path);
             }
         }
 
         public static void CheckFileExists(string path)
         {
-            if (path.IsEmpty())
+            if (path.IsEmpty() || !File.Exists(path))
             {
-                throw new FilePathEmptyException();
-            }
-
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException(path);
+                throw new FileNotExistsException(path);
             }
         }
     }

@@ -1,17 +1,29 @@
-﻿using System.IO;
+﻿using P3tr0viCh.Utils.Properties;
+using System.IO;
 
 namespace P3tr0viCh.Utils
 {
     public static class Exceptions
     {
-        public class FilePathEmptyException : FileNotFoundException
+        public class FileNotExistsException : FileNotFoundException
         {
-            public FilePathEmptyException() : base("") { }
+            public FileNotExistsException() : base() { }
+
+            public FileNotExistsException(string fileName) : base(Resources.ExceptionFileNotExists, fileName) { }
         }
 
-        public class DirectoryPathEmptyException : DirectoryNotFoundException
+        public class DirectoryNotExistsException : DirectoryNotFoundException
         {
-            public DirectoryPathEmptyException() : base("") { }
+            private readonly string path;
+
+            public string Path => path;
+
+            public DirectoryNotExistsException() : base() { }
+
+            public DirectoryNotExistsException(string path) : base(string.Format(Resources.ExceptionDirectoryNotExists, path))
+            {
+                this.path = path;
+            }
         }
     }
 }

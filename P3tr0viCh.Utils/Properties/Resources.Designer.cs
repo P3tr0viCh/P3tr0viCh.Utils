@@ -70,6 +70,24 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Directory &apos;{0}&apos; not exists or path empty..
+        /// </summary>
+        internal static string ExceptionDirectoryNotExists {
+            get {
+                return ResourceManager.GetString("ExceptionDirectoryNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File &apos;{0}&apos; not exists or path empty..
+        /// </summary>
+        internal static string ExceptionFileNotExists {
+            get {
+                return ResourceManager.GetString("ExceptionFileNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to О программе.
         /// </summary>
         internal static string FrmAboutCaption {

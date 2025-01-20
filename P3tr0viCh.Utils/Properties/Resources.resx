@@ -120,6 +120,12 @@
   <data name="ConnectionStringMySql" xml:space="preserve">
     <value>SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};</value>
   </data>
+  <data name="ExceptionDirectoryNotExists" xml:space="preserve">
+    <value>Directory '{0}' not exists or path empty.</value>
+  </data>
+  <data name="ExceptionFileNotExists" xml:space="preserve">
+    <value>File '{0}' not exists or path empty.</value>
+  </data>
   <data name="FrmAboutCaption" xml:space="preserve">
     <value>О программе</value>
   </data>
