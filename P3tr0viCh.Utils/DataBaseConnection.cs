@@ -1,6 +1,5 @@
 ﻿using P3tr0viCh.Utils.Properties;
 using System.ComponentModel;
-using static P3tr0viCh.Utils.Converters;
 
 namespace P3tr0viCh.Utils
 {
@@ -32,7 +31,14 @@ namespace P3tr0viCh.Utils
             public int Port { get; set; } = 0;
         }
 
-        public class ConnectionMySql : ConnectionServer
+        public abstract class ConnectionServerDatabase : ConnectionServer
+        {
+            [PropertyOrder(200)]
+            [LocalizedAttribute.DisplayName("Connection.Database.DisplayName", "Properties.Resources.Utils")]
+            public string Database { get; set; }
+        }
+
+        public class ConnectionMySql : ConnectionServerDatabase
         {
             public const string DefaultHost = "localhost";
             public const int DefaultPort = 3306;
@@ -43,13 +49,36 @@ namespace P3tr0viCh.Utils
                 Port = DefaultPort;
             }
 
-            [PropertyOrder(200)]
-            [LocalizedAttribute.DisplayName("Connection.Database.DisplayName", "Properties.Resources.Utils")]
-            public string Database { get; set; }
-
             public override string ConnectionString()
             {
                 return string.Format(Resources.ConnectionStringMySql,
+                    Host.IsEmpty() ? DefaultHost : Host,
+                    Port == 0 ? DefaultPort : Port,
+                    Database,
+                    Login.User, Login.Password);
+            }
+        }
+
+        public class ConnectionFireBird : ConnectionServerDatabase
+        {
+            public const string DefaultUser = "SYSDBA";
+            public const string DefaultPassword = "masterkey";
+
+            public const string DefaultHost = "localhost";
+            public const int DefaultPort = 3050;
+
+            public ConnectionFireBird()
+            {
+                Login.User = DefaultUser;
+                Login.Password = DefaultPassword;
+
+                Host = DefaultHost;
+                Port = DefaultPort;
+            }
+
+            public override string ConnectionString()
+            {
+                return string.Format(Resources.ConnectionFireBird,
                     Host.IsEmpty() ? DefaultHost : Host,
                     Port == 0 ? DefaultPort : Port,
                     Database,

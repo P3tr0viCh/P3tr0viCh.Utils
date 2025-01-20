@@ -63,6 +63,15 @@ namespace P3tr0viCh.Utils.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};.
         /// </summary>
+        internal static string ConnectionFireBird {
+            get {
+                return ResourceManager.GetString("ConnectionFireBird", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};.
+        /// </summary>
         internal static string ConnectionStringMySql {
             get {
                 return ResourceManager.GetString("ConnectionStringMySql", resourceCulture);
