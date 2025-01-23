@@ -106,11 +106,14 @@ namespace P3tr0viCh.Utils
                     version = string.Format(Resources.FrmAboutVersion, assemblyDecorator.VersionString());
                 }
 
-                if (options.AppNameLineBreak != -1)
+                if (options.AppNameLineBreak >= 0)
                 {
                     var i = appName.IndexOfNth(Str.Space, options.AppNameLineBreak);
 
-                    appName = appName.Substring(0, i) + Str.Eol + appName.Substring(i + 1);
+                    if (i >= 0)
+                    {
+                        appName = appName.Substring(0, i) + Str.Eol + appName.Substring(i + 1);
+                    }
                 }
 
                 frm.FormBorderStyle = FormBorderStyle.FixedDialog;

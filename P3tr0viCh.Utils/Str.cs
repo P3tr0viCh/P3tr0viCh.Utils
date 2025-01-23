@@ -29,10 +29,10 @@ namespace P3tr0viCh.Utils
         private static int IndexOfNth(this string s, string value, int place, int startIndex = 0)
         {
             if (s.IsEmpty()) return -1;
-            if (value.IsEmpty()) return -1;
 
-            if (place == 0)
-                return s.IndexOf(value, startIndex);
+            if (string.IsNullOrEmpty(value)) return -1;
+
+            if (place == 0) return s.IndexOf(value, startIndex);
 
             return s.IndexOfNth(value, --place, s.IndexOf(value, startIndex) + 1);
         }
