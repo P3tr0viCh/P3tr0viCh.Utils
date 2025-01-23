@@ -27,6 +27,6 @@ namespace P3tr0viCh.Utils
 
         public CancellationToken Token => cancellationTokenSource.Token;
 
-        public bool IsCancellationRequested => cancellationTokenSource.IsCancellationRequested;
+        public bool IsCancellationRequested => cancellationTokenSource is null || cancellationTokenSource.IsCancellationRequested;
     }
 }
