@@ -40,6 +40,16 @@ namespace P3tr0viCh.Utils
             return AppDataRoamingDirectory(ExecutableName());
         }
 
+        public static string AppDataCommonDirectory(string dir)
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), dir);
+        }
+
+        public static string AppDataCommonDirectory()
+        {
+            return AppDataCommonDirectory(ExecutableName());
+        }
+
         public static string SettingsFileName(string fileName)
         {
             return Path.ChangeExtension(Path.GetFileName(fileName), ExtConfig);
