@@ -18,7 +18,13 @@ namespace P3tr0viCh.Utils
             }
             set
             {
+                if (value.IsEmpty())
+                {
+                    value = Files.ExecutableDirectory();
+                }
+
                 directory = Path.Combine(value, Resources.LogSubDirectory);
+
                 filePath = string.Empty;
             }
         }
@@ -32,7 +38,13 @@ namespace P3tr0viCh.Utils
             }
             set
             {
+                if (value.IsEmpty())
+                {
+                    value = Files.ExecutableName();
+                }
+
                 fileName = value;
+
                 filePath = string.Empty;
             }
         }
@@ -44,21 +56,17 @@ namespace P3tr0viCh.Utils
             {
                 if (filePath.IsEmpty())
                 {
-                    if (Directory.IsEmpty())
-                    {
-                        directory = Files.ExecutableDirectory();
-                    }
-
-                    if (FileName.IsEmpty())
-                    {
-                        fileName = Files.ExecutableName();
-                    }
-
                     filePath = Path.Combine(Directory, FileName + "." + Resources.LogExt);
                 }
 
                 return filePath;
             }
+        }
+
+        public Log()
+        {
+            Directory = string.Empty;
+            FileName = string.Empty;
         }
 
         public void Write(string s)
