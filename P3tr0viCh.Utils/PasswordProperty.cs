@@ -7,11 +7,16 @@ namespace P3tr0viCh.Utils
     public static class PasswordProperty
     {
         [AttributeUsage(AttributeTargets.Assembly)]
-        public class AssemblyPasswordAttribute : Attribute
+        public class AssemblySecurityKeyAttribute : Attribute
         {
             public string Value { get; }
 
-            public AssemblyPasswordAttribute(string value) => Value = value;
+            public AssemblySecurityKeyAttribute(string value) => Value = value;
+        }
+
+        public static string GetSecurityKeyAttribute()
+        {
+            return new Misc.AssemblyDecorator().Assembly.GetCustomAttribute<AssemblySecurityKeyAttribute>()?.Value;
         }
 
         public class PasswordConverter : JsonConverter<string>
@@ -22,7 +27,7 @@ namespace P3tr0viCh.Utils
 
                 try
                 {
-                    var key = new Misc.AssemblyDecorator().Assembly.GetCustomAttribute<AssemblyPasswordAttribute>()?.Value;
+                    var key = GetSecurityKeyAttribute();
 
                     decryptedValue = Crypto.Decrypt((string)reader.Value, key);
                 }
@@ -40,7 +45,7 @@ namespace P3tr0viCh.Utils
 
                 try
                 {
-                    var key = new Misc.AssemblyDecorator().Assembly.GetCustomAttribute<AssemblyPasswordAttribute>()?.Value;
+                    var key = GetSecurityKeyAttribute();
 
                     encryptedValue = Crypto.Encrypt(value, key);
                 }
