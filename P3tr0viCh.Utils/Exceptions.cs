@@ -1,5 +1,7 @@
 ﻿using P3tr0viCh.Utils.Properties;
+using System;
 using System.IO;
+using System.Net;
 
 namespace P3tr0viCh.Utils
 {
@@ -14,15 +16,25 @@ namespace P3tr0viCh.Utils
 
         public class DirectoryNotExistsException : DirectoryNotFoundException
         {
-            private readonly string path;
-
-            public string Path => path;
+            public string Path { get; }
 
             public DirectoryNotExistsException() : base() { }
 
             public DirectoryNotExistsException(string path) : base(string.Format(Resources.ExceptionDirectoryNotExists, path))
             {
-                this.path = path;
+                Path = path;
+            }
+        }
+
+        public class HttpStatusCodeException : Exception
+        {
+            public HttpStatusCodeException() : base() { }
+
+            public HttpStatusCode StatusCode { get; } = HttpStatusCode.OK;
+
+            public HttpStatusCodeException(HttpStatusCode statusCode) : base($"{statusCode.ToInt()}: {statusCode}")
+            {
+                StatusCode = statusCode;
             }
         }
     }
