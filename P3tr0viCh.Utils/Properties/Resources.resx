@@ -129,6 +129,9 @@
   <data name="ExceptionFileNotExists" xml:space="preserve">
     <value>File '{0}' not exists or path empty.</value>
   </data>
+  <data name="FrmAboutBtnOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="FrmAboutCaption" xml:space="preserve">
     <value>О программе</value>
   </data>
@@ -174,5 +177,11 @@
   </data>
   <data name="LogSubDirectory" xml:space="preserve">
     <value>logs</value>
+  </data>
+  <data name="TextInputBoxBtnCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="TextInputBoxBtnOk" xml:space="preserve">
+    <value>OK</value>
   </data>
 </root>

@@ -228,7 +228,7 @@ namespace P3tr0viCh.Utils
                 frm.Height += lblCopyright.Height + lblVersion.Height + lblText.Height;
 
                 btnClose.Parent = frm;
-                btnClose.Text = "OK";
+                btnClose.Text = Resources.FrmAboutBtnOk;
                 btnClose.DialogResult = DialogResult.OK;
                 btnClose.SetBounds(frm.ClientSize.Width - 88, frm.ClientSize.Height - 40, 80, 32);
                 btnClose.TabIndex = 0;

@@ -97,6 +97,15 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string FrmAboutBtnOk {
+            get {
+                return ResourceManager.GetString("FrmAboutBtnOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to О программе.
         /// </summary>
         internal static string FrmAboutCaption {
@@ -229,6 +238,24 @@ namespace P3tr0viCh.Utils.Properties {
         internal static string LogSubDirectory {
             get {
                 return ResourceManager.GetString("LogSubDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отмена.
+        /// </summary>
+        internal static string TextInputBoxBtnCancel {
+            get {
+                return ResourceManager.GetString("TextInputBoxBtnCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string TextInputBoxBtnOk {
+            get {
+                return ResourceManager.GetString("TextInputBoxBtnOk", resourceCulture);
             }
         }
     }
