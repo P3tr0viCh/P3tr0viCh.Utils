@@ -6,8 +6,25 @@ namespace P3tr0viCh.Utils
 {
     public static class TextInputBox
     {
-        public static bool Show(ref string text, string label = null, string caption = null)
+        public class Options
         {
+            public string Caption = string.Empty;
+            public string Label = string.Empty;
+            public bool UseSystemPasswordChar = false;
+        };
+
+        public static bool Show(ref string text, string label)
+        {
+            return Show(ref text, new Options { Label = label });
+        }
+
+        public static bool Show(ref string text, Options options = null)
+        {
+            if (options == null)
+            {
+                options = new Options();
+            }
+
             using (var frm = new Form())
             using (var lblLabel = new Label())
             using (var textText = new TextBox())
@@ -22,14 +39,14 @@ namespace P3tr0viCh.Utils
                 frm.StartPosition = FormStartPosition.CenterScreen;
                 frm.ShowInTaskbar = false;
 
-                if (caption == null)
+                if (options.Caption.IsEmpty())
                 {
                     var assemblyDecorator = new Misc.AssemblyDecorator();
 
-                    caption = assemblyDecorator.Product;
+                    options.Caption = assemblyDecorator.Product;
                 }
 
-                frm.Text = caption;
+                frm.Text = options.Caption;
 
                 frm.AcceptButton = btnOk;
                 frm.CancelButton = btnCancel;
@@ -37,12 +54,13 @@ namespace P3tr0viCh.Utils
                 lblLabel.Parent = frm;
                 lblLabel.Font = frm.Font;
                 lblLabel.SetBounds(8, 8, 280, 19);
-                lblLabel.Text = label;
+                lblLabel.Text = options.Label;
 
                 textText.Parent = frm;
                 textText.Font = frm.Font;
                 textText.SetBounds(8, 32, 280, 25);
                 textText.Text = text;
+                textText.UseSystemPasswordChar = options.UseSystemPasswordChar;
 
                 btnOk.Parent = frm;
                 btnOk.Font = frm.Font;
