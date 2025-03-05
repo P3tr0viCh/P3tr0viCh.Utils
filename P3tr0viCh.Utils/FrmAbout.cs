@@ -13,6 +13,8 @@ namespace P3tr0viCh.Utils
             public int AppNameFontSize = 26;
             public int AppNameLineBreak = -1;
 
+            public int FormWidth = 440;
+
             public enum LicenseType
             {
                 None,
@@ -116,11 +118,16 @@ namespace P3tr0viCh.Utils
                     }
                 }
 
+                if (options.FormWidth < 440)
+                {
+                    options.FormWidth = 440;
+                }
+
                 frm.FormBorderStyle = FormBorderStyle.FixedDialog;
                 frm.Font = new Font("Segoe UI", 10);
                 frm.MaximizeBox = false;
                 frm.MinimizeBox = false;
-                frm.Size = new Size(440, 168);
+                frm.Size = new Size(options.FormWidth, 168);
                 frm.StartPosition = FormStartPosition.CenterScreen;
                 frm.ShowInTaskbar = false;
 
