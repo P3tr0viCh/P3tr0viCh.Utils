@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using static P3tr0viCh.Utils.Exceptions;
@@ -130,6 +131,26 @@ namespace P3tr0viCh.Utils
             {
                 throw new FileNotExistsException(path);
             }
+        }
+
+        public static string GetFileTitle(FileVersionInfo info)
+        {
+            return info.FileDescription;
+        }
+
+        public static string GetFileTitle(string filePath)
+        {
+            return FileVersionInfo.GetVersionInfo(filePath).FileDescription;
+        }
+
+        public static Version GetFileVersion(FileVersionInfo info)
+        {
+            return new Version(info.FileVersion);
+        }
+
+        public static Version GetFileVersion(string filePath)
+        {
+            return GetFileVersion(FileVersionInfo.GetVersionInfo(filePath));
         }
     }
 }

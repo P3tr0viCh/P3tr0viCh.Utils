@@ -50,9 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppOneInstance.cs" />
+    <Compile Include="AssemblyDecorator.cs" />
     <Compile Include="DataTableFile.cs" />
     <Compile Include="DataBaseConnection.cs" />
     <Compile Include="DebugWrite.cs" />
+    <Compile Include="DefaultInstance.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Gpx.cs" />
     <Compile Include="Converters.cs" />

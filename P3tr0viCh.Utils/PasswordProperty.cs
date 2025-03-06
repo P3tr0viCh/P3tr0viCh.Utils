@@ -16,7 +16,7 @@ namespace P3tr0viCh.Utils
 
         public static string GetSecurityKeyAttribute()
         {
-            return new Misc.AssemblyDecorator().Assembly.GetCustomAttribute<AssemblySecurityKeyAttribute>()?.Value;
+            return new AssemblyDecorator().Assembly.GetCustomAttribute<AssemblySecurityKeyAttribute>()?.Value;
         }
 
         public class PasswordConverter : JsonConverter<string>

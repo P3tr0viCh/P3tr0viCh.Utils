@@ -10,7 +10,7 @@ namespace P3tr0viCh.Utils
     {
         private static string GetGuid()
         {
-            return new Misc.AssemblyDecorator().Assembly.GetCustomAttribute<GuidAttribute>().Value;
+            return new AssemblyDecorator().Assembly.GetCustomAttribute<GuidAttribute>().Value;
         }
 
         private static readonly Mutex mutex = new Mutex(true, GetGuid());

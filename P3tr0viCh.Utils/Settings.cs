@@ -22,15 +22,10 @@ namespace P3tr0viCh.Utils
             public int DisplayIndex { get; set; } = default;
         }
 
-        private static T defaultInstance = new T();
 
-        public static T Default
-        {
-            get
-            {
-                return defaultInstance;
-            }
-        }
+        private static T defaultInstance = new T();
+        public static T Default => defaultInstance;
+
 
         private static string directory = string.Empty;
         public static string Directory

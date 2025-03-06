@@ -84,7 +84,7 @@ namespace P3tr0viCh.Utils
                 {
                     caption = Resources.FrmAboutCaption;
 
-                    var assemblyDecorator = new Misc.AssemblyDecorator();
+                    var assemblyDecorator = new AssemblyDecorator();
 
                     appName = assemblyDecorator.Product;
                     copyright = assemblyDecorator.Copyright;

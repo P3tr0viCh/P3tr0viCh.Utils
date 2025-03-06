@@ -13,7 +13,7 @@ namespace P3tr0viCh.Utils
 
         public static void SetClientHeader(HttpClient client)
         {
-            var assemblyDecorator = new Misc.AssemblyDecorator();
+            var assemblyDecorator = new AssemblyDecorator();
 
             var header = new ProductHeaderValue(Files.ExecutableName(), assemblyDecorator.Version.ToString());
 

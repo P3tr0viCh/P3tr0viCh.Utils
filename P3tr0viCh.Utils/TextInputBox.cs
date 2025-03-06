@@ -41,7 +41,7 @@ namespace P3tr0viCh.Utils
 
                 if (options.Caption.IsEmpty())
                 {
-                    var assemblyDecorator = new Misc.AssemblyDecorator();
+                    var assemblyDecorator = new AssemblyDecorator();
 
                     options.Caption = assemblyDecorator.Product;
                 }
