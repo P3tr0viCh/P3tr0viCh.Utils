@@ -17,6 +17,7 @@ namespace P3tr0viCh.Utils
         public class ColumnState
         {
             public int Index { get; set; } = default;
+            public string Name { get; set; } = default;
             public int Width { get; set; } = default;
             public bool Visible { get; set; } = true;
             public int DisplayIndex { get; set; } = default;
@@ -179,6 +180,7 @@ namespace P3tr0viCh.Utils
                 columns[column.Index] = new ColumnState
                 {
                     Index = column.Index,
+                    Name = column.Name,
                     Width = column.Width,
                     Visible = column.Visible,
                     DisplayIndex = column.DisplayIndex
