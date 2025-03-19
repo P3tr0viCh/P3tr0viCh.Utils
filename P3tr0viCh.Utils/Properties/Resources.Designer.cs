@@ -88,11 +88,29 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File has an bad format..
+        /// </summary>
+        internal static string ExceptionFileBadFormat {
+            get {
+                return ResourceManager.GetString("ExceptionFileBadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File &apos;{0}&apos; not exists or path empty..
         /// </summary>
         internal static string ExceptionFileNotExists {
             get {
                 return ResourceManager.GetString("ExceptionFileNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File has a zero length..
+        /// </summary>
+        internal static string ExceptionFileZeroLength {
+            get {
+                return ResourceManager.GetString("ExceptionFileZeroLength", resourceCulture);
             }
         }
         

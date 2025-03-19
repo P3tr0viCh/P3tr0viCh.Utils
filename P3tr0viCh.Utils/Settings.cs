@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using static P3tr0viCh.Utils.Exceptions;
 
 namespace P3tr0viCh.Utils
 {
@@ -31,10 +32,7 @@ namespace P3tr0viCh.Utils
         private static string directory = string.Empty;
         public static string Directory
         {
-            get
-            {
-                return directory;
-            }
+            get => directory;
             set
             {
                 directory = value;
@@ -45,10 +43,7 @@ namespace P3tr0viCh.Utils
         private static string fileName = string.Empty;
         public static string FileName
         {
-            get
-            {
-                return fileName;
-            }
+            get => fileName;
             set
             {
                 fileName = value;
@@ -252,9 +247,9 @@ namespace P3tr0viCh.Utils
 
             try
             {
-                if (!File.Exists(FilePath)) throw new FileNotFoundException();
+                Files.CheckFileExists(FilePath);
 
-                if (Files.FileLength(FilePath) == 0) throw new DivideByZeroException();
+                if (Files.FileLength(FilePath) == 0) throw new FileZeroLengthException();
 
                 using (var reader = File.OpenText(FilePath))
                 {

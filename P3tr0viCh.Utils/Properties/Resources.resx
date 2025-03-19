@@ -126,8 +126,14 @@
   <data name="ExceptionDirectoryNotExists" xml:space="preserve">
     <value>Directory '{0}' not exists or path empty.</value>
   </data>
+  <data name="ExceptionFileBadFormat" xml:space="preserve">
+    <value>File has an bad format.</value>
+  </data>
   <data name="ExceptionFileNotExists" xml:space="preserve">
     <value>File '{0}' not exists or path empty.</value>
+  </data>
+  <data name="ExceptionFileZeroLength" xml:space="preserve">
+    <value>File has a zero length.</value>
   </data>
   <data name="FrmAboutBtnOk" xml:space="preserve">
     <value>OK</value>

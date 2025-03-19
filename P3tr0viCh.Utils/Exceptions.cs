@@ -26,6 +26,20 @@ namespace P3tr0viCh.Utils
             }
         }
 
+        public class FileBadFormatException : FileNotFoundException
+        {
+            public FileBadFormatException() : base(Resources.ExceptionFileBadFormat) { }
+            public FileBadFormatException(string message) : base(message) { }
+            public FileBadFormatException(string message, string fileName) : base(message, fileName) { }
+        }
+
+        public class FileZeroLengthException : FileBadFormatException
+        {
+            public FileZeroLengthException() : base(Resources.ExceptionFileZeroLength) { }
+            public FileZeroLengthException(string message) : base(message) { }
+            public FileZeroLengthException(string message, string fileName) : base(message, fileName) { }
+        }
+
         public class HttpStatusCodeException : Exception
         {
             public HttpStatusCodeException() : base() { }
