@@ -11,7 +11,7 @@ namespace P3tr0viCh.Utils
         {
             public FileNotExistsException() : base() { }
 
-            public FileNotExistsException(string fileName) : base(Resources.ExceptionFileNotExists, fileName) { }
+            public FileNotExistsException(string fileName) : base(string.Format(Resources.ExceptionFileNotExists, fileName)) { }
         }
 
         public class DirectoryNotExistsException : DirectoryNotFoundException
