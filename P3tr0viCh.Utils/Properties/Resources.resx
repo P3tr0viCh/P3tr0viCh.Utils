@@ -121,7 +121,13 @@
     <value>SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};</value>
   </data>
   <data name="ConnectionStringMySql" xml:space="preserve">
-    <value>SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};</value>
+    <value>SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};SSL MODE={5};</value>
+  </data>
+  <data name="ConnectionStringMySqlSslNone" xml:space="preserve">
+    <value>NONE</value>
+  </data>
+  <data name="ConnectionStringMySqlSslPreferred" xml:space="preserve">
+    <value>PREFERRED</value>
   </data>
   <data name="ExceptionDirectoryNotExists" xml:space="preserve">
     <value>Directory '{0}' not exists or path empty.</value>

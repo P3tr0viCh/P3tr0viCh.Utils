@@ -1,5 +1,6 @@
 ﻿using P3tr0viCh.Utils.Properties;
 using System.ComponentModel;
+using static P3tr0viCh.Utils.Converters;
 
 namespace P3tr0viCh.Utils
 {
@@ -43,10 +44,19 @@ namespace P3tr0viCh.Utils
             public const string DefaultHost = "localhost";
             public const int DefaultPort = 3306;
 
+            public const bool DefaultUseSsl = true;
+
+            [PropertyOrder(300)]
+            [TypeConverter(typeof(BooleanTypeOnOffConverter))]
+            [LocalizedAttribute.DisplayName("Connection.UseSsl.DisplayName", "Properties.Resources.Utils")]
+            public bool UseSsl { get; set; }
+
             public ConnectionMySql()
             {
                 Host = DefaultHost;
                 Port = DefaultPort;
+
+                UseSsl = DefaultUseSsl;
             }
 
             public override string ConnectionString()
@@ -55,7 +65,8 @@ namespace P3tr0viCh.Utils
                     Host.IsEmpty() ? DefaultHost : Host,
                     Port == 0 ? DefaultPort : Port,
                     Database,
-                    Login.User, Login.Password);
+                    Login.User, Login.Password,
+                    UseSsl ? Resources.ConnectionStringMySqlSslPreferred : Resources.ConnectionStringMySqlSslNone);
             }
         }
 

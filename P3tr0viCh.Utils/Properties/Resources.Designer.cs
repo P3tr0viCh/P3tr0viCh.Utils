@@ -70,11 +70,29 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};.
+        ///   Looks up a localized string similar to SERVER={0};PORT={1};DATABASE={2};USER={3};PASSWORD={4};SSL MODE={5};.
         /// </summary>
         internal static string ConnectionStringMySql {
             get {
                 return ResourceManager.GetString("ConnectionStringMySql", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NONE.
+        /// </summary>
+        internal static string ConnectionStringMySqlSslNone {
+            get {
+                return ResourceManager.GetString("ConnectionStringMySqlSslNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PREFERRED.
+        /// </summary>
+        internal static string ConnectionStringMySqlSslPreferred {
+            get {
+                return ResourceManager.GetString("ConnectionStringMySqlSslPreferred", resourceCulture);
             }
         }
         
