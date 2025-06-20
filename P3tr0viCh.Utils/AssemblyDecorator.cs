@@ -33,6 +33,9 @@ namespace P3tr0viCh.Utils
                 var assemblyConfiguration = (AssemblyConfigurationAttribute)assembly.GetCustomAttribute(typeof(AssemblyConfigurationAttribute));
                 IsDebug = "Debug".Equals(assemblyConfiguration.Configuration);
 
+                var assemblyTitle = (AssemblyTitleAttribute)assembly.GetCustomAttribute(typeof(AssemblyTitleAttribute));
+                Title = assemblyTitle.Title;
+
                 var assemblyProduct = (AssemblyProductAttribute)assembly.GetCustomAttribute(typeof(AssemblyProductAttribute));
                 Product = assemblyProduct.Product;
 
@@ -44,6 +47,7 @@ namespace P3tr0viCh.Utils
         public bool IsDebug { get; private set; }
 
         public Version Version { get; private set; }
+        public string Title { get; private set; }
 
         public string Product { get; private set; }
 

@@ -86,7 +86,7 @@ namespace P3tr0viCh.Utils
 
                     var assemblyDecorator = new AssemblyDecorator();
 
-                    appName = assemblyDecorator.Product;
+                    appName = assemblyDecorator.Title;
                     copyright = assemblyDecorator.Copyright;
 
                     linkLink = options.Link;
