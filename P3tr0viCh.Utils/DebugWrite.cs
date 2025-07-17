@@ -7,9 +7,9 @@ namespace P3tr0viCh.Utils
     public class DebugWrite
     {
         [Conditional("DEBUG")]
-        public static void Line(string s, [CallerMemberName] string memberName = "")
+        public static void Line(object o, [CallerMemberName] string memberName = "")
         {
-            Debug.WriteLine($"{memberName}: {s}");
+            Debug.WriteLine($"{memberName}: {o}");
         }
 
         [Conditional("DEBUG")]
