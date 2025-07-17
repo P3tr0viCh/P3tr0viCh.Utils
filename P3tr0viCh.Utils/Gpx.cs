@@ -8,8 +8,6 @@ namespace P3tr0viCh.Utils
 {
     public static class Gpx
     {
-        public const string DATETIME_FORMAT_GPX = "yyyy-MM-ddTHH:mm:ssZ";
-
         public class Point
         {
             public int Num { get; set; } = 0;
@@ -211,7 +209,7 @@ namespace P3tr0viCh.Utils
                             Lat = Misc.DoubleParseInvariant(trkpt.Attributes["lat"].Value),
                             Lng = Misc.DoubleParseInvariant(trkpt.Attributes["lon"].Value),
 
-                            DateTime = Misc.DateTimeParse(XmlGetText(trkpt["time"]), DATETIME_FORMAT_GPX),
+                            DateTime = Misc.DateTimeParse(XmlGetText(trkpt["time"])),
 
                             Ele = Misc.FloatParseInvariant(XmlGetText(trkpt["ele"]))
                         });

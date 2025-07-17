@@ -23,13 +23,19 @@ namespace P3tr0viCh.Utils
             return value.ToString();
         }
 
-        public static DateTime DateTimeParse(string str, string format, DateTime def = default)
+        public static DateTime DateTimeParse(string str, DateTime def = default)
+        {
+            return DateTime.TryParse(str, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal,
+                out DateTime result) ? result : def;
+        }
+
+        public static DateTime DateTimeParseExact(string str, string format, DateTime def = default)
         {
             return DateTime.TryParseExact(str, format, null, DateTimeStyles.AssumeLocal,
                 out DateTime result) ? result : def;
         }
 
-        public static double DoubleParse(string str, double def = 0.0, bool DecimalIsDot = false)
+        public static double DoubleParse(string str, double def = 0.0)
         {
             return double.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.CurrentCulture,
                 out double result) ? result : def;
