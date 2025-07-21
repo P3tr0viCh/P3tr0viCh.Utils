@@ -94,6 +94,8 @@ namespace P3tr0viCh.Utils
 
             public float EleAscent { get; set; } = 0;
 
+            private bool calcEleAscent = true;
+
             public List<Point> Points { get; set; } = null;
 
             private float GetAverageSpeed()
@@ -122,6 +124,8 @@ namespace P3tr0viCh.Utils
 
                 EleAscent = 0;
 
+                calcEleAscent = true;
+
                 Points = null;
             }
 
@@ -147,6 +151,7 @@ namespace P3tr0viCh.Utils
                 AverageSpeed = source.AverageSpeed;
 
                 EleAscent = source.EleAscent;
+                calcEleAscent = source.calcEleAscent;
 
                 if (source.Points == null)
                 {
@@ -192,6 +197,15 @@ namespace P3tr0viCh.Utils
 
                 Text = trkname;
 
+                var eleAscentText = XmlGetText(trackXml.DocumentElement["trk"]?["extensions"]?["eleascent"]);
+
+                calcEleAscent = eleAscentText.IsEmpty();
+
+                if (!calcEleAscent)
+                {
+                    EleAscent = Misc.FloatParseInvariant(eleAscentText);
+                }
+
                 Points = new List<Point>();
 
                 var trkptList = trackXml.GetElementsByTagName("trkpt");
@@ -221,7 +235,6 @@ namespace P3tr0viCh.Utils
 
             public void NotifyPointsChanged()
             {
-
                 if (Points.Count < 2)
                 {
                     throw new Exception("empty track");
@@ -232,6 +245,11 @@ namespace P3tr0viCh.Utils
                 Distance = 0;
 
                 AverageSpeed = 0;
+
+                if (calcEleAscent)
+                {
+                    EleAscent = 0;
+                }
 
                 var pointPrev = Points.First();
 
@@ -260,9 +278,12 @@ namespace P3tr0viCh.Utils
                         DurationInMove += pointDuration;
                     }
 
-                    if (pointSpeed > 0.1 && point.Ele > pointPrev.Ele)
+                    if (calcEleAscent)
                     {
-                        EleAscent += point.Ele - pointPrev.Ele;
+                        if (pointSpeed > 0.1 && point.Ele > pointPrev.Ele)
+                        {
+                            EleAscent += point.Ele - pointPrev.Ele;
+                        }
                     }
 
                     pointPrev = point;
