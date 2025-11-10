@@ -163,5 +163,57 @@ namespace P3tr0viCh.Utils
                 xml.Close();
             }
         }
+
+        public void ReadFromExcelXml()
+        {
+            if (Table == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            int col = 0;
+
+            DataRow row = null;
+
+            bool isValue = false;
+
+            using (var xml = new XmlTextReader(FileName))
+            {
+                while (xml.Read())
+                {
+                    switch (xml.NodeType)
+                    {
+                        case XmlNodeType.Element when xml.Name == "Row":
+                            col = 0;
+
+                            row = Table.NewRow();
+
+                            break;
+                        case XmlNodeType.EndElement when xml.Name == "Row":
+                            Table.Rows.Add(row);
+
+                            break;
+                        case XmlNodeType.EndElement when xml.Name == "Cell":
+                            col++;
+
+                            break;
+                        case XmlNodeType.Element when xml.Name == "Data":
+                            isValue = true;
+
+                            break;
+                        case XmlNodeType.EndElement when xml.Name == "Data":
+                            isValue = false;
+
+                            break;
+                        case XmlNodeType.Text when isValue:
+                            row[col] = xml.Value;
+
+                            break;
+                    }
+                }
+            }
+
+            Table.Rows.RemoveAt(0);
+        }
     }
 }
