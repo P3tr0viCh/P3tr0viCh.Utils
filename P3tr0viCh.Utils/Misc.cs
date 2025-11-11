@@ -47,7 +47,7 @@ namespace P3tr0viCh.Utils
                 out double result) ? result : def;
         }
 
-        public static bool DoubleCheck(string str, bool DecimalIsDot = false)
+        public static bool DoubleCheck(string str)
         {
             return double.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.CurrentCulture,
                 out _);

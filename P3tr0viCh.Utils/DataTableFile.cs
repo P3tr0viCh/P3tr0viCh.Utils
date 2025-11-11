@@ -1,7 +1,7 @@
-﻿using System.Data;
-using System.Xml;
+﻿using System;
+using System.Data;
 using System.Text;
-using System;
+using System.Xml;
 
 namespace P3tr0viCh.Utils
 {
@@ -18,35 +18,38 @@ namespace P3tr0viCh.Utils
 
         public string Author { get; set; }
 
-        private static void XmlExcelWriteCell(XmlTextWriter xml, object value)
+        private static string GetCellType(object value)
         {
-            string type;
-
-            string styleId = string.Empty;
-
             if (value is int || value is long || value is float || value is double || value is decimal)
             {
-                type = "Number";
+                return "Number";
             }
-            else
+            if (value is bool)
             {
-                if (value is bool)
-                {
-                    type = "Boolean";
-                }
-                else
-                {
-                    if (value is DateTime)
-                    {
-                        type = "DateTime";
-                        styleId = EXCEL_XML_DATETIME_FORMAT_STYLE_ID;
-                    }
-                    else
-                    {
-                        type = "String";
-                    }
-                }
+                return "Boolean";
             }
+            if (value is DateTime)
+            {
+                return "DateTime";
+            }
+            return "String";
+        }
+
+        private static string GetCellStyleId(object value)
+        {
+            if (value is DateTime)
+            {
+                return EXCEL_XML_DATETIME_FORMAT_STYLE_ID;
+            }
+
+            return string.Empty;
+        }
+
+        private static void XmlExcelWriteCell(XmlTextWriter xml, object value)
+        {
+            var type = GetCellType(value);
+
+            var styleId = GetCellStyleId(value);
 
             xml.WriteStartElement("Cell");
 
@@ -71,6 +74,7 @@ namespace P3tr0viCh.Utils
 
                 xml.WriteEndElement();
             }
+
             xml.WriteEndElement();
         }
 
@@ -164,6 +168,36 @@ namespace P3tr0viCh.Utils
             }
         }
 
+        private object GetValue(int col, string value)
+        {
+            var type = Table.Columns[col].DataType;
+
+            DebugWrite.Line($"{type.Name}: {value}");
+
+            if (type.Name == nameof(String))
+            {
+                return value;
+            }
+            if (type.Name == nameof(Int32))
+            {
+                return int.Parse(value);
+            }
+            if (type.Name == nameof(Double))
+            {
+                return Misc.DoubleParseInvariant(value);
+            }
+            if (type.Name == nameof(Boolean))
+            {
+                return value == "1";
+            }
+            if (type.Name == nameof(DateTime))
+            {
+                return DateTime.Parse(value);
+            }
+
+            throw new NotImplementedException(type.Name);
+        }
+
         public void ReadFromExcelXml()
         {
             if (Table == null)
@@ -175,6 +209,8 @@ namespace P3tr0viCh.Utils
 
             DataRow row = null;
 
+            bool isData = false;
+
             bool isValue = false;
 
             using (var xml = new XmlTextReader(FileName))
@@ -183,13 +219,17 @@ namespace P3tr0viCh.Utils
                 {
                     switch (xml.NodeType)
                     {
-                        case XmlNodeType.Element when xml.Name == "Row":
+                        case XmlNodeType.Element when xml.Name == "Row" && isData:
                             col = 0;
 
                             row = Table.NewRow();
 
                             break;
-                        case XmlNodeType.EndElement when xml.Name == "Row":
+                        case XmlNodeType.EndElement when xml.Name == "Row" && !isData:
+                            isData = true;
+
+                            break;
+                        case XmlNodeType.EndElement when xml.Name == "Row" && isData:
                             Table.Rows.Add(row);
 
                             break;
@@ -205,15 +245,13 @@ namespace P3tr0viCh.Utils
                             isValue = false;
 
                             break;
-                        case XmlNodeType.Text when isValue:
-                            row[col] = xml.Value;
+                        case XmlNodeType.Text when isValue && isData:
+                            row[col] = GetValue(col, xml.Value);
 
                             break;
                     }
                 }
             }
-
-            Table.Rows.RemoveAt(0);
         }
     }
 }
