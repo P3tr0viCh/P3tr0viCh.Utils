@@ -172,8 +172,6 @@ namespace P3tr0viCh.Utils
         {
             var type = Table.Columns[col].DataType;
 
-            DebugWrite.Line($"{type.Name}: {value}");
-
             if (type.Name == nameof(String))
             {
                 return value;
@@ -195,7 +193,7 @@ namespace P3tr0viCh.Utils
                 return DateTime.Parse(value);
             }
 
-            throw new NotImplementedException(type.Name);
+            throw new NotImplementedException($"{type.Name}: {value}");
         }
 
         public void ReadFromExcelXml()
