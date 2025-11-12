@@ -104,11 +104,16 @@ namespace P3tr0viCh.Utils
                 Directory.Delete(path, true);
             }
         }
+        
+        public static string RemoveLastSeparatorChar(this string path)
+        {
+            return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
 
         public static string PathNormalize(string path)
         {
             return Path.GetFullPath(new Uri(path).LocalPath)
-                       .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                       .RemoveLastSeparatorChar()
                        .ToUpperInvariant();
         }
 
