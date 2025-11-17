@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Data;
 using System.Text;
 using System.Xml;
@@ -18,26 +19,38 @@ namespace P3tr0viCh.Utils
 
         public string Author { get; set; }
 
-        private static string GetCellType(object value)
+        private static string GetCellType(Type type)
         {
-            if (value is int || value is long || value is float || value is double || value is decimal)
+            //DebugWrite.Line(type.Name);
+
+            if (type.Name == nameof(String))
+            {
+                return "String";
+            }
+            if (type.Name == nameof(Int32) ||
+                type.Name == nameof(Single) ||
+                type.Name == nameof(Double) ||
+                type.Name == nameof(Int16) ||
+                type.Name == nameof(Int64) ||
+                type.Name == nameof(Decimal))
             {
                 return "Number";
             }
-            if (value is bool)
+            if (type.Name == nameof(Boolean))
             {
                 return "Boolean";
             }
-            if (value is DateTime)
+            if (type.Name == nameof(DateTime))
             {
                 return "DateTime";
             }
-            return "String";
+
+            throw new NotImplementedException($"{type.Name}");
         }
 
-        private static string GetCellStyleId(object value)
+        private static string GetCellStyleId(Type type)
         {
-            if (value is DateTime)
+            if (type.Name == nameof(DateTime))
             {
                 return EXCEL_XML_DATETIME_FORMAT_STYLE_ID;
             }
@@ -45,11 +58,11 @@ namespace P3tr0viCh.Utils
             return string.Empty;
         }
 
-        private static void XmlExcelWriteCell(XmlTextWriter xml, object value)
+        private static void XmlExcelWriteCell(XmlTextWriter xml, Type type, object value)
         {
-            var type = GetCellType(value);
+            var typeName = GetCellType(type);
 
-            var styleId = GetCellStyleId(value);
+            var styleId = GetCellStyleId(type);
 
             xml.WriteStartElement("Cell");
 
@@ -61,15 +74,22 @@ namespace P3tr0viCh.Utils
             {
                 xml.WriteStartElement("Data");
 
-                xml.WriteAttributeString("ss:Type", type);
+                xml.WriteAttributeString("ss:Type", typeName);
 
-                if (value is bool b)
+                if (value is DBNull)
                 {
-                    xml.WriteString(b ? "1" : "0");
+                    xml.WriteValue(string.Empty);
                 }
                 else
                 {
-                    xml.WriteValue(value);
+                    if (value is bool b)
+                    {
+                        xml.WriteString(b ? "1" : "0");
+                    }
+                    else
+                    {
+                        xml.WriteValue(value);
+                    }
                 }
 
                 xml.WriteEndElement();
@@ -137,20 +157,26 @@ namespace P3tr0viCh.Utils
 
                 xml.WriteStartElement("Row");
                 {
-                    foreach (DataColumn col in Table.Columns)
+                    foreach (DataColumn column in Table.Columns)
                     {
-                        XmlExcelWriteCell(xml, col.ColumnName);
+                        XmlExcelWriteCell(xml, typeof(string), column.ColumnName);
                     }
                 }
                 xml.WriteEndElement();
+
+                int col;
 
                 foreach (DataRow row in Table.Rows)
                 {
                     xml.WriteStartElement("Row");
                     {
+                        col = 0;
+
                         foreach (var cell in row.ItemArray)
                         {
-                            XmlExcelWriteCell(xml, cell);
+                            XmlExcelWriteCell(xml, Table.Columns[col].DataType, cell);
+
+                            col++;
                         }
                     }
                     xml.WriteEndElement();
@@ -179,6 +205,10 @@ namespace P3tr0viCh.Utils
             if (type.Name == nameof(Int32))
             {
                 return int.Parse(value);
+            }
+            if (type.Name == nameof(Single))
+            {
+                return Misc.FloatParseInvariant(value);
             }
             if (type.Name == nameof(Double))
             {
