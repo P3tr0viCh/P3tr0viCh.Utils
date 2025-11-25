@@ -1,4 +1,5 @@
-﻿using P3tr0viCh.Utils.Properties;
+﻿using Newtonsoft.Json;
+using P3tr0viCh.Utils.Properties;
 using System.ComponentModel;
 using static P3tr0viCh.Utils.Converters;
 
@@ -8,7 +9,7 @@ namespace P3tr0viCh.Utils
     {
         public interface IConnection
         {
-            string ConnectionString();
+            string ConnectionString { get; }
         }
 
         [TypeConverter(typeof(PropertySortedConverter))]
@@ -18,7 +19,9 @@ namespace P3tr0viCh.Utils
             [PropertyOrder(300)]
             public Login Login { get; set; } = new Login();
 
-            public abstract string ConnectionString();
+            [JsonIgnore]
+            [Browsable(false)]
+            public abstract string ConnectionString { get; }
         }
 
         public abstract class ConnectionServer : Connection
@@ -59,15 +62,13 @@ namespace P3tr0viCh.Utils
                 UseSsl = DefaultUseSsl;
             }
 
-            public override string ConnectionString()
-            {
-                return string.Format(Resources.ConnectionStringMySql,
+            public override string ConnectionString =>
+                string.Format(Resources.ConnectionStringMySql,
                     Host.IsEmpty() ? DefaultHost : Host,
                     Port == 0 ? DefaultPort : Port,
                     Database,
                     Login.User, Login.Password,
                     UseSsl ? Resources.ConnectionStringMySqlSslPreferred : Resources.ConnectionStringMySqlSslNone);
-            }
         }
 
         public class ConnectionFireBird : ConnectionServerDatabase
@@ -87,14 +88,12 @@ namespace P3tr0viCh.Utils
                 Port = DefaultPort;
             }
 
-            public override string ConnectionString()
-            {
-                return string.Format(Resources.ConnectionFireBird,
+            public override string ConnectionString =>
+                string.Format(Resources.ConnectionFireBird,
                     Host.IsEmpty() ? DefaultHost : Host,
                     Port == 0 ? DefaultPort : Port,
                     Database,
                     Login.User, Login.Password);
-            }
         }
     }
 }
