@@ -64,5 +64,17 @@ namespace P3tr0viCh.Utils
 
             return sql;
         }
+
+        private readonly static string DataQuery = "QUERY";
+
+        public static void ExceptionAddQuery(Exception e, string query)
+        {
+            e.Data.Add(DataQuery, query);
+        }
+
+        public static string ExceptionGetQuery(Exception e)
+        {
+            return Convert.ToString(e?.Data[DataQuery]);
+        }
     }
 }
