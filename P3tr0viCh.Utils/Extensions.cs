@@ -74,4 +74,17 @@ namespace P3tr0viCh.Utils
             timer.Start();
         }
     }
+
+    public static class DataGridViewExtensions
+    {
+        public static bool ColumnExists(this DataGridView dataGridView, int index)
+        {
+            return dataGridView.Columns[index] != null;
+        }
+
+        public static bool ColumnExists(this DataGridView dataGridView, string columnName)
+        {
+            return dataGridView.Columns[columnName] != null;
+        }
+    }
 }
