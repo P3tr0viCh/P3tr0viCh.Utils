@@ -20,10 +20,7 @@ namespace P3tr0viCh.Utils
 
         public Assembly Assembly
         {
-            get
-            {
-                return assembly;
-            }
+            get => assembly;
             set
             {
                 assembly = value;
@@ -47,6 +44,7 @@ namespace P3tr0viCh.Utils
         public bool IsDebug { get; private set; }
 
         public Version Version { get; private set; }
+
         public string Title { get; private set; }
 
         public string Product { get; private set; }

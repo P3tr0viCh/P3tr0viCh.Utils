@@ -3,36 +3,42 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using static P3tr0viCh.Utils.WindowMessages;
 
 namespace P3tr0viCh.Utils
 {
-    public static class AppOneInstance
+    public class AppOneInstance
     {
-        private static string GetGuid()
+        private readonly Mutex mutex;
+        private readonly WindowMessage messageShowApplication;
+
+        private string GetGuid()
         {
             return new AssemblyDecorator().Assembly.GetCustomAttribute<GuidAttribute>().Value;
         }
 
-        private static readonly Mutex mutex = new Mutex(true, GetGuid());
-
-        public static bool IsFirstInstance()
+        public AppOneInstance()
         {
-            return mutex.WaitOne(TimeSpan.Zero, true);
+            mutex = new Mutex(true, GetGuid());
+
+            messageShowApplication = new WindowMessage($"{GetGuid()}.WM_SHOWAPPLICATION");
         }
 
-        public static void Exit() {
+        public bool IsFirstInstance => mutex.WaitOne(TimeSpan.Zero, true);
+
+        public void Release()
+        {
             mutex.ReleaseMutex();
         }
 
-        public static readonly int WM_SHOWAPPLICATION = NativeMethods.RegisterWindowMessage($"{GetGuid()}.WM_SHOWAPPLICATION");
-
-        public static void ShowExistsInstance() {
-            NativeMethods.PostMessage(NativeMethods.HWND_BROADCAST, WM_SHOWAPPLICATION, IntPtr.Zero, IntPtr.Zero);
-        }
-
-        public static void CheckAndShowApplication(Message m, Form form)
+        public void ShowExistsInstance()
         {
-            if (m.Msg == WM_SHOWAPPLICATION)
+            messageShowApplication.PostMessage();
+        }
+  
+        public void CheckMessage(Message m, Form form)
+        {
+            if (m.Msg == messageShowApplication.Id)
             {
                 var handle = Application.OpenForms.Count == 1 ? form.Handle : Application.OpenForms[1].Handle;
 
