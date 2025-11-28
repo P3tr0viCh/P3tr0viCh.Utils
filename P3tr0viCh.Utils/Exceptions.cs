@@ -11,8 +11,12 @@ namespace P3tr0viCh.Utils
         {
             public FileNotExistsException() : base() { }
 
+            public FileNotExistsException(string message, string fileName) :
+                base(string.Format(message, fileName), fileName)
+            { }
+
             public FileNotExistsException(string fileName) :
-                base(string.Format(Resources.ExceptionFileNotExists, fileName), fileName)
+                this(Resources.ExceptionFileNotExists, fileName)
             { }
         }
 
@@ -22,11 +26,15 @@ namespace P3tr0viCh.Utils
 
             public DirectoryNotExistsException() : base() { }
 
-            public DirectoryNotExistsException(string path) :
-                base(string.Format(Resources.ExceptionDirectoryNotExists, path))
+            public DirectoryNotExistsException(string message, string path) :
+                base(string.Format(message, path))
             {
                 Path = path;
             }
+
+            public DirectoryNotExistsException(string path) :
+                this(Resources.ExceptionDirectoryNotExists, path)
+            { }
         }
 
         public class FileBadFormatException : FileNotFoundException
