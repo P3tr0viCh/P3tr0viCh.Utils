@@ -3,14 +3,14 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using static P3tr0viCh.Utils.WindowMessages;
+using static P3tr0viCh.Utils.UserMessages;
 
 namespace P3tr0viCh.Utils
 {
     public class AppOneInstance
     {
         private readonly Mutex mutex;
-        private readonly WindowMessage messageShowApplication;
+        private readonly UserMessage messageShowApplication;
 
         private string GetGuid()
         {
@@ -21,7 +21,7 @@ namespace P3tr0viCh.Utils
         {
             mutex = new Mutex(true, GetGuid());
 
-            messageShowApplication = new WindowMessage($"{GetGuid()}.WM_SHOWAPPLICATION");
+            messageShowApplication = new UserMessage($"{GetGuid()}.WM_SHOWAPPLICATION");
         }
 
         public bool IsFirstInstance => mutex.WaitOne(TimeSpan.Zero, true);
