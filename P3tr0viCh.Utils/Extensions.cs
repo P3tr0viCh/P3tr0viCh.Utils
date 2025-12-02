@@ -92,4 +92,12 @@ namespace P3tr0viCh.Utils
     {
         public static bool NextBool(this Random random) => random.Next(2) == 0;
     }
+
+    public static class ContextMenuStripExtensions
+    {
+        public static void ShowFromButton(this ContextMenuStrip contextMenuStrip, Button button)
+        {
+            contextMenuStrip.Show(button.PointToScreen(new Point(0, button.Height)));
+        }
+    }
 }
