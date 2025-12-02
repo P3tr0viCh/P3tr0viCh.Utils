@@ -87,4 +87,9 @@ namespace P3tr0viCh.Utils
             return dataGridView.Columns[columnName] != null;
         }
     }
+
+    public static class RandomExtensions
+    {
+        public static bool NextBool(this Random random) => random.Next(2) == 0;
+    }
 }
