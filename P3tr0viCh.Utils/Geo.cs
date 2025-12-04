@@ -8,12 +8,12 @@ namespace P3tr0viCh.Utils
 
         public static double RadToDeg(double radians)
         {
-            return (180 / Math.PI) * radians;
+            return radians * (180 / Math.PI);
         }
 
         public static double DegToRad(double degrees)
         {
-            return (Math.PI / 180) * degrees;
+            return degrees * (Math.PI / 180);
         }
 
         public static double Haversine(double lat1, double lng1, double lat2, double lng2)
@@ -42,7 +42,7 @@ namespace P3tr0viCh.Utils
             return C * EARTH_RADIUS;
         }
 
-        public static double LongitudeLenghtForLatitude(double lat)
+        public static double LongitudeLengthForLatitude(double lat)
         {
             return 1 / (111319.44 * Math.Cos(DegToRad(lat)));
         }
