@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Data;
 using System.Text;
 using System.Xml;
@@ -8,10 +7,10 @@ namespace P3tr0viCh.Utils
 {
     public class DataTableFile
     {
-        public const string DATETIME_FORMAT_XML = "yyyy-MM-ddTHH:mm:ssZ";
+        public const string DateTimeFormatXml = "yyyy-MM-ddTHH:mm:ssZ";
 
-        private const string EXCEL_XML_DATETIME_FORMAT_STYLE = "yyyy/mm/dd\\ hh:mm:ss;@";
-        private const string EXCEL_XML_DATETIME_FORMAT_STYLE_ID = "s63";
+        private const string ExcelXmlDateTimeFormatStyle = "yyyy/mm/dd\\ hh:mm:ss;@";
+        private const string ExcelXmlDateTimeFormatStyleID = "s63";
 
         public string FileName { get; set; }
 
@@ -52,7 +51,7 @@ namespace P3tr0viCh.Utils
         {
             if (type.Name == nameof(DateTime))
             {
-                return EXCEL_XML_DATETIME_FORMAT_STYLE_ID;
+                return ExcelXmlDateTimeFormatStyleID;
             }
 
             return string.Empty;
@@ -110,7 +109,7 @@ namespace P3tr0viCh.Utils
                 xml.Formatting = Formatting.Indented;
                 xml.Indentation = 2;
 
-                var now = DateTime.UtcNow.ToString(DATETIME_FORMAT_XML);
+                var now = DateTime.UtcNow.ToString(DateTimeFormatXml);
 
                 xml.WriteStartDocument();
                 xml.WriteProcessingInstruction("mso-application", "progid=\"Excel.Sheet\"");
@@ -137,10 +136,10 @@ namespace P3tr0viCh.Utils
                 {
                     xml.WriteStartElement("Style");
                     {
-                        xml.WriteAttributeString("ss:ID", EXCEL_XML_DATETIME_FORMAT_STYLE_ID);
+                        xml.WriteAttributeString("ss:ID", ExcelXmlDateTimeFormatStyleID);
                         xml.WriteStartElement("NumberFormat");
                         {
-                            xml.WriteAttributeString("ss:Format", EXCEL_XML_DATETIME_FORMAT_STYLE);
+                            xml.WriteAttributeString("ss:Format", ExcelXmlDateTimeFormatStyle);
                         }
                         xml.WriteEndElement();
                     }

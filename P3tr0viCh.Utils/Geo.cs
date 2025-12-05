@@ -4,7 +4,7 @@ namespace P3tr0viCh.Utils
 {
     public static class Geo
     {
-        public const int EARTH_RADIUS = 6372795;
+        public const int EarthRadius = 6372795;
 
         public static double RadToDeg(double radians)
         {
@@ -28,18 +28,18 @@ namespace P3tr0viCh.Utils
             lat2 = DegToRad(lat2);
             lng2 = DegToRad(lng2);
 
-            double deltaLat = lat2 - lat1;
-            double deltaLng = lng2 - lng1;
+            var deltaLat = lat2 - lat1;
+            var deltaLng = lng2 - lng1;
 
-            double sinDeltaLat = Math.Sin(deltaLat / 2.0);
-            double sinDeltaLng = Math.Sin(deltaLng / 2.0);
+            var sinDeltaLat = Math.Sin(deltaLat / 2.0);
+            var sinDeltaLng = Math.Sin(deltaLng / 2.0);
 
-            double A = sinDeltaLat * sinDeltaLat +
+            var a = sinDeltaLat * sinDeltaLat +
                 Math.Cos(lat1) * Math.Cos(lat2) * sinDeltaLng * sinDeltaLng;
 
-            double C = 2.0 * Math.Asin(Math.Min(1, Math.Sqrt(A)));
+            var c = 2.0 * Math.Asin(Math.Min(1, Math.Sqrt(a)));
 
-            return C * EARTH_RADIUS;
+            return c * EarthRadius;
         }
 
         public static double LongitudeLengthForLatitude(double lat)
