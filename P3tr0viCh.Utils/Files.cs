@@ -8,6 +8,8 @@ namespace P3tr0viCh.Utils
 {
     public static class Files
     {
+        public const string P3tr0viCh = "P3tr0viCh";
+
         public const string ExtConfig = "config";
         public const string ExtSqLite = "sqlite";
 
@@ -28,7 +30,7 @@ namespace P3tr0viCh.Utils
 
         public static string AppDataLocalDirectory()
         {
-            return AppDataLocalDirectory(ExecutableName());
+            return AppDataLocalDirectory(Path.Combine(P3tr0viCh, ExecutableName()));
         }
 
         public static string AppDataRoamingDirectory(string dir)
@@ -38,17 +40,17 @@ namespace P3tr0viCh.Utils
 
         public static string AppDataRoamingDirectory()
         {
-            return AppDataRoamingDirectory(ExecutableName());
+            return AppDataRoamingDirectory(Path.Combine(P3tr0viCh, ExecutableName()));
         }
 
-        public static string AppDataCommonDirectory(string dir)
+        public static string ProgramDataDirectory(string dir)
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), dir);
         }
 
-        public static string AppDataCommonDirectory()
+        public static string ProgramDataDirectory()
         {
-            return AppDataCommonDirectory(ExecutableName());
+            return ProgramDataDirectory(Path.Combine(P3tr0viCh, ExecutableName()));
         }
 
         public static string SettingsFileName(string fileName)
@@ -73,7 +75,7 @@ namespace P3tr0viCh.Utils
 
         public static string TempDirectory()
         {
-            var dir = Path.Combine(Path.GetTempPath(), ExecutableName());
+            var dir = Path.Combine(Path.GetTempPath(), P3tr0viCh, ExecutableName());
 
             Directory.CreateDirectory(dir);
 
