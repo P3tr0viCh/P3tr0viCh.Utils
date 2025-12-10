@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace P3tr0viCh.Utils
 {
@@ -58,9 +59,21 @@ namespace P3tr0viCh.Utils
             return string.IsNullOrWhiteSpace(s);
         }
 
+        public static bool IsInt(this string s)
+        {
+            return int.TryParse(s, out _);
+        }
+
         public static string ReplaceEol(this string s)
         {
             return s.Replace("\r\n", Space).Replace("\n", Space).Replace("\r", Space);
+        }
+
+        public static string TrimText(this string s)
+        {
+            if (s.IsEmpty()) return null;
+
+            return s.Trim();
         }
     }
 }

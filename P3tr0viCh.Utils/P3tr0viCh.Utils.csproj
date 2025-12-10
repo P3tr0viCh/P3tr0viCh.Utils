@@ -57,6 +57,7 @@
     <Compile Include="DefaultInstance.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Formatters.cs" />
+    <Compile Include="FrmHelperExtensions.cs" />
     <Compile Include="Gpx.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="Crypto.cs" />
