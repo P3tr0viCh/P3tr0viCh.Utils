@@ -68,6 +68,7 @@
     <Compile Include="ImageBtn.cs" />
     <Compile Include="License.cs" />
     <Compile Include="LocalizedAttribute.cs" />
+    <Compile Include="LocalizedAttributes.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Misc.cs" />
