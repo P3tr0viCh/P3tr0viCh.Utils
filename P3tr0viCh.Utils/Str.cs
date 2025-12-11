@@ -65,11 +65,13 @@ namespace P3tr0viCh.Utils
 
         public static string ReplaceEol(this string s)
         {
-            return s.Replace("\r\n", Space).Replace("\n", Space).Replace("\r", Space);
+            return s?.Replace("\r\n", Space).Replace("\n", Space).Replace("\r", Space);
         }
 
         public static string TrimText(this string s)
         {
+            if (s == null) return null;
+
             if (s.IsEmpty()) return null;
 
             return s.Trim();
