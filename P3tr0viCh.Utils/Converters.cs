@@ -136,8 +136,8 @@ namespace P3tr0viCh.Utils
         public class BooleanTypeOnOffConverter : BooleanTypeConverter
         {
             public BooleanTypeOnOffConverter() : base(
-                Misc.GetResourceString("OnOffConverter.On", "Properties.Resources.Utils"),
-                Misc.GetResourceString("OnOffConverter.Off", "Properties.Resources.Utils"))
+                Misc.GetResourceString("OnOffConverter.On", LocalizedAttributes.ResourceName),
+                Misc.GetResourceString("OnOffConverter.Off", LocalizedAttributes.ResourceName))
             { }
         }
     }
