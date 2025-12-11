@@ -1,5 +1,4 @@
-﻿using P3tr0viCh.Utils.Properties;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
