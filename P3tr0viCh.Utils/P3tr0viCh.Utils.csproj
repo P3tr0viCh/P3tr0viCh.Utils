@@ -86,7 +86,6 @@
     </Compile>
     <Compile Include="PropertySortedConverter.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Sql.cs" />
     <Compile Include="Str.cs" />
     <Compile Include="TextInputBox.cs" />
     <Compile Include="UserMessages.cs" />
