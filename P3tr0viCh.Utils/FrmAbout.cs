@@ -28,6 +28,15 @@ namespace P3tr0viCh.Utils
 
             public string Link = string.Empty;
             public string LinkText = string.Empty;
+
+            public Options()
+            {
+            }
+
+            public Options(int appNameFontSize)
+            {
+                AppNameFontSize = appNameFontSize;
+            }
         }
 
         public static void Show(Options options = null)
@@ -246,5 +255,9 @@ namespace P3tr0viCh.Utils
                 frm.ShowDialog();
             }
         }
+
+        public static void Show() => Show(null);
+
+        public static void Show(int appNameFontSize) => Show(new Options(appNameFontSize));
     }
 }
