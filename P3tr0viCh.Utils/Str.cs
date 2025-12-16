@@ -63,6 +63,11 @@ namespace P3tr0viCh.Utils
             return int.TryParse(s, out _);
         }
 
+        public static bool IsDouble(this string s)
+        {
+            return double.TryParse(s, out _);
+        }
+
         public static string ReplaceEol(this string s)
         {
             return s?.Replace("\r\n", Space).Replace("\n", Space).Replace("\r", Space);

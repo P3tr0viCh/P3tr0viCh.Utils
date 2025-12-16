@@ -9,7 +9,28 @@ namespace P3tr0viCh.Utils
 
         public static bool IsInt(this TextBox textBox) => textBox.Text.IsInt();
 
+        public static bool IsDouble(this TextBox textBox) => textBox.Text.IsDouble();
+
         public static string GetTrimText(this TextBox textBox) => textBox.Text.TrimText();
+
+        public static double GetDouble(this TextBox textBox)
+        {
+            if (textBox.IsEmpty()) return 0.0;
+
+            return double.TryParse(textBox.Text, out var result) ? result : 0.0;
+        }
+
+        public static double? GetDoubleNullable(this TextBox textBox)
+        {
+            var result = GetDouble(textBox);
+
+            if (result == 0.0)
+            {
+                return null;
+            }
+
+            return result;
+        }
 
         public static int GetInt(this TextBox textBox)
         {
@@ -39,21 +60,33 @@ namespace P3tr0viCh.Utils
 
         public static bool GetBool(this CheckBox checkBox) => checkBox.Checked;
 
-        public static DateTime? GetDateTime(this DateTimePicker dateTimePicker)
+        public static bool? GetBoolNullable(this CheckBox checkBox)
         {
-            if (dateTimePicker.Checked)
-            {
-                return dateTimePicker.Value;
-            }
-            else
+            if (checkBox.CheckState == CheckState.Indeterminate) return null;
+
+            return checkBox.Checked;
+        }
+
+        public static DateTime GetDateTime(this DateTimePicker dateTimePicker)
+        {
+            return dateTimePicker.Checked ? dateTimePicker.Value : default;
+        }
+
+        public static DateTime? GetDateTimeNullable(this DateTimePicker dateTimePicker)
+        {
+            var result = GetDateTime(dateTimePicker);
+
+            if (result == default)
             {
                 return null;
             }
+
+            return result;
         }
 
         public static void SetText(this TextBox textBox, string value) => textBox.Text = value;
 
-        public static void SetInt(this TextBox textBox, int? value, bool showZero = false, bool showPlus = false)
+        public static void SetDouble(this TextBox textBox, double? value, bool showZero = false, bool showPlus = false)
         {
             if (value == 0)
             {
@@ -69,9 +102,14 @@ namespace P3tr0viCh.Utils
                 }
             }
         }
-        
+
+        public static void SetInt(this TextBox textBox, int? value, bool showZero = false, bool showPlus = false)
+        {
+            textBox.SetDouble(value, showZero, showPlus);
+        }
+
         public static void SetInt(this TextBox textBox, long? value, bool showZero = false, bool showPlus = false)
-        { 
+        {
             textBox.SetInt((int?)value, showZero, showPlus);
         }
 
