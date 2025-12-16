@@ -37,7 +37,7 @@ namespace P3tr0viCh.Utils
                 frm.MaximizeBox = false;
                 frm.MinimizeBox = false;
                 frm.Size = new Size(312, 152);
-                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowInTaskbar = false;
 
                 if (options.Caption.IsEmpty())
@@ -65,13 +65,13 @@ namespace P3tr0viCh.Utils
 
                 btnOk.Parent = frm;
                 btnOk.Font = frm.Font;
-                btnOk.SetBounds(104, 72, 88, 32);
+                btnOk.SetBounds(120, 72, 80, 32);
                 btnOk.Text = Resources.TextInputBoxBtnOk;
                 btnOk.Click += (sender, args) => BtnOk_Click(frm, textText, options.CanEmpty);
 
                 btnCancel.Parent = frm;
                 btnCancel.Font = frm.Font;
-                btnCancel.SetBounds(200, 72, 88, 32);
+                btnCancel.SetBounds(208, 72, 80, 32);
                 btnCancel.Text = Resources.TextInputBoxBtnCancel;
                 btnCancel.DialogResult = DialogResult.Cancel;
 
