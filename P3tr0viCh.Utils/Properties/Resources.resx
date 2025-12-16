@@ -183,4 +183,7 @@
   <data name="TextInputBoxBtnOk" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="TextInputBoxErrorEmptyText" xml:space="preserve">
+    <value>Пустые значения не допускаются.</value>
+  </data>
 </root>

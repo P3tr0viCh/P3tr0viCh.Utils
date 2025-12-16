@@ -6,23 +6,24 @@ namespace P3tr0viCh.Utils
 {
     public static class TextInputBox
     {
-        public class Options
+        public class Settings
         {
-            public string Caption = string.Empty;
-            public string Label = string.Empty;
-            public bool UseSystemPasswordChar = false;
+            public string Caption { get; set; } = string.Empty;
+            public string Label { get; set; } = string.Empty;
+            public bool UseSystemPasswordChar { get; set; } = false;
+            public bool CanEmpty { get; set; } = false;
         };
 
         public static bool Show(ref string text, string label)
         {
-            return Show(ref text, new Options { Label = label });
+            return Show(ref text, new Settings { Label = label });
         }
 
-        public static bool Show(ref string text, Options options = null)
+        public static bool Show(ref string text, Settings options = null)
         {
             if (options == null)
             {
-                options = new Options();
+                options = new Settings();
             }
 
             using (var frm = new Form())
@@ -66,7 +67,7 @@ namespace P3tr0viCh.Utils
                 btnOk.Font = frm.Font;
                 btnOk.SetBounds(104, 72, 88, 32);
                 btnOk.Text = Resources.TextInputBoxBtnOk;
-                btnOk.DialogResult = DialogResult.OK;
+                btnOk.Click += (sender, args) => BtnOk_Click(frm, textText, options.CanEmpty);
 
                 btnCancel.Parent = frm;
                 btnCancel.Font = frm.Font;
@@ -85,6 +86,23 @@ namespace P3tr0viCh.Utils
                     return false;
                 }
             }
+        }
+
+        private static void BtnOk_Click(Form frm, TextBox textBox, bool canEmpty)
+        {
+            if (!canEmpty)
+            {
+                if (textBox.IsEmpty())
+                {
+                    Msg.Error(Resources.TextInputBoxErrorEmptyText);
+
+                    textBox.Focus();
+
+                    return;
+                }
+            }
+            
+            frm.DialogResult = DialogResult.OK;
         }
     }
 }

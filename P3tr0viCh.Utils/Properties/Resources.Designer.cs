@@ -257,5 +257,14 @@ namespace P3tr0viCh.Utils.Properties {
                 return ResourceManager.GetString("TextInputBoxBtnOk", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пустые значения не допускаются..
+        /// </summary>
+        internal static string TextInputBoxErrorEmptyText {
+            get {
+                return ResourceManager.GetString("TextInputBoxErrorEmptyText", resourceCulture);
+            }
+        }
     }
 }
