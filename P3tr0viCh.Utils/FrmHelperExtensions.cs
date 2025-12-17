@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
 {
     public static class FrmHelperExtensions
     {
-        public static bool IsEmpty(this TextBox textBox) => textBox.Text.IsEmpty();
+        public static bool IsEmpty(this TextBox textBox) => textBox.GetTrimText().IsEmpty();
 
         public static bool IsInt(this TextBox textBox) => textBox.Text.IsInt();
 
         public static bool IsDouble(this TextBox textBox) => textBox.Text.IsDouble();
 
-        public static string GetTrimText(this TextBox textBox) => textBox.Text.TrimText();
+        public static string GetTrimText(this TextBox textBox) => textBox.Text.Trim();
 
         public static double GetDouble(this TextBox textBox)
         {
@@ -86,26 +87,46 @@ namespace P3tr0viCh.Utils
 
         public static void SetText(this TextBox textBox, string value) => textBox.Text = value;
 
-        public static void SetDouble(this TextBox textBox, double? value, bool showZero = false, bool showPlus = false)
+        public static void SetDouble(this TextBox textBox, double? value, string format = null, bool showZero = false, bool showPlus = false)
         {
-            if (value == 0)
+            string s;
+
+            if (value == null || value == 0)
             {
-                textBox.Text = showZero ? "0" : string.Empty;
+                s = showZero ? 0d.ToString(format) : string.Empty;
             }
             else
             {
-                textBox.Text = value.ToString();
+                s = value?.ToString(format);
 
                 if (value > 0 && showPlus)
                 {
-                    textBox.Text = "+" + textBox.Text;
+                    s = "+" + s;
                 }
             }
+
+            textBox.SetText(s);
         }
 
         public static void SetInt(this TextBox textBox, int? value, bool showZero = false, bool showPlus = false)
         {
-            textBox.SetDouble(value, showZero, showPlus);
+            string s;
+
+            if (value == null || value == 0)
+            {
+                s = showZero ? 0.ToString() : string.Empty;
+            }
+            else
+            {
+                s = value.ToString();
+
+                if (value > 0 && showPlus)
+                {
+                    s = "+" + s;
+                }
+            }
+
+            textBox.SetText(s);
         }
 
         public static void SetInt(this TextBox textBox, long? value, bool showZero = false, bool showPlus = false)
@@ -141,10 +162,23 @@ namespace P3tr0viCh.Utils
             dateTimePicker.SetDateTime(dateTime, DateTime.Today);
         }
 
-        public static void SetEnabledAndVisible(this ToolStripMenuItem menuItem, bool value)
+        public static void SetEnabledAndVisible(this ToolStripItem Item, bool value)
         {
-            menuItem.Enabled = value;
-            menuItem.Visible = value;
+            Item.Enabled = value;
+            Item.Visible = value;
+        }
+
+        public static void SetDispayStyle(this ToolStrip toolStrip, ToolStripItemDisplayStyle displayStyle)
+        {
+            foreach (ToolStripItem item in toolStrip.Items)
+            {
+                item.DisplayStyle = displayStyle;
+            }
+        }
+
+        public static void SetShowText(this ToolStrip toolStrip, bool show)
+        {
+            toolStrip.SetDispayStyle(show ? ToolStripItemDisplayStyle.ImageAndText : ToolStripItemDisplayStyle.Image);
         }
     }
 }

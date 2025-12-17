@@ -17,7 +17,7 @@ namespace P3tr0viCh.Utils
             public double Lat { get; set; } = default;
             public double Lng { get; set; } = default;
 
-            public float Ele { get; set; } = 0;
+            public double Ele { get; set; } = 0;
 
             public double Distance { get; set; } = 0;
 
@@ -90,10 +90,10 @@ namespace P3tr0viCh.Utils
                 }
             }
 
-            public float AverageSpeed { get; private set; } = 0;
+            public double AverageSpeed { get; private set; } = 0;
 
-            public float EleAscent { get; set; } = 0;
-            public float EleDescent { get; set; } = 0;
+            public double EleAscent { get; set; } = 0;
+            public double EleDescent { get; set; } = 0;
 
             private bool calcEleAscent = true;
             private bool calcEleDescent = true;
