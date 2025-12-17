@@ -10,10 +10,10 @@ namespace P3tr0viCh.Utils
     {
         public class Options
         {
-            public int AppNameFontSize = 26;
-            public int AppNameLineBreak = -1;
+            public int AppNameFontSize { get; set; } = 26;
+            public int AppNameLineBreak { get; set; } = -1;
 
-            public int FormWidth = 440;
+            public int FormWidth { get; set; } = 440;
 
             public enum LicenseType
             {
@@ -22,12 +22,12 @@ namespace P3tr0viCh.Utils
                 Commercial,
             }
 
-            public LicenseType License = LicenseType.Free;
+            public LicenseType License { get; set; } = LicenseType.Free;
 
-            public string Text = string.Empty;
+            public string Text { get; set; } = string.Empty;
 
-            public string Link = string.Empty;
-            public string LinkText = string.Empty;
+            public string Link { get; set; } = string.Empty;
+            public string LinkText { get; set; } = string.Empty;
 
             public Options()
             {
