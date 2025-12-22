@@ -14,6 +14,18 @@ namespace P3tr0viCh.Utils
 
         public static string GetTrimText(this TextBox textBox) => textBox.Text.Trim();
 
+        public static string GetTrimTextNullable(this TextBox textBox)
+        {
+            var result = GetTrimText(textBox);
+
+            if (result.IsEmpty())
+            {
+                return null;
+            }
+
+            return result;
+        }
+
         public static double GetDouble(this TextBox textBox)
         {
             if (textBox.IsEmpty()) return 0.0;
