@@ -77,14 +77,24 @@ namespace P3tr0viCh.Utils
 
     public static class DataGridViewExtensions
     {
-        public static bool ColumnExists(this DataGridView dataGridView, int index)
-        {
-            return dataGridView.Columns[index] != null;
-        }
+        public static bool IsEmpty(this DataGridView dataGridView) => dataGridView.Rows.Count == 0;
 
         public static bool ColumnExists(this DataGridView dataGridView, string columnName)
         {
             return dataGridView.Columns[columnName] != null;
+        }
+    }
+
+    public static class DataGridViewRowExtensions
+    {
+        public static void SelectAndScroll(this DataGridViewRow row)
+        {
+            row.Selected = true;
+
+            if (!row.Displayed)
+            {
+                row.DataGridView.FirstDisplayedScrollingRowIndex = row.Index;
+            }
         }
     }
 
