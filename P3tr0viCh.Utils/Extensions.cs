@@ -91,6 +91,9 @@ namespace P3tr0viCh.Utils
     public static class RandomExtensions
     {
         public static bool NextBool(this Random random) => random.Next(2) == 0;
+
+        public static string NextString(this Random random, int length, string seed = null) =>
+            Str.Random(length, random, seed);
     }
 
     public static class ContextMenuStripExtensions
