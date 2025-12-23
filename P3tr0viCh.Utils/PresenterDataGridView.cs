@@ -56,15 +56,13 @@ namespace P3tr0viCh.Utils
 
             if (!DataGridView.ColumnExists(SortColumn)) return;
 
-            var column = DataGridView.Columns[SortColumn];
-
             var selected = Selected;
 
             var list = BindingSource.Cast<T>().ToList();
 
             list.Sort((T x, T y) =>
             {
-                var propertyName = column.DataPropertyName;
+                var propertyName = DataGridView.Columns[SortColumn].DataPropertyName;
 
                 var compare = Compare(x, y, propertyName);
 
@@ -78,7 +76,7 @@ namespace P3tr0viCh.Utils
 
             BindingSource.DataSource = list;
 
-            column.HeaderCell.SortGlyphDirection = SortOrderDescending ? SortOrder.Descending : SortOrder.Ascending;
+            DataGridView.Columns[SortColumn].HeaderCell.SortGlyphDirection = SortOrderDescending ? SortOrder.Descending : SortOrder.Ascending;
 
             Selected = selected;
         }
