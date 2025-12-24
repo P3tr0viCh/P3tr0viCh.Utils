@@ -3,7 +3,12 @@ using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
 {
-    public abstract class PresenterDataGridView<T>
+    public interface IPresenterDataGridViewCompare<T>
+    {
+        int Compare(T x, T y, string dataPropertyName);
+    }
+
+    public abstract class PresenterDataGridView<T> : IPresenterDataGridViewCompare<T>
     {
         public DataGridView DataGridView { get; private set; }
 
@@ -14,16 +19,10 @@ namespace P3tr0viCh.Utils
             DataGridView.ColumnHeaderMouseClick += new DataGridViewCellMouseEventHandler(DataGridView_ColumnHeaderMouseClick);
         }
 
-        private BindingSource BindingSource => DataGridView.DataSource as BindingSource;
-
-        public int Count => BindingSource.Count;
-        public int SelectedCount => DataGridView.SelectedCells
-                    .Cast<DataGridViewCell>().Select(cell => cell.OwningRow).Distinct().Count();
-
         public T Selected
         {
-            get => (T)BindingSource.Current;
-            set => BindingSource.Position = BindingSource.IndexOf(value);
+            get => DataGridView.GetSelected<T>();
+            set => DataGridView.SetSelected(value);
         }
 
         private string sortColumn = string.Empty;
@@ -46,19 +45,23 @@ namespace P3tr0viCh.Utils
 
         public bool SortOrderDescending { get; set; } = false;
 
-        protected abstract int Compare(T x, T y, string dataPropertyName);
+        public abstract int Compare(T x, T y, string dataPropertyName);
 
         public void Sort()
         {
-            if (Count == 0) return;
+            if (DataGridView.IsEmpty()) return;
 
             if (SortColumn.IsEmpty()) return;
 
             if (!DataGridView.ColumnExists(SortColumn)) return;
 
+            var bindingSource = DataGridView.BindingSource();
+
+            if (bindingSource == null) return;
+
             var selected = Selected;
 
-            var list = BindingSource.Cast<T>().ToList();
+            var list = bindingSource.Cast<T>().ToList();
 
             list.Sort((T x, T y) =>
             {
@@ -74,7 +77,7 @@ namespace P3tr0viCh.Utils
                 return compare;
             });
 
-            BindingSource.DataSource = list;
+            bindingSource.DataSource = list;
 
             DataGridView.Columns[SortColumn].HeaderCell.SortGlyphDirection = SortOrderDescending ? SortOrder.Descending : SortOrder.Ascending;
 
