@@ -88,6 +88,7 @@
     <Compile Include="PropertySortedConverter.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Str.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="TextInputBox.cs" />
     <Compile Include="UserMessages.cs" />
     <Compile Include="WrapperCancellationTokenSource.cs" />
