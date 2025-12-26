@@ -67,6 +67,8 @@
     <Compile Include="Geo.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="ImageBtn.cs" />
+    <Compile Include="Interfaces\IBaseId.cs" />
+    <Compile Include="Interfaces\IBaseText.cs" />
     <Compile Include="LocalizedAttribute.cs" />
     <Compile Include="LocalizedAttributes.cs" />
     <Compile Include="Log.cs" />

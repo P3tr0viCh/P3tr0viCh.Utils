@@ -1,14 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
 {
-    public interface IPresenterDataGridViewCompare<T>
+    public interface IPresenterDataGridViewCompare<T> where T : IBaseId
     {
         int Compare(T x, T y, string dataPropertyName);
     }
 
-    public abstract class PresenterDataGridView<T> : IPresenterDataGridViewCompare<T>
+    public abstract class PresenterDataGridView<T> : IPresenterDataGridViewCompare<T> where T : IBaseId
     {
         public DataGridView DataGridView { get; private set; }
 
@@ -23,6 +24,12 @@ namespace P3tr0viCh.Utils
         {
             get => DataGridView.GetSelected<T>();
             set => DataGridView.SetSelected(value);
+        }
+
+        public IEnumerable<T> SelectedList
+        {
+            get => DataGridView.GetSelectedList<T>();
+            set => DataGridView.SetSelectedList(value);
         }
 
         private string sortColumn = string.Empty;
@@ -59,7 +66,7 @@ namespace P3tr0viCh.Utils
 
             if (bindingSource == null) return;
 
-            var selected = Selected;
+            var selectedList = SelectedList.ToList();
 
             var list = bindingSource.Cast<T>().ToList();
 
@@ -81,7 +88,7 @@ namespace P3tr0viCh.Utils
 
             DataGridView.Columns[SortColumn].HeaderCell.SortGlyphDirection = SortOrderDescending ? SortOrder.Descending : SortOrder.Ascending;
 
-            Selected = selected;
+            SelectedList = selectedList;
         }
 
         private void DataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)

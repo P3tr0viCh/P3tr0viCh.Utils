@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
@@ -68,7 +67,11 @@ namespace P3tr0viCh.Utils
 
         public static T GetSelectedItem<T>(this ComboBox comboBox)
         {
-            return comboBox.SelectedItem != null ? (T)comboBox.SelectedItem : default;
+            if (comboBox.SelectedItem == null) return default;
+            
+            if (comboBox.SelectedItem is T selected) return selected;
+
+            throw new InvalidCastException();
         }
 
         public static bool GetBool(this CheckBox checkBox) => checkBox.Checked;
