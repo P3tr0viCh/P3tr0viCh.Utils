@@ -36,7 +36,7 @@ namespace P3tr0viCh.Utils
 
             if (selectedRows.Count() == 0) return Enumerable.Empty<T>();
 
-            return selectedRows.Select(item => item.Value<T>());
+            return selectedRows.Select(item => item.Value<T>()).ToList();
         }
 
         public static void SetSelectedList<T>(this DataGridView dataGridView, IEnumerable<T> values) where T : IBaseId

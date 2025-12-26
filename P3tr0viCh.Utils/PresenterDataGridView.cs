@@ -66,7 +66,7 @@ namespace P3tr0viCh.Utils
 
             if (bindingSource == null) return;
 
-            var selectedList = SelectedList.ToList();
+            var selectedList = SelectedList;
 
             var list = bindingSource.Cast<T>().ToList();
 
