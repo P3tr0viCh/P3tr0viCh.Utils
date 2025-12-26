@@ -4,8 +4,8 @@ namespace P3tr0viCh.Utils
 {
     public static class Str
     {
-        public readonly static string Eol = "\n";
-        public readonly static string Space = " ";
+        public const string Eol = "\n";
+        public const string Space = " ";
 
         public static string Random(int length, Random rnd = null, string seed = null)
         {

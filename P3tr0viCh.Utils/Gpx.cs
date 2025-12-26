@@ -184,17 +184,17 @@ namespace P3tr0viCh.Utils
                 return node != null ? node.InnerText : string.Empty;
             }
 
-            public readonly string ElementNameTrk = "trk";
-            public readonly string ElementNameTrackName = "name";
-            public readonly string ElementNameTrkPt = "trkpt";
-            public readonly string ElementNameTrkPtLat = "lat";
-            public readonly string ElementNameTrkPtLon = "lon";
-            public readonly string ElementNameTrkPtTime = "time";
-            public readonly string ElementNameTrkPtEle = "ele";
-            public readonly string ElementNameMetadata = "metadata";
-            public readonly string ElementNameExtensions = "extensions";
-            public readonly string ElementNameEleAscent = "eleascent";
-            public readonly string ElementNameEleDescent = "eledescent";
+            public const string ElementNameTrk = "trk";
+            public const string ElementNameTrackName = "name";
+            public const string ElementNameTrkPt = "trkpt";
+            public const string ElementNameTrkPtLat = "lat";
+            public const string ElementNameTrkPtLon = "lon";
+            public const string ElementNameTrkPtTime = "time";
+            public const string ElementNameTrkPtEle = "ele";
+            public const string ElementNameMetadata = "metadata";
+            public const string ElementNameExtensions = "extensions";
+            public const string ElementNameEleAscent = "eleascent";
+            public const string ElementNameEleDescent = "eledescent";
 
             public void OpenFromFile(string path)
             {
