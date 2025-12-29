@@ -297,8 +297,6 @@ namespace P3tr0viCh.Utils
                 throw new NullReferenceException();
             }
 
-            int col;
-
             using (var reader = new StreamReader(FileName))
             {
                 var header = reader.ReadLine();
@@ -324,7 +322,7 @@ namespace P3tr0viCh.Utils
 
                     if (string.IsNullOrEmpty(line)) continue;
 
-                    col = 0;
+                    var col = 0;
 
                     var parts = line.SplitCsv(CsvSeparatorChar);
 
@@ -333,7 +331,7 @@ namespace P3tr0viCh.Utils
                     foreach (var part in parts)
                     {
                         row[col] = GetValue(col, part);
-                        
+
                         col++;
                     }
 
