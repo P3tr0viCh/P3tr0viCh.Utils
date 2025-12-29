@@ -303,7 +303,7 @@ namespace P3tr0viCh.Utils
             {
                 var header = reader.ReadLine();
 
-                var columns = header.Split(';');
+                var columns = header.SplitCsv();
 
                 if (columns.Length != Table.Columns.Count)
                 {
