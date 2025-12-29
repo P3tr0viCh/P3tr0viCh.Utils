@@ -324,9 +324,9 @@ namespace P3tr0viCh.Utils
 
                     var col = 0;
 
-                    var parts = line.SplitCsv(CsvSeparatorChar);
-
                     var row = Table.NewRow();
+
+                    var parts = line.SplitCsv(CsvSeparatorChar);
 
                     foreach (var part in parts)
                     {
