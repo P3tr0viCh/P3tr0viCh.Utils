@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Text;
 using System.Xml;
+using static P3tr0viCh.Utils.Exceptions;
 
 namespace P3tr0viCh.Utils
 {
     public class DataTableFile
     {
         public const string DateTimeFormatXml = "yyyy-MM-ddTHH:mm:ssZ";
+        public const string DateTimeFormatCsv = "yyyy-MM-dd HH:mm:ss";
 
         private const string ExcelXmlDateTimeFormatStyle = "yyyy/mm/dd\\ hh:mm:ss;@";
         private const string ExcelXmlDateTimeFormatStyleID = "s63";
+
+        private const char CsvSeparatorChar = ';';
 
         public string FileName { get; set; }
 
@@ -207,11 +212,11 @@ namespace P3tr0viCh.Utils
             }
             if (type.Name == nameof(Single))
             {
-                return Misc.FloatParseInvariant(value);
+                return Misc.FloatParseInvariant(value.Replace(',', '.'));
             }
             if (type.Name == nameof(Double))
             {
-                return Misc.DoubleParseInvariant(value);
+                return Misc.DoubleParseInvariant(value.Replace(',', '.'));
             }
             if (type.Name == nameof(Boolean))
             {
@@ -277,6 +282,62 @@ namespace P3tr0viCh.Utils
 
                             break;
                     }
+                }
+            }
+        }
+
+        public class CsvFileWrongHeaderException : FileBadFormatException
+        {
+        }
+
+        public void ReadFromCsv()
+        {
+            if (Table == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            int col;
+
+            using (var reader = new StreamReader(FileName))
+            {
+                var header = reader.ReadLine();
+
+                var columns = header.Split(';');
+
+                if (columns.Length != Table.Columns.Count)
+                {
+                    throw new CsvFileWrongHeaderException();
+                }
+
+                for (var i = 0; i < columns.Length; i++)
+                {
+                    if (columns[i] != Table.Columns[i].ColumnName)
+                    {
+                        throw new CsvFileWrongHeaderException();
+                    }
+                }
+
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine()?.TrimText();
+
+                    if (string.IsNullOrEmpty(line)) continue;
+
+                    col = 0;
+
+                    var parts = line.SplitCsv(CsvSeparatorChar);
+
+                    var row = Table.NewRow();
+
+                    foreach (var part in parts)
+                    {
+                        row[col] = GetValue(col, part);
+                        
+                        col++;
+                    }
+
+                    Table.Rows.Add(row);
                 }
             }
         }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace P3tr0viCh.Utils
 {
@@ -67,6 +69,46 @@ namespace P3tr0viCh.Utils
             var parts = s.Split(charsToTrim, StringSplitOptions.RemoveEmptyEntries);
 
             return string.Join(Str.Space, parts);
+        }
+
+        public static string[] SplitCsv(this string s, char separator = ';')
+        {
+            var result = new List<string>();
+
+            var str = new StringBuilder("");
+
+            var inQuotes = false;
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '\"')
+                {
+                    inQuotes = !inQuotes;
+                }
+                else
+                {
+                    if (s[i] == separator)
+                    {
+                        if (!inQuotes)
+                        {
+                            result.Add(str.ToString());
+                            str.Clear();
+                        }
+                        else
+                        {
+                            str.Append(s[i]);
+                        }
+                    }
+                    else
+                    {
+                        str.Append(s[i]);
+                    }
+                }
+            }
+
+            result.Add(str.ToString());
+
+            return result.ToArray();
         }
     }
 }
