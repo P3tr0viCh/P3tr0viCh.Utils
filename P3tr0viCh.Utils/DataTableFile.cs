@@ -17,6 +17,11 @@ namespace P3tr0viCh.Utils
 
         private const char CsvSeparatorChar = ';';
 
+        public DataTableFile(DataTable table)
+        {
+            Table = table;
+        }
+
         public string FileName { get; set; }
 
         public DataTable Table { get; set; }

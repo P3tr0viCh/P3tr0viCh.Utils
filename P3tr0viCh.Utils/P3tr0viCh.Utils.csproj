@@ -51,17 +51,18 @@
   <ItemGroup>
     <Compile Include="AppOneInstance.cs" />
     <Compile Include="AssemblyDecorator.cs" />
-    <Compile Include="DataGridViewExtensions.cs" />
+    <Compile Include="Extensions\DataGridViewExtensions.cs" />
     <Compile Include="DataTableFile.cs" />
     <Compile Include="DebugWrite.cs" />
     <Compile Include="DefaultInstance.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Extensions\DataRowExtensions.cs" />
     <Compile Include="Formatters.cs" />
-    <Compile Include="FrmHelperExtensions.cs" />
+    <Compile Include="Extensions\FrmHelperExtensions.cs" />
     <Compile Include="Gpx.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="Crypto.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="FrmAbout.cs" />
     <Compile Include="Geo.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="PropertySortedConverter.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Str.cs" />
-    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="TextInputBox.cs" />
     <Compile Include="UserMessages.cs" />
     <Compile Include="WrapperCancellationTokenSource.cs" />
