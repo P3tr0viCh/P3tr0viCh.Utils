@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace P3tr0viCh.Utils
@@ -256,6 +257,14 @@ namespace P3tr0viCh.Utils
                 }
 
                 NotifyPointsChanged();
+            }
+
+            public async Task OpenFromFileAsync(string path)
+            {
+                await Task.Factory.StartNew(() =>
+                {
+                    OpenFromFile(path);
+                });
             }
 
             public void NotifyPointsChanged()

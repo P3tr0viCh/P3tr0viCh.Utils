@@ -9,6 +9,8 @@ namespace P3tr0viCh.Utils
 {
     public static partial class Misc
     {
+        public const string P3tr0viCh = "P3tr0viCh";
+
         public static string Description(this object value)
         {
             var field = value is FieldInfo ? value as FieldInfo : value.GetType().GetField(value.ToString());

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static P3tr0viCh.Utils.Exceptions;
 
@@ -8,8 +10,6 @@ namespace P3tr0viCh.Utils
 {
     public static class Files
     {
-        public const string P3tr0viCh = "P3tr0viCh";
-
         public const string ExtConfig = "config";
         public const string ExtSqLite = "sqlite";
 
@@ -30,7 +30,7 @@ namespace P3tr0viCh.Utils
 
         public static string AppDataLocalDirectory()
         {
-            return AppDataLocalDirectory(Path.Combine(P3tr0viCh, ExecutableName()));
+            return AppDataLocalDirectory(Path.Combine(Misc.P3tr0viCh, ExecutableName()));
         }
 
         public static string AppDataRoamingDirectory(string dir)
@@ -40,7 +40,7 @@ namespace P3tr0viCh.Utils
 
         public static string AppDataRoamingDirectory()
         {
-            return AppDataRoamingDirectory(Path.Combine(P3tr0viCh, ExecutableName()));
+            return AppDataRoamingDirectory(Path.Combine(Misc.P3tr0viCh, ExecutableName()));
         }
 
         public static string ProgramDataDirectory(string dir)
@@ -50,7 +50,7 @@ namespace P3tr0viCh.Utils
 
         public static string ProgramDataDirectory()
         {
-            return ProgramDataDirectory(Path.Combine(P3tr0viCh, ExecutableName()));
+            return ProgramDataDirectory(Path.Combine(Misc.P3tr0viCh, ExecutableName()));
         }
 
         public static string SettingsFileName(string fileName)
@@ -75,7 +75,7 @@ namespace P3tr0viCh.Utils
 
         public static string TempDirectory()
         {
-            var dir = Path.Combine(Path.GetTempPath(), P3tr0viCh, ExecutableName());
+            var dir = Path.Combine(Path.GetTempPath(), Misc.P3tr0viCh, ExecutableName());
 
             Directory.CreateDirectory(dir);
 
@@ -106,7 +106,15 @@ namespace P3tr0viCh.Utils
                 Directory.Delete(path, true);
             }
         }
-        
+     
+        public static async Task<IEnumerable<string>> DirectoryEnumerateFilesAsync(string path, SearchOption searchOption)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                return Directory.EnumerateFiles(path, "*", searchOption);
+            });
+        }
+
         public static string RemoveLastSeparatorChar(this string path)
         {
             return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
