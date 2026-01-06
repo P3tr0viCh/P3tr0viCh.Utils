@@ -90,4 +90,54 @@ namespace P3tr0viCh.Utils
             contextMenuStrip.Show(button.PointToScreen(new Point(0, button.Height)));
         }
     }
+
+    public static class DateTimePickerExtensions
+    {
+        public static string ValueAsString(this DateTimePicker dateTimePicker)
+        {
+            var dateTime = dateTimePicker.Value;
+
+            string result;
+
+            switch (dateTimePicker.Format)
+            {
+                case DateTimePickerFormat.Custom:
+                    result = dateTime.ToString(dateTimePicker.CustomFormat);
+                    break;
+                case DateTimePickerFormat.Long:
+                    result = dateTime.ToLongDateString();
+                    break;
+                case DateTimePickerFormat.Short:
+                    result = dateTime.ToShortDateString();
+                    break;
+                case DateTimePickerFormat.Time:
+                    result = dateTime.ToLongTimeString();
+                    break;
+                default:
+                    result = dateTime.ToString();
+                    break;
+            }
+
+            return result;
+        }
+
+        public static void CopyToClipboard(this DateTimePicker dateTimePicker)
+        {
+            var dateTime = dateTimePicker.ValueAsString();
+
+            Clipboard.SetText(dateTime);
+        }
+
+        public static void PasteFromClipboard(this DateTimePicker dateTimePicker)
+        {
+            var text = Clipboard.GetText();
+            
+            if (text.IsEmpty()) return;
+
+            if (DateTime.TryParse(text, out DateTime dateTime))
+            {
+                dateTimePicker.Value = dateTime;
+            }
+        }
+    }
 }
