@@ -7,7 +7,14 @@ using static P3tr0viCh.Utils.Exceptions;
 
 namespace P3tr0viCh.Utils
 {
-    public class SettingsBase<T> where T : new()
+    public interface ISettingsBase
+    {
+        bool Load();
+
+        bool Save();
+    }
+
+    public class SettingsBase<T> : ISettingsBase where T : new()
     {
         public class FormState
         {
@@ -213,7 +220,7 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static bool Save()
+        public bool Save()
         {
             LastError = null;
 
@@ -241,7 +248,7 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static bool Load()
+        public bool Load()
         {
             LastError = null;
 

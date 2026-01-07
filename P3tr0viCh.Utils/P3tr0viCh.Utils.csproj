@@ -59,12 +59,15 @@
     <Compile Include="Extensions\DataRowExtensions.cs" />
     <Compile Include="Formatters.cs" />
     <Compile Include="Extensions\FrmHelperExtensions.cs" />
+    <Compile Include="Forms\FrmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Gpx.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Files.cs" />
-    <Compile Include="FrmAbout.cs" />
+    <Compile Include="Forms\FrmAbout.cs" />
     <Compile Include="Geo.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="ImageBtn.cs" />
@@ -89,10 +92,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PropertySortedConverter.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsBase.cs" />
     <Compile Include="Str.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="TextInputBox.cs" />
+    <Compile Include="Forms\TextInputBox.cs" />
     <Compile Include="UserMessages.cs" />
     <Compile Include="WrapperCancellationTokenSource.cs" />
   </ItemGroup>
