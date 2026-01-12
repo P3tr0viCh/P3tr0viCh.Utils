@@ -7,16 +7,21 @@ namespace P3tr0viCh.Utils
     public class FrmSettingsBase : Form
     {
         private Panel panelBottom;
+
         private Button btnOk;
         private Button btnCancel;
-        private PropertyGrid propertyGrid;
+
+        public PropertyGrid PropertyGrid { get; private set; }
 
         private readonly ISettingsBase Settings;
 
-        public FrmSettingsBase(ISettingsBase settings)
+        public FrmSettingsBase()
         {
             InitializeComponent();
+        }
 
+        public FrmSettingsBase(ISettingsBase settings) : this()
+        {
             Settings = settings;
         }
 
@@ -25,7 +30,7 @@ namespace P3tr0viCh.Utils
             panelBottom = new Panel();
             btnOk = new Button();
             btnCancel = new Button();
-            propertyGrid = new PropertyGrid();
+            PropertyGrid = new PropertyGrid();
 
             panelBottom.SuspendLayout();
             SuspendLayout();
@@ -51,13 +56,13 @@ namespace P3tr0viCh.Utils
             btnCancel.TabIndex = 2;
             btnCancel.Text = "Отмена";
 
-            propertyGrid.Dock = DockStyle.Fill;
-            propertyGrid.Location = new Point(0, 50);
-            propertyGrid.Margin = new Padding(3, 4, 3, 4);
-            propertyGrid.Name = "propertyGrid";
-            propertyGrid.Size = new Size(488, 263);
-            propertyGrid.TabIndex = 0;
-            propertyGrid.ToolbarVisible = false;
+            PropertyGrid.Dock = DockStyle.Fill;
+            PropertyGrid.Location = new Point(0, 50);
+            PropertyGrid.Margin = new Padding(3, 4, 3, 4);
+            PropertyGrid.Name = "PropertyGrid";
+            PropertyGrid.Size = new Size(488, 263);
+            PropertyGrid.TabIndex = 0;
+            PropertyGrid.ToolbarVisible = false;
 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(384, 361);
@@ -74,7 +79,7 @@ namespace P3tr0viCh.Utils
             panelBottom.Controls.Add(btnOk);
             panelBottom.Controls.Add(btnCancel);
 
-            Controls.Add(propertyGrid);
+            Controls.Add(PropertyGrid);
             Controls.Add(panelBottom);
 
             panelBottom.ResumeLayout(false);
@@ -90,9 +95,9 @@ namespace P3tr0viCh.Utils
 
         private void Frm_Load(object sender, EventArgs e)
         {
-            propertyGrid.SelectedObject = Settings;
+            PropertyGrid.SelectedObject = Settings;
 
-            propertyGrid.ExpandAllGridItems();
+            PropertyGrid.ExpandAllGridItems();
         }
 
         protected virtual bool CheckSettings()

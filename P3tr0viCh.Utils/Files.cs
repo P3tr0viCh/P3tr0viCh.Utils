@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static P3tr0viCh.Utils.Exceptions;
@@ -106,12 +107,28 @@ namespace P3tr0viCh.Utils
                 Directory.Delete(path, true);
             }
         }
-     
-        public static async Task<IEnumerable<string>> DirectoryEnumerateFilesAsync(string path, SearchOption searchOption)
+
+        public static IEnumerable<string> DirectoryEnumerateFiles(string path, 
+            SearchOption searchOption, string extensions)
+        {
+            var files = Directory.EnumerateFiles(path, "*", searchOption);
+
+            if (!string.IsNullOrWhiteSpace(extensions))
+            {
+                var exts = extensions.ToLower().Split(';');
+
+                files = files.Where(file => exts.Any(ext => ext == Path.GetExtension(file).ToLower()));
+            }
+
+            return files;
+        }
+
+        public static async Task<IEnumerable<string>> DirectoryEnumerateFilesAsync(string path, 
+            SearchOption searchOption, string extensions)
         {
             return await Task.Factory.StartNew(() =>
             {
-                return Directory.EnumerateFiles(path, "*", searchOption);
+                return DirectoryEnumerateFiles(path, searchOption, extensions);
             });
         }
 
