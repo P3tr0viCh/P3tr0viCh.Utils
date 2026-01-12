@@ -4,40 +4,22 @@ using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils
 {
-    public class FrmSettings : Form
+    public class FrmSettingsBase : Form
     {
-
-        public delegate void BeforeOpenEventHandler(FrmSettings frm);
-        public delegate void AfterCloseEventHandler(FrmSettings frm);
-        public delegate void LoadFormStateEventHandler(FrmSettings frm);
-        public delegate void SaveFormStateEventHandler(FrmSettings frm);
-
-        public delegate bool CheckSettingsEventHandler(FrmSettings frm);
-
-        public class Options
-        {
-            public BeforeOpenEventHandler BeforeOpen;
-            public AfterCloseEventHandler AfterClose;
-
-            public LoadFormStateEventHandler LoadFormState;
-            public SaveFormStateEventHandler SaveFormState;
-
-            public CheckSettingsEventHandler CheckSettings;
-        }
-
-        private Options options;
-
         private Panel panelBottom;
         private Button btnOk;
         private Button btnCancel;
         private PropertyGrid propertyGrid;
 
-        private ISettingsBase Settings;
+        private readonly ISettingsBase Settings;
 
-        public FrmSettings()
+        public FrmSettingsBase(ISettingsBase settings)
         {
             InitializeComponent();
+
+            Settings = settings;
         }
+
         private void InitializeComponent()
         {
             panelBottom = new Panel();
@@ -106,18 +88,6 @@ namespace P3tr0viCh.Utils
             btnOk.Click += BtnOk_Click;
         }
 
-        private void BtnOk_Click(object sender, EventArgs e)
-        {
-            var checkSettings = options.CheckSettings;
-
-            var canClose = checkSettings?.Invoke(this);
-
-            if (canClose != false)
-            {
-                DialogResult = DialogResult.OK;
-            }
-        }
-
         private void Frm_Load(object sender, EventArgs e)
         {
             propertyGrid.SelectedObject = Settings;
@@ -125,43 +95,67 @@ namespace P3tr0viCh.Utils
             propertyGrid.ExpandAllGridItems();
         }
 
-        public static bool Show(IWin32Window owner, ISettingsBase settings, Options options = null)
+        protected virtual bool CheckSettings()
         {
-            using (var frm = new FrmSettings())
+            return true;
+        }
+
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+            var canClose = CheckSettings();
+
+            if (canClose)
             {
-                frm.options = options ?? new Options();
+                DialogResult = DialogResult.OK;
+            }
+        }
 
-                frm.options.BeforeOpen?.Invoke(frm);
+        protected virtual void BeforeOpen()
+        {
+        }
 
-                try
+        protected virtual void AfterClose()
+        {
+        }
+
+        protected virtual void SaveFormState()
+        {
+        }
+
+        protected virtual void LoadFormState()
+        {
+        }
+
+        public new bool ShowDialog(IWin32Window owner)
+        {
+            BeforeOpen();
+
+            try
+            {
+                Settings.Save();
+
+                LoadFormState();
+
+                if (base.ShowDialog(owner) == DialogResult.OK)
                 {
-                    frm.Settings = settings;
+                    SaveFormState();
 
-                    frm.Settings.Save();
+                    Settings.Save();
 
-                    frm.options.LoadFormState?.Invoke(frm);
-
-                    if (frm.ShowDialog(owner) == DialogResult.OK)
-                    {
-                        frm.options.SaveFormState?.Invoke(frm);
-
-                        frm.Settings.Save();
-
-                        return true;
-                    }
-                    else
-                    {
-                        frm.Settings.Load();
-
-                        frm.options.SaveFormState?.Invoke(frm);
-
-                        return false;
-                    }
+                    return true;
                 }
-                finally
+                else
                 {
-                    frm.options.AfterClose?.Invoke(frm);
+                    Settings.Load();
+
+                    SaveFormState();
+
+                    return false;
                 }
+            }
+            finally
+            {
+                AfterClose();
             }
         }
     }

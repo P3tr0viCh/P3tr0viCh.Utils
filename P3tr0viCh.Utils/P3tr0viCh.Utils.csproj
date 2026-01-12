@@ -59,7 +59,7 @@
     <Compile Include="Extensions\DataRowExtensions.cs" />
     <Compile Include="Formatters.cs" />
     <Compile Include="Extensions\FrmHelperExtensions.cs" />
-    <Compile Include="Forms\FrmSettings.cs">
+    <Compile Include="Forms\FrmSettingsBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gpx.cs" />
