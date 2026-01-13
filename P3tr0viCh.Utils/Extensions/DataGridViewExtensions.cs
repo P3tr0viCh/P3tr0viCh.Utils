@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Extensions
 {
     public static class DataGridViewExtensions
     {

@@ -3,7 +3,8 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using static P3tr0viCh.Utils.Exceptions;
+using P3tr0viCh.Utils.Exceptions;
+using P3tr0viCh.Utils.Extensions;
 
 namespace P3tr0viCh.Utils
 {

@@ -1,21 +1,23 @@
 ﻿using Newtonsoft.Json;
+using P3tr0viCh.Utils.Attributes;
+using P3tr0viCh.Utils.Properties;
 using System.ComponentModel;
 using static P3tr0viCh.Utils.PasswordProperty;
 
 namespace P3tr0viCh.Utils
 {
     [TypeConverter(typeof(PropertySortedConverter))]
-    [LocalizedAttribute.DisplayName("Login.DisplayName", LocalizedAttributes.ResourceName)]
+    [LocalizedDisplayName("Login.DisplayName", Consts.ResourceName)]
     public class Login
     {
         [PropertyOrder(100)]
-        [LocalizedAttribute.DisplayName("Login.User.DisplayName", LocalizedAttributes.ResourceName)] 
+        [LocalizedDisplayName("Login.User.DisplayName", Consts.ResourceName)] 
         public string User { get; set; }
 
         [PropertyOrder(101)]
         [PasswordPropertyText(true)]
         [JsonConverter(typeof(PasswordConverter))]
-        [LocalizedAttribute.DisplayName("Login.Password.DisplayName", LocalizedAttributes.ResourceName)]
+        [LocalizedDisplayName("Login.Password.DisplayName", Consts.ResourceName)]
         public string Password { get; set; }
     }
 }

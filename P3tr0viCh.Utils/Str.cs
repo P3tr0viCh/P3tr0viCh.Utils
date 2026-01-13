@@ -1,4 +1,5 @@
-﻿using System;
+﻿using P3tr0viCh.Utils.Extensions;
+using System;
 
 namespace P3tr0viCh.Utils
 {

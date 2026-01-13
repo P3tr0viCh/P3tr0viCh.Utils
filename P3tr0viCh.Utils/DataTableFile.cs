@@ -1,9 +1,10 @@
-﻿using System;
+﻿using P3tr0viCh.Utils.Exceptions;
+using P3tr0viCh.Utils.Extensions;
+using System;
 using System.Data;
 using System.IO;
 using System.Text;
 using System.Xml;
-using static P3tr0viCh.Utils.Exceptions;
 
 namespace P3tr0viCh.Utils
 {

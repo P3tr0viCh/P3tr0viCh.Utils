@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Extensions
 {
     public static class FrmHelperExtensions
     {

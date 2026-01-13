@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Extensions
 {
     public static class StringExtensions
     {

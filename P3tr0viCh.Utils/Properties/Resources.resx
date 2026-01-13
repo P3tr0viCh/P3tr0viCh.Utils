@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExceptionDirectoryNotExists" xml:space="preserve">
-    <value>Directory '{0}' not exists or path empty.</value>
+    <value>Каталог «{0}» не существует.</value>
   </data>
   <data name="ExceptionFileBadFormat" xml:space="preserve">
-    <value>File has an bad format.</value>
+    <value>Файл имеет непарвильный формат.</value>
   </data>
   <data name="ExceptionFileNotExists" xml:space="preserve">
-    <value>File '{0}' not exists or path empty.</value>
+    <value>Файл «{0}» не существует.</value>
   </data>
   <data name="ExceptionFileZeroLength" xml:space="preserve">
-    <value>File has a zero length.</value>
+    <value>Файл имеет нулевую длину.</value>
   </data>
   <data name="FrmAboutBtnOk" xml:space="preserve">
     <value>OK</value>

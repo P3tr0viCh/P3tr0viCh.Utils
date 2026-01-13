@@ -5,7 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static P3tr0viCh.Utils.Exceptions;
+using P3tr0viCh.Utils.Exceptions;
+using P3tr0viCh.Utils.Extensions;
 
 namespace P3tr0viCh.Utils
 {
@@ -158,7 +159,7 @@ namespace P3tr0viCh.Utils
 
         public static void CheckDirectoryExists(string path)
         {
-            if (path.IsEmpty() || !Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 throw new DirectoryNotExistsException(path);
             }
@@ -166,7 +167,7 @@ namespace P3tr0viCh.Utils
 
         public static void CheckFileExists(string path)
         {
-            if (path.IsEmpty() || !File.Exists(path))
+            if (!File.Exists(path))
             {
                 throw new FileNotExistsException(path);
             }

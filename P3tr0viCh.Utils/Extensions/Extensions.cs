@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Extensions
 {
     public static class ColorConverterExtensions
     {
@@ -131,13 +132,25 @@ namespace P3tr0viCh.Utils
         public static void PasteFromClipboard(this DateTimePicker dateTimePicker)
         {
             var text = Clipboard.GetText();
-            
+
             if (text.IsEmpty()) return;
 
             if (DateTime.TryParse(text, out DateTime dateTime))
             {
                 dateTimePicker.Value = dateTime;
             }
+        }
+    }
+
+    public static class PropertyInfoExtensions
+    {
+        public static T GetCustomAttribute<T>(this PropertyInfo property)
+        {
+            var customAttribute = property.GetCustomAttribute(typeof(T));
+
+            if (customAttribute is T attribute) return attribute;
+
+            return default;
         }
     }
 }

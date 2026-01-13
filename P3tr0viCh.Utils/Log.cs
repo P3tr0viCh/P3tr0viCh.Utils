@@ -1,4 +1,4 @@
-﻿using P3tr0viCh.Utils.Properties;
+﻿using P3tr0viCh.Utils.Extensions;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -23,7 +23,7 @@ namespace P3tr0viCh.Utils
                     value = Files.ExecutableDirectory();
                 }
 
-                directory = Path.Combine(value, Resources.LogSubDirectory);
+                directory = Path.Combine(value, Properties.Resources.LogSubDirectory);
 
                 filePath = string.Empty;
             }
@@ -56,7 +56,7 @@ namespace P3tr0viCh.Utils
             {
                 if (filePath.IsEmpty())
                 {
-                    filePath = Path.Combine(Directory, FileName + "." + Resources.LogExt);
+                    filePath = Path.Combine(Directory, FileName + "." + Properties.Resources.LogExt);
                 }
 
                 return filePath;
@@ -87,14 +87,14 @@ namespace P3tr0viCh.Utils
                     if (fileSize > MaxSize)
                     {
                         var backupFilePath = Path.Combine(Directory,
-                            FileName + "_" + dateTime.ToString(Resources.LogFormatDateTimeFile) + "." + Resources.LogExt);
+                            FileName + "_" + dateTime.ToString(Properties.Resources.LogFormatDateTimeFile) + "." + Properties.Resources.LogExt);
 
                         File.Move(FilePath, backupFilePath);
                     }
                 }
 
                 File.AppendAllText(FilePath,
-                    dateTime.ToString(Resources.LogFormatDateTimeText) +
+                    dateTime.ToString(Properties.Resources.LogFormatDateTimeText) +
                         Str.Space + s.Replace(Str.Eol, Str.Space).Trim() + Environment.NewLine);
             }
             catch (Exception e)
@@ -105,22 +105,22 @@ namespace P3tr0viCh.Utils
 
         public void WriteProgramStart()
         {
-            Write(string.Format(Resources.LogProgramStart, Files.ExecutableName(), new AssemblyDecorator().VersionString()));
+            Write(string.Format(Properties.Resources.LogProgramStart, Files.ExecutableName(), new AssemblyDecorator().VersionString()));
         }
 
         public void WriteProgramStop()
         {
-            Write(Resources.LogProgramStop);
+            Write(Properties.Resources.LogProgramStop);
         }
 
         public void WriteFormOpen(Form frm)
         {
-            Write(string.Format(Resources.LogFormOpen, frm.Name));
+            Write(string.Format(Properties.Resources.LogFormOpen, frm.Name));
         }
 
         public void WriteFormClose(Form frm)
         {
-            Write(string.Format(Resources.LogFormClose, frm.Name, frm.DialogResult));
+            Write(string.Format(Properties.Resources.LogFormClose, frm.Name, frm.DialogResult));
         }
     }
 }

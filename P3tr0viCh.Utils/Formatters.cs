@@ -1,37 +1,35 @@
-﻿using System;
+﻿using P3tr0viCh.Utils.Extensions;
+using System;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Formatters
 {
-    public static class Formatters
+    public class BoolFormatter : ICustomFormatter, IFormatProvider
     {
-        public class BoolFormatter : ICustomFormatter, IFormatProvider
+        public object GetFormat(Type formatType)
         {
-            public object GetFormat(Type formatType)
+            if (formatType == typeof(ICustomFormatter))
             {
-                if (formatType == typeof(ICustomFormatter))
-                {
-                    return this;
-                }
-
-                return null;
+                return this;
             }
 
-            public string Format(string format, object arg, IFormatProvider formatProvider)
+            return null;
+        }
+
+        public string Format(string format, object arg, IFormatProvider formatProvider)
+        {
+            if (arg is bool value)
             {
-                if (arg is bool value)
+                if (format.IsEmpty())
                 {
-                    if (format.IsEmpty())
-                    {
-                        return value.ToString();
-                    }
-
-                    var words = format.Split('|');
-
-                    return value ? words[0] : (words.Length > 1 ? words[1] : string.Empty);
+                    return value.ToString();
                 }
 
-                return string.Empty;
+                var words = format.Split('|');
+
+                return value ? words[0] : (words.Length > 1 ? words[1] : string.Empty);
             }
+
+            return string.Empty;
         }
     }
 }

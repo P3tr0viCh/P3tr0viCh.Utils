@@ -1,8 +1,8 @@
-﻿using P3tr0viCh.Utils.Properties;
+﻿using P3tr0viCh.Utils.Extensions;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Forms
 {
     public static class TextInputBox
     {
@@ -66,13 +66,13 @@ namespace P3tr0viCh.Utils
                 btnOk.Parent = frm;
                 btnOk.Font = frm.Font;
                 btnOk.SetBounds(120, 72, 80, 32);
-                btnOk.Text = Resources.TextInputBoxBtnOk;
+                btnOk.Text = Properties.Resources.TextInputBoxBtnOk;
                 btnOk.Click += (sender, args) => BtnOk_Click(frm, textText, options.CanEmpty);
 
                 btnCancel.Parent = frm;
                 btnCancel.Font = frm.Font;
                 btnCancel.SetBounds(208, 72, 80, 32);
-                btnCancel.Text = Resources.TextInputBoxBtnCancel;
+                btnCancel.Text = Properties.Resources.TextInputBoxBtnCancel;
                 btnCancel.DialogResult = DialogResult.Cancel;
 
                 if (frm.ShowDialog() == DialogResult.OK)
@@ -94,7 +94,7 @@ namespace P3tr0viCh.Utils
             {
                 if (textBox.IsEmpty())
                 {
-                    Msg.Error(Resources.TextInputBoxErrorEmptyText);
+                    Msg.Error(Properties.Resources.TextInputBoxErrorEmptyText);
 
                     textBox.Focus();
 

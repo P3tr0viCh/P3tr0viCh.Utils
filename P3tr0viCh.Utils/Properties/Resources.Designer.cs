@@ -61,7 +61,7 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Directory &apos;{0}&apos; not exists or path empty..
+        ///   Looks up a localized string similar to Каталог «{0}» не существует..
         /// </summary>
         internal static string ExceptionDirectoryNotExists {
             get {
@@ -70,7 +70,7 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File has an bad format..
+        ///   Looks up a localized string similar to Файл имеет непарвильный формат..
         /// </summary>
         internal static string ExceptionFileBadFormat {
             get {
@@ -79,7 +79,7 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File &apos;{0}&apos; not exists or path empty..
+        ///   Looks up a localized string similar to Файл «{0}» не существует..
         /// </summary>
         internal static string ExceptionFileNotExists {
             get {
@@ -88,7 +88,7 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File has a zero length..
+        ///   Looks up a localized string similar to Файл имеет нулевую длину..
         /// </summary>
         internal static string ExceptionFileZeroLength {
             get {

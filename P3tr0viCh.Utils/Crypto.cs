@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using System;
+using P3tr0viCh.Utils.Extensions;
 
 namespace P3tr0viCh.Utils
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Extensions
 {
     public static class DataRowExtensions
     {

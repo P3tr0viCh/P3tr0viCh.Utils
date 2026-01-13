@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System;
+using P3tr0viCh.Utils.Extensions;
 
 namespace P3tr0viCh.Utils
 {

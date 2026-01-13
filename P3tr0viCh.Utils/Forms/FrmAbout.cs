@@ -1,10 +1,10 @@
-﻿using P3tr0viCh.Utils.Properties;
+﻿using P3tr0viCh.Utils.Extensions;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Forms
 {
     public static class FrmAbout
     {
@@ -91,7 +91,7 @@ namespace P3tr0viCh.Utils
                 }
                 else
                 {
-                    caption = Resources.FrmAboutCaption;
+                    caption = Properties.Resources.FrmAboutCaption;
 
                     var assemblyDecorator = new AssemblyDecorator();
 
@@ -107,14 +107,14 @@ namespace P3tr0viCh.Utils
                     switch (options.License)
                     {
                         case Options.LicenseType.Free:
-                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4);
+                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Properties.Resources.FrmAboutEULA_1_1 + Str.Eol + Properties.Resources.FrmAboutEULA_2 + Str.Eol + Properties.Resources.FrmAboutEULA_3 + Str.Eol + Properties.Resources.FrmAboutEULA_4);
                             break;
                         case Options.LicenseType.Commercial:
-                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Resources.FrmAboutEULA_1_2 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4);
+                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Properties.Resources.FrmAboutEULA_1_2 + Str.Eol + Properties.Resources.FrmAboutEULA_2 + Str.Eol + Properties.Resources.FrmAboutEULA_3 + Str.Eol + Properties.Resources.FrmAboutEULA_4);
                             break;
                     }
 
-                    version = string.Format(Resources.FrmAboutVersion, assemblyDecorator.VersionString());
+                    version = string.Format(Properties.Resources.FrmAboutVersion, assemblyDecorator.VersionString());
                 }
 
                 if (options.AppNameLineBreak >= 0)
@@ -244,7 +244,7 @@ namespace P3tr0viCh.Utils
                 frm.Height += lblCopyright.Height + lblVersion.Height + lblText.Height;
 
                 btnClose.Parent = frm;
-                btnClose.Text = Resources.FrmAboutBtnOk;
+                btnClose.Text = Properties.Resources.FrmAboutBtnOk;
                 btnClose.DialogResult = DialogResult.OK;
                 btnClose.SetBounds(frm.ClientSize.Width - 88, frm.ClientSize.Height - 40, 80, 32);
                 btnClose.TabIndex = 0;

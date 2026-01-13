@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="AppOneInstance.cs" />
     <Compile Include="AssemblyDecorator.cs" />
+    <Compile Include="Converters\BooleanTypeConverter.cs" />
+    <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Extensions\DataGridViewExtensions.cs" />
     <Compile Include="DataTableFile.cs" />
     <Compile Include="DebugWrite.cs" />
@@ -59,11 +61,12 @@
     <Compile Include="Extensions\DataRowExtensions.cs" />
     <Compile Include="Formatters.cs" />
     <Compile Include="Extensions\FrmHelperExtensions.cs" />
+    <Compile Include="Attributes\CheckDirectoryAttribute.cs" />
     <Compile Include="Forms\FrmSettingsBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gpx.cs" />
-    <Compile Include="Converters.cs" />
+    <Compile Include="Converters\Converters.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Files.cs" />
@@ -73,8 +76,8 @@
     <Compile Include="ImageBtn.cs" />
     <Compile Include="Interfaces\IBaseId.cs" />
     <Compile Include="Interfaces\IBaseText.cs" />
-    <Compile Include="LocalizedAttribute.cs" />
-    <Compile Include="LocalizedAttributes.cs" />
+    <Compile Include="Attributes\LocalizedAttribute.cs" />
+    <Compile Include="Properties\Consts.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Misc.cs" />

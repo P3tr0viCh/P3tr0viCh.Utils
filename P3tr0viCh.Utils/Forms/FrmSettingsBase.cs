@@ -1,22 +1,29 @@
-﻿using System;
+﻿using P3tr0viCh.Utils.Attributes;
+using P3tr0viCh.Utils.Extensions;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Forms
 {
-    public class FrmSettingsBase : Form
+    public partial class FrmSettingsBase : Form
     {
         private Panel panelBottom;
 
         private Button btnOk;
         private Button btnCancel;
-        
+
         private PropertyGrid propertyGrid;
 
         public PropertyGrid PropertyGrid => propertyGrid;
 
         private readonly ISettingsBase settings;
-        
+
         public ISettingsBase Settings => settings;
 
         private FrmSettingsBase()
@@ -104,6 +111,102 @@ namespace P3tr0viCh.Utils
             propertyGrid.ExpandAllGridItems();
         }
 
+        private CheckDirectoryAttribute GetCheckDirectoryAttribute(PropertyInfo property)
+        {
+            return (CheckDirectoryAttribute)property.GetCustomAttribute(typeof(CheckDirectoryAttribute));
+        }
+
+        private IEnumerable<PropertyInfo> GetDirectories()
+        {
+            var type = Settings.GetType();
+
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            return properties.Where(property =>
+                property.PropertyType == typeof(string) &&
+                property.IsDefined(typeof(CheckDirectoryAttribute), false));
+        }
+
+        private string GetFullPath(string path)
+        {
+            if (path.IsEmpty()) return string.Empty;
+
+            return Path.GetFullPath(path);
+        }
+
+        private void SetFullPaths()
+        {
+            var directories = GetDirectories();
+
+            foreach (var directory in directories)
+            {
+                var checkDirectoryAttribute = GetCheckDirectoryAttribute(directory);
+
+                if (checkDirectoryAttribute.SetFullPath)
+                {
+                    directory.SetValue(Settings, GetFullPath(directory.GetValue(Settings) as string));
+                }
+            }
+
+            PropertyGrid.Refresh();
+        }
+
+        public string GetPropertyName(PropertyInfo property)
+        {
+            string category;
+
+            string name;
+
+            var categoryNameAttribute = property.GetCustomAttribute(typeof(CategoryAttribute));
+
+            if (categoryNameAttribute != null)
+            {
+                category = ((CategoryAttribute)categoryNameAttribute).Category;
+            }
+            else
+            {
+                category = string.Empty;
+            }
+
+            var displayNameAttribute = property.GetCustomAttribute(typeof(DisplayNameAttribute));
+
+            if (displayNameAttribute != null)
+            {
+                name = ((DisplayNameAttribute)displayNameAttribute).DisplayName;
+            }
+            else
+            {
+                name = property.Name;
+            }
+
+            return category.IsEmpty() ? name : category + "/" + name;
+        }
+
+        private void CheckDirectories()
+        {
+            var directories = GetDirectories();
+
+            foreach (var directory in directories)
+            {
+                var checkDirectoryAttribute = GetCheckDirectoryAttribute(directory);
+
+                var value = directory.GetValue(Settings) as string;
+
+                if (!checkDirectoryAttribute.CanEmpty)
+                {
+                    if (value.IsEmpty())
+                    {
+                        throw new ArgumentNullException(GetPropertyName(directory));
+                    }
+                }
+
+                if (checkDirectoryAttribute.CheckExists)
+                {
+                    Files.CheckDirectoryExists(value);
+                }
+            }
+        }
+
         protected virtual void CheckSettings()
         {
         }
@@ -117,6 +220,10 @@ namespace P3tr0viCh.Utils
         {
             try
             {
+                SetFullPaths();
+
+                CheckDirectories();
+
                 CheckSettings();
 
                 return true;
