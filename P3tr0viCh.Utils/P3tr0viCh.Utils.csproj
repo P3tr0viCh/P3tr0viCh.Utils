@@ -82,6 +82,7 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Osm.cs" />
     <Compile Include="PasswordProperty.cs" />
+    <Compile Include="PathComparer.cs" />
     <Compile Include="PresenterDataGridView.cs" />
     <Compile Include="PresenterStatusStrip.cs" />
     <Compile Include="ProgramStatus.cs" />

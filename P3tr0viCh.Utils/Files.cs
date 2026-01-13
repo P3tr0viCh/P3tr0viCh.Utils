@@ -108,7 +108,7 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static IEnumerable<string> DirectoryEnumerateFiles(string path, 
+        public static IEnumerable<string> DirectoryEnumerateFiles(string path,
             SearchOption searchOption, string extensions)
         {
             var files = Directory.EnumerateFiles(path, "*", searchOption);
@@ -123,7 +123,7 @@ namespace P3tr0viCh.Utils
             return files;
         }
 
-        public static async Task<IEnumerable<string>> DirectoryEnumerateFilesAsync(string path, 
+        public static async Task<IEnumerable<string>> DirectoryEnumerateFilesAsync(string path,
             SearchOption searchOption, string extensions)
         {
             return await Task.Factory.StartNew(() =>
@@ -139,14 +139,21 @@ namespace P3tr0viCh.Utils
 
         public static string PathNormalize(string path)
         {
-            return Path.GetFullPath(new Uri(path).LocalPath)
-                       .RemoveLastSeparatorChar()
-                       .ToUpperInvariant();
+            var result = path.RemoveLastSeparatorChar();
+
+            if (Uri.TryCreate(result, UriKind.Absolute, out Uri uri) && uri.Scheme == Uri.UriSchemeFile)
+            {
+                result = uri.LocalPath;
+            }
+
+            result = Path.GetFullPath(result);
+
+            return result;
         }
 
         public static bool PathEquals(string path1, string path2)
         {
-            return string.Equals(PathNormalize(path1), PathNormalize(path2));
+            return new PathComparer().Equals(path1, path2);
         }
 
         public static void CheckDirectoryExists(string path)
