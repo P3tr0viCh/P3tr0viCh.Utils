@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace P3tr0viCh.Utils
 {
-    public class ProgramStatus<T> where T : System.Enum
+    public class ProgramStatus<T> where T : Enum
     {
         public class Status
         {
@@ -18,11 +19,8 @@ namespace P3tr0viCh.Utils
 
         private readonly List<Status> statuses = new List<Status>();
 
-        private readonly T idle;
-
-        public ProgramStatus(T idle)
+        public ProgramStatus()
         {
-            this.idle = idle;
         }
 
         public delegate void StatusChangedEventHandler(object sender, T status);
@@ -48,20 +46,7 @@ namespace P3tr0viCh.Utils
 
         public bool IsIdle => statuses.Count == 0;
 
-        public T Current
-        {
-            get
-            {
-                if (IsIdle)
-                {
-                    return idle;
-                }
-                else
-                {
-                    return statuses[statuses.Count - 1].Value;
-                }
-            }
-        }
+        public T Current => IsIdle ? default : statuses[statuses.Count - 1].Value;
 
         public int Count(T status)
         {
