@@ -1,5 +1,7 @@
 ﻿using P3tr0viCh.Utils.Attributes;
+using P3tr0viCh.Utils.Exceptions;
 using P3tr0viCh.Utils.Extensions;
+using P3tr0viCh.Utils.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -184,26 +186,39 @@ namespace P3tr0viCh.Utils.Forms
 
         private void CheckDirectories()
         {
-            var directories = GetDirectories();
+            var propertyName = string.Empty;
 
-            foreach (var directory in directories)
+            try
             {
-                var checkDirectoryAttribute = GetCheckDirectoryAttribute(directory);
+                var directories = GetDirectories();
 
-                var value = directory.GetValue(Settings) as string;
-
-                if (!checkDirectoryAttribute.CanEmpty)
+                foreach (var directory in directories)
                 {
+                    propertyName = GetPropertyName(directory);  
+
+                    var checkDirectoryAttribute = GetCheckDirectoryAttribute(directory);
+
+                    var value = directory.GetValue(Settings) as string;
+
                     if (value.IsEmpty())
                     {
-                        throw new ArgumentNullException(GetPropertyName(directory));
+                        if (!checkDirectoryAttribute.CanEmpty)
+                        {
+                            throw new ArgumentNullException();
+                        }
+                    }
+                    else
+                    {
+                        if (checkDirectoryAttribute.CheckExists)
+                        {
+                            Files.CheckDirectoryExists(value);
+                        }
                     }
                 }
-
-                if (checkDirectoryAttribute.CheckExists)
-                {
-                    Files.CheckDirectoryExists(value);
-                }
+            }
+            catch (Exception e)
+            {
+                throw new PropertyException(propertyName, e);
             }
         }
 

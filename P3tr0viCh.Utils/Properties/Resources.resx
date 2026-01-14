@@ -129,6 +129,14 @@
   <data name="ExceptionFileZeroLength" xml:space="preserve">
     <value>Файл имеет нулевую длину.</value>
   </data>
+  <data name="ExceptionProperty" xml:space="preserve">
+    <value>Ошибка в «{0}».</value>
+  </data>
+  <data name="ExceptionPropertyWithException" xml:space="preserve">
+    <value>Ошибка в «{0}»:
+
+{1}</value>
+  </data>
   <data name="FrmAboutBtnOk" xml:space="preserve">
     <value>OK</value>
   </data>

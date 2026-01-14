@@ -97,6 +97,26 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка в «{0}»..
+        /// </summary>
+        internal static string ExceptionProperty {
+            get {
+                return ResourceManager.GetString("ExceptionProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка в «{0}»:
+        ///
+        ///{1}.
+        /// </summary>
+        internal static string ExceptionPropertyWithException {
+            get {
+                return ResourceManager.GetString("ExceptionPropertyWithException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string FrmAboutBtnOk {

@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
+using P3tr0viCh.Utils.Exceptions;
+using P3tr0viCh.Utils.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using P3tr0viCh.Utils.Exceptions;
-using P3tr0viCh.Utils.Extensions;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Settings
 {
     public interface ISettingsBase
     {
@@ -15,27 +16,33 @@ namespace P3tr0viCh.Utils
         bool Save();
     }
 
+    public class FormState
+    {
+        public Rectangle Bounds { get; set; } = default;
+        public bool Maximized { get; set; } = false;
+    }
+
+    public class FormStates : Dictionary<string, FormState>
+    {
+    }
+
+    public class ColumnState
+    {
+        public int Index { get; set; } = default;
+        public string Name { get; set; } = default;
+        public int Width { get; set; } = default;
+        public bool Visible { get; set; } = true;
+        public int DisplayIndex { get; set; } = default;
+    }
+
+    public class ColumnStates : Dictionary<string, ColumnState[]>
+    {
+    }
+
     public class SettingsBase<T> : ISettingsBase where T : new()
     {
-        public class FormState
-        {
-            public Rectangle Bounds { get; set; } = default;
-            public bool Maximized { get; set; } = false;
-        }
-
-        public class ColumnState
-        {
-            public int Index { get; set; } = default;
-            public string Name { get; set; } = default;
-            public int Width { get; set; } = default;
-            public bool Visible { get; set; } = true;
-            public int DisplayIndex { get; set; } = default;
-        }
-
-
         private static T defaultInstance = new T();
         public static T Default => defaultInstance;
-
 
         private static string directory = string.Empty;
         public static string Directory
@@ -85,7 +92,17 @@ namespace P3tr0viCh.Utils
 
         public static Exception LastError { get; private set; } = null;
 
-        public static FormState SaveFormState(Form form)
+        private static string GetFormName(Form form)
+        {
+            return form.GetType().Name;
+        }
+
+        private static string GetDataGridViewName(DataGridView dataGridView)
+        {
+            return dataGridView.Name;
+        }
+
+        private static FormState SaveFormState(Form form)
         {
             var state = new FormState();
 
@@ -123,7 +140,21 @@ namespace P3tr0viCh.Utils
             return state;
         }
 
-        public static void LoadFormState(Form form, FormState state)
+        public static void SaveFormState(Form form, string name, FormStates states)
+        {
+            if (name.IsEmpty()) name = GetFormName(form);
+
+            var state = SaveFormState(form);
+
+            states[name] = state;
+        }
+
+        public static void SaveFormState(Form form, FormStates states)
+        {
+            SaveFormState(form, string.Empty, states);
+        }
+
+        private static void LoadFormState(Form form, FormState state)
         {
             try
             {
@@ -174,7 +205,21 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static ColumnState[] SaveDataGridColumns(DataGridView dataGridView)
+        public static void LoadFormState(Form form, string name, FormStates states)
+        {
+            if (name.IsEmpty()) name = GetFormName(form);
+
+            if (!states.TryGetValue(name, out FormState state)) state = new FormState();
+
+            LoadFormState(form, state);
+        }
+
+        public static void LoadFormState(Form form, FormStates states)
+        {
+            LoadFormState(form, string.Empty, states);
+        }
+
+        private static ColumnState[] SaveDataGridColumns(DataGridView dataGridView)
         {
             var columns = new ColumnState[dataGridView.Columns.Count];
 
@@ -193,7 +238,21 @@ namespace P3tr0viCh.Utils
             return columns;
         }
 
-        public static void LoadDataGridColumns(DataGridView dataGridView, ColumnState[] columns)
+        public static void SaveDataGridColumns(DataGridView dataGridView, string name, ColumnStates states)
+        {
+            if (name.IsEmpty()) name = GetDataGridViewName(dataGridView);
+
+            var state = SaveDataGridColumns(dataGridView);
+
+            states[name] = state;
+        }
+
+        public static void SaveDataGridColumns(DataGridView dataGridView, ColumnStates states)
+        {
+            SaveDataGridColumns(dataGridView, string.Empty, states);
+        }
+
+        private static void LoadDataGridColumns(DataGridView dataGridView, ColumnState[] columns)
         {
             try
             {
@@ -219,6 +278,24 @@ namespace P3tr0viCh.Utils
             catch
             {
             }
+        }
+
+        public static void LoadDataGridColumns(DataGridView dataGridView, string name, ColumnStates columnStates)
+        {
+            if (name.IsEmpty()) name = GetDataGridViewName(dataGridView);
+
+            if (!columnStates.TryGetValue(name, out ColumnState[] columns)) columns = null;
+
+            LoadDataGridColumns(dataGridView, columns);
+        }
+
+        public static void LoadDataGridColumns(DataGridView dataGridView, ColumnStates columnStates)
+        {
+            LoadDataGridColumns(dataGridView, string.Empty, columnStates);
+        }
+
+        protected virtual void Check()
+        {
         }
 
         public bool Save()
@@ -265,6 +342,8 @@ namespace P3tr0viCh.Utils
                 }
 
                 if (defaultInstance == null) throw new NullReferenceException();
+
+                Check();
 
                 return true;
             }
