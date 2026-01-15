@@ -95,7 +95,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PropertySortedConverter.cs" />
+    <Compile Include="Converters\PropertySortedConverter.cs" />
     <Compile Include="SettingsBase.cs" />
     <Compile Include="Str.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
