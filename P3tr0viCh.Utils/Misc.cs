@@ -1,6 +1,7 @@
 ﻿using P3tr0viCh.Utils.Extensions;
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -93,16 +94,16 @@ namespace P3tr0viCh.Utils
                 return ResourceKey;
             }
 
-            var assembly = Assembly.GetEntryAssembly();
-
-            var baseName = $"{assembly.GetName().Name}.{ResourcesName}";
-
-            var res = new ResourceManager(baseName, assembly);
-
             var str = string.Empty;
 
             try
             {
+                var assembly = Assembly.GetEntryAssembly();
+
+                var baseName = $"{assembly.GetName().Name}.{ResourcesName}";
+
+                var res = new ResourceManager(baseName, assembly);
+
                 str = res.GetString(ResourceKey);
             }
             catch (Exception)
@@ -110,6 +111,20 @@ namespace P3tr0viCh.Utils
             }
 
             return str.IsEmpty() ? ResourceKey : str;
+        }
+
+        public static Color HexToColor(string hex)
+        {
+            if (hex.StartsWith("#"))
+            {
+                hex = hex.Substring(1);
+            }
+
+            int r = int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+            int g = int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+            int b = int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+
+            return Color.FromArgb(r, g, b);
         }
     }
 }
