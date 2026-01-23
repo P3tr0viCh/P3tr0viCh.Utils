@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -54,6 +55,11 @@ namespace P3tr0viCh.Utils.Extensions
             for (byte index = 0, m = 1; index < 8; index++, m *= 2)
                 result += bitArray.Get(index) ? m : (byte)0;
             return result;
+        }
+
+        public static string ToString(this BitArray bitArray)
+        {
+            return string.Join("", bitArray.Cast<bool>().Reverse().Select(bit => bit ? '1' : '0'));
         }
     }
 
