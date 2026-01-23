@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using P3tr0viCh.Utils.Comparers;
 using P3tr0viCh.Utils.Exceptions;
 using P3tr0viCh.Utils.Extensions;
 

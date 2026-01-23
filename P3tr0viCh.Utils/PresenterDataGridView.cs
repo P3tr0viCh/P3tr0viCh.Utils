@@ -1,4 +1,5 @@
-﻿using P3tr0viCh.Utils.Extensions;
+﻿using P3tr0viCh.Utils.Comparers;
+using P3tr0viCh.Utils.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -7,7 +8,7 @@ namespace P3tr0viCh.Utils
 {
     public interface IPresenterDataGridViewCompare<T> where T : IBaseId
     {
-        int Compare(T x, T y, string dataPropertyName);
+        int Compare(T x, T y, string dataPropertyName, ComparerSortOrder sortOrder);
     }
 
     public abstract class PresenterDataGridView<T> : IPresenterDataGridViewCompare<T> where T : IBaseId
@@ -42,7 +43,9 @@ namespace P3tr0viCh.Utils
             {
                 if (sortColumn == value)
                 {
-                    SortOrderDescending = !SortOrderDescending;
+                    SortOrder = SortOrder == ComparerSortOrder.Ascending ? 
+                        ComparerSortOrder.Descending : 
+                        ComparerSortOrder.Ascending;
 
                     return;
                 }
@@ -51,9 +54,9 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public bool SortOrderDescending { get; set; } = false;
+        public ComparerSortOrder SortOrder { get; set; } = ComparerSortOrder.Ascending;
 
-        public abstract int Compare(T x, T y, string dataPropertyName);
+        public abstract int Compare(T x, T y, string dataPropertyName, ComparerSortOrder sortOrder);
 
         public void Sort()
         {
@@ -75,19 +78,15 @@ namespace P3tr0viCh.Utils
             {
                 var propertyName = DataGridView.Columns[SortColumn].DataPropertyName;
 
-                var compare = Compare(x, y, propertyName);
-
-                if (SortOrderDescending)
-                {
-                    compare = -compare;
-                }
-
-                return compare;
+                return Compare(x, y, propertyName, SortOrder);
             });
 
             bindingSource.DataSource = list;
 
-            DataGridView.Columns[SortColumn].HeaderCell.SortGlyphDirection = SortOrderDescending ? SortOrder.Descending : SortOrder.Ascending;
+            DataGridView.Columns[SortColumn].HeaderCell.SortGlyphDirection = 
+                SortOrder == ComparerSortOrder.Descending ? 
+                    System.Windows.Forms.SortOrder.Descending :
+                    System.Windows.Forms.SortOrder.Ascending;
 
             SelectedList = selectedList;
         }

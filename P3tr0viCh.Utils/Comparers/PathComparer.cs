@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Comparers
 {
     public class PathComparer : IEqualityComparer<string>
     {

@@ -51,8 +51,12 @@
   <ItemGroup>
     <Compile Include="AppOneInstance.cs" />
     <Compile Include="AssemblyDecorator.cs" />
+    <Compile Include="Comparers\ComparerSortOrder.cs" />
+    <Compile Include="Comparers\ISortOrderComparer.cs" />
+    <Compile Include="Comparers\SortOrderComparer.cs" />
     <Compile Include="Converters\BooleanTypeConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Comparers\EmptyStringComparer.cs" />
     <Compile Include="Extensions\DataGridViewExtensions.cs" />
     <Compile Include="DataTableFile.cs" />
     <Compile Include="DebugWrite.cs" />
@@ -85,7 +89,7 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Osm.cs" />
     <Compile Include="PasswordProperty.cs" />
-    <Compile Include="PathComparer.cs" />
+    <Compile Include="Comparers\PathComparer.cs" />
     <Compile Include="PresenterDataGridView.cs" />
     <Compile Include="PresenterStatusStrip.cs" />
     <Compile Include="ProgramStatus.cs" />
