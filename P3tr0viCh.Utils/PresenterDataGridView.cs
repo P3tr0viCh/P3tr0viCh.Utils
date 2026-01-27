@@ -33,6 +33,8 @@ namespace P3tr0viCh.Utils
             get => DataGridView.GetSelectedList<T>();
             set => DataGridView.SetSelectedList(value);
         }
+        
+        public bool CanSort { get; set; } = true;
 
         private string sortColumn = string.Empty;
 
@@ -43,8 +45,8 @@ namespace P3tr0viCh.Utils
             {
                 if (sortColumn == value)
                 {
-                    SortOrder = SortOrder == ComparerSortOrder.Ascending ? 
-                        ComparerSortOrder.Descending : 
+                    SortOrder = SortOrder == ComparerSortOrder.Ascending ?
+                        ComparerSortOrder.Descending :
                         ComparerSortOrder.Ascending;
 
                     return;
@@ -60,6 +62,8 @@ namespace P3tr0viCh.Utils
 
         public void Sort()
         {
+            if (!CanSort) return;
+
             if (DataGridView.IsEmpty()) return;
 
             if (SortColumn.IsEmpty()) return;
@@ -83,8 +87,8 @@ namespace P3tr0viCh.Utils
 
             bindingSource.DataSource = list;
 
-            DataGridView.Columns[SortColumn].HeaderCell.SortGlyphDirection = 
-                SortOrder == ComparerSortOrder.Descending ? 
+            DataGridView.Columns[SortColumn].HeaderCell.SortGlyphDirection =
+                SortOrder == ComparerSortOrder.Descending ?
                     System.Windows.Forms.SortOrder.Descending :
                     System.Windows.Forms.SortOrder.Ascending;
 
@@ -94,6 +98,8 @@ namespace P3tr0viCh.Utils
         private void DataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
+
+            if (!CanSort) return;
 
             SortColumn = DataGridView.Columns[e.ColumnIndex].Name;
 
