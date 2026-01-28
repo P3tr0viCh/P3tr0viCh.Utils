@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace P3tr0viCh.Utils
+namespace P3tr0viCh.Utils.Presenters
 {
     public interface IPresenterDataGridViewCompare<T> where T : IBaseId
     {
@@ -18,6 +18,8 @@ namespace P3tr0viCh.Utils
         public PresenterDataGridView(DataGridView dataGridView)
         {
             DataGridView = dataGridView;
+
+            DataGridView.CellMouseDown += new DataGridViewCellMouseEventHandler(DataGridView_CellMouseDown);
 
             DataGridView.ColumnHeaderMouseClick += new DataGridViewCellMouseEventHandler(DataGridView_ColumnHeaderMouseClick);
         }
@@ -70,6 +72,8 @@ namespace P3tr0viCh.Utils
 
             if (!DataGridView.ColumnExists(SortColumn)) return;
 
+            if (DataGridView.Columns[SortColumn].SortMode == DataGridViewColumnSortMode.NotSortable) return;
+
             var bindingSource = DataGridView.BindingSource();
 
             if (bindingSource == null) return;
@@ -93,6 +97,17 @@ namespace P3tr0viCh.Utils
                     System.Windows.Forms.SortOrder.Ascending;
 
             SelectedList = selectedList;
+        }
+
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+                {
+                    DataGridView.CurrentCell = DataGridView[e.ColumnIndex, e.RowIndex];
+                }
+            }
         }
 
         private void DataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)

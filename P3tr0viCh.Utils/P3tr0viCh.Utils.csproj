@@ -90,8 +90,8 @@
     <Compile Include="Osm.cs" />
     <Compile Include="PasswordProperty.cs" />
     <Compile Include="Comparers\PathComparer.cs" />
-    <Compile Include="PresenterDataGridView.cs" />
-    <Compile Include="PresenterStatusStrip.cs" />
+    <Compile Include="Presenters\PresenterDataGridView.cs" />
+    <Compile Include="Presenters\PresenterStatusStrip.cs" />
     <Compile Include="ProgramStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
