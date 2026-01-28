@@ -70,7 +70,9 @@ namespace P3tr0viCh.Utils.Extensions
 
             if (binding == null) return -1;
 
-            return binding.IndexOf(value);
+            var item = binding.List.Cast<T>().Where(i => i.Id == value.Id).FirstOrDefault();
+
+            return binding.IndexOf(item);
         }
 
         public static void SetPosition(this DataGridView dataGridView, int position)
