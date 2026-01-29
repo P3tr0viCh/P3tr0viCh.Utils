@@ -63,6 +63,7 @@
     <Compile Include="DefaultInstance.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Extensions\DataRowExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Formatters.cs" />
     <Compile Include="Extensions\FrmHelperExtensions.cs" />
     <Compile Include="Attributes\CheckDirectoryAttribute.cs" />

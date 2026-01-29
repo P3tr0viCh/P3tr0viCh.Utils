@@ -42,11 +42,6 @@ namespace P3tr0viCh.Utils.Extensions
             control.ClientRectangle.Contains(control.PointToClient(Cursor.Position));
     }
 
-    public static class EnumExtensions
-    {
-        public static int ToInt(this Enum enumValue) => Convert.ToInt32(enumValue);
-    }
-
     public static class BitArrayExtensions
     {
         public static byte ToByte(this BitArray bitArray)
