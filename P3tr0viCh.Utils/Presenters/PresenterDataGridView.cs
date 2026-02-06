@@ -1,16 +1,12 @@
 ﻿using P3tr0viCh.Utils.Comparers;
 using P3tr0viCh.Utils.Extensions;
+using P3tr0viCh.Utils.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils.Presenters
 {
-    public interface IPresenterDataGridViewCompare<T> where T : IBaseId
-    {
-        int Compare(T x, T y, string dataPropertyName, ComparerSortOrder sortOrder);
-    }
-
     public abstract class PresenterDataGridView<T> : IPresenterDataGridViewCompare<T> where T : IBaseId
     {
         public DataGridView DataGridView { get; private set; }
@@ -35,7 +31,7 @@ namespace P3tr0viCh.Utils.Presenters
             get => DataGridView.GetSelectedList<T>();
             set => DataGridView.SetSelectedList(value);
         }
-        
+
         public bool CanSort { get; set; } = true;
 
         private string sortColumn = string.Empty;

@@ -57,6 +57,12 @@
     <Compile Include="Converters\BooleanTypeConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Comparers\EmptyStringComparer.cs" />
+    <Compile Include="Delegates\ItemChangeDialogEventHandler.cs" />
+    <Compile Include="Delegates\ItemListChangeDialogEventHandler.cs" />
+    <Compile Include="Delegates\ItemListDeleteDialogEventHandler.cs" />
+    <Compile Include="EventArguments\ItemDialogEventArgs.cs" />
+    <Compile Include="Delegates\FrmListChangedEventHandler.cs" />
+    <Compile Include="EventArguments\OkEventArgs.cs" />
     <Compile Include="Extensions\DataGridViewExtensions.cs" />
     <Compile Include="DataTableFile.cs" />
     <Compile Include="DebugWrite.cs" />
@@ -67,6 +73,7 @@
     <Compile Include="Formatters.cs" />
     <Compile Include="Extensions\FrmHelperExtensions.cs" />
     <Compile Include="Attributes\CheckDirectoryAttribute.cs" />
+    <Compile Include="Forms\FrmListGrant.cs" />
     <Compile Include="Forms\FrmSettingsBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +89,13 @@
     <Compile Include="Interfaces\IBaseId.cs" />
     <Compile Include="Interfaces\IBaseText.cs" />
     <Compile Include="Attributes\LocalizedAttribute.cs" />
+    <Compile Include="Interfaces\IFrmList.cs" />
+    <Compile Include="Interfaces\IPresenterFrmList.cs" />
+    <Compile Include="Interfaces\IPresenterDataGridViewCompare.cs" />
+    <Compile Include="EventArguments\ItemListDialogEventArgs.cs" />
+    <Compile Include="Presenters\PresenterDataGridViewFrmList.cs" />
+    <Compile Include="Presenters\PresenterFrmList.cs" />
+    <Compile Include="Presenters\PresenterFrmList.Database.cs" />
     <Compile Include="Properties\Consts.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Login.cs" />
