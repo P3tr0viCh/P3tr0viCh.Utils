@@ -7,5 +7,7 @@ namespace P3tr0viCh.Utils.Interfaces
         DataGridView DataGridView { get; }
 
         ToolStrip ToolStrip { get; }
+
+        StatusStrip StatusStrip { get; }
     }
 }

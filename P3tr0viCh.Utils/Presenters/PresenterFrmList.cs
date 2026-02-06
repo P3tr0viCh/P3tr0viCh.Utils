@@ -20,19 +20,25 @@ namespace P3tr0viCh.Utils.Presenters
 
         public Form Form => FrmList as Form;
 
-        public bool Changed { get; set; } = false;
-
-        public DataGridView DataGridView => FrmList.DataGridView;
+        public bool Changed { get; private set; } = false;
 
         public BindingSource BindingSource { get; private set; } = new BindingSource();
 
         public PresenterDataGridView<T> PresenterDataGridView { get; private set; }
+
+        public event FrmListChangedEventHandler FrmListChanged;
 
         public event ItemChangeDialogEventHandler<T> ItemChangeDialog;
 
         public event ItemListChangeDialogEventHandler<T> ItemListChangeDialog;
 
         public event ItemListDeleteDialogEventHandler<T> ItemListDeleteDialog;
+
+        public event ItemChangedEventHandler<T> ItemChanged;
+
+        public event ItemListChangedEventHandler<T> ItemListChanged;
+
+        public event ItemListDeletedEventHandler<T> ItemListDeleted;
 
         public PresenterFrmList(IFrmList frmList)
         {
@@ -43,7 +49,7 @@ namespace P3tr0viCh.Utils.Presenters
 
             PresenterDataGridView = new PresenterDataGridViewFrmList<T>(this);
 
-            DataGridView.CellDoubleClick += new DataGridViewCellEventHandler(DataGridView_CellDoubleClick);
+            FrmList.DataGridView.CellDoubleClick += new DataGridViewCellEventHandler(DataGridView_CellDoubleClick);
         }
 
         private async void FrmList_Load(object sender, EventArgs e)
@@ -109,7 +115,7 @@ namespace P3tr0viCh.Utils.Presenters
         {
             BindingSource.DataSource = Enumerable.Empty<T>();
 
-            DataGridView.DataSource = BindingSource;
+            FrmList.DataGridView.DataSource = BindingSource;
         }
 
         protected abstract string FormTitle { get; }
@@ -119,6 +125,10 @@ namespace P3tr0viCh.Utils.Presenters
         protected abstract void SaveFormState();
 
         protected abstract void UpdateColumns();
+
+        public virtual void UpdateSettings()
+        {
+        }
 
         protected virtual void FormOpened()
         {
@@ -130,13 +140,15 @@ namespace P3tr0viCh.Utils.Presenters
 
             Form.Text = FormTitle;
 
-            DataGridView.MultiSelect = true;
+            FrmList.DataGridView.MultiSelect = true;
 
             SetDataSource();
 
             LoadFormState();
 
             UpdateColumns();
+
+            UpdateSettings();
 
             await PerformListLoadAsync();
         }
@@ -171,15 +183,6 @@ namespace P3tr0viCh.Utils.Presenters
             set => PresenterDataGridView.SelectedList = value;
         }
 
-        public event FrmListChangedEventHandler FrmListChanged;
-
-        private void PerformOnListChanged()
-        {
-            Changed = true;
-
-            FrmListChanged?.Invoke(this);
-        }
-
         private void InternalListItemChange(T value)
         {
             var item = Find(value);
@@ -202,11 +205,18 @@ namespace P3tr0viCh.Utils.Presenters
         {
             InternalListItemChange(value);
 
-            DataGridView.SetSelectedRows(value);
+            FrmList.DataGridView.SetSelectedRows(value);
 
             PresenterDataGridView.Sort();
 
-            PerformOnListChanged();
+            var itemChangedEventArgs = new ItemChangedEventArgs<T>()
+            {
+                Value = value
+            };
+
+            OnItemChangedEvent(itemChangedEventArgs);
+
+            OnFrmListChangedEvent();
         }
 
         private void ListItemChange(IEnumerable<T> list)
@@ -216,21 +226,40 @@ namespace P3tr0viCh.Utils.Presenters
                 InternalListItemChange(item);
             }
 
-            DataGridView.SetSelectedRows(list);
+            FrmList.DataGridView.SetSelectedRows(list);
 
             PresenterDataGridView.Sort();
 
-            PerformOnListChanged();
+            var itemListChangedEventArgs = new ItemListChangedEventArgs<T>()
+            {
+                Values = list
+            };
+
+            OnItemListChangedEvent(itemListChangedEventArgs);
+
+            OnFrmListChangedEvent();
+        }
+
+        private void InternalListItemDelete(IBaseId value)
+        {
+            BindingSource.Remove(value);
         }
 
         private void ListItemDelete(IEnumerable<T> list)
         {
             foreach (var item in list)
             {
-                BindingSource.Remove(item);
+                InternalListItemDelete(item);
             }
 
-            PerformOnListChanged();
+            var itemListDeletedEventArgs = new ItemListDeletedEventArgs<T>()
+            {
+                Values = list
+            };
+
+            OnItemListDeletedEvent(itemListDeletedEventArgs);
+
+            OnFrmListChangedEvent();
         }
 
         protected virtual T GetNewItem() => new T();
@@ -248,6 +277,28 @@ namespace P3tr0viCh.Utils.Presenters
         internal void OnItemListDeleteDialogEvent(ItemListDialogEventArgs<T> e)
         {
             ItemListDeleteDialog?.Invoke(this, e);
+        }
+
+        internal void OnFrmListChangedEvent()
+        {
+            Changed = true;
+
+            FrmListChanged?.Invoke(this);
+        }
+
+        internal void OnItemChangedEvent(ItemChangedEventArgs<T> e)
+        {
+            ItemChanged?.Invoke(this, e);
+        }
+
+        internal void OnItemListChangedEvent(ItemListChangedEventArgs<T> e)
+        {
+            ItemListChanged?.Invoke(this, e);
+        }
+
+        internal void OnItemListDeletedEvent(ItemListDeletedEventArgs<T> e)
+        {
+            ItemListDeleted?.Invoke(this, e);
         }
 
         private bool ShowItemChangeDialog(T value)
@@ -333,7 +384,7 @@ namespace P3tr0viCh.Utils.Presenters
 
             if (item == null) return;
 
-            DataGridView.SetSelectedRows(item);
+            FrmList.DataGridView.SetSelectedRows(item);
 
             await ListItemChangeAsync(item);
         }
@@ -344,7 +395,7 @@ namespace P3tr0viCh.Utils.Presenters
 
             if (!list.Any()) return;
 
-            DataGridView.SetSelectedRows(list);
+            FrmList.DataGridView.SetSelectedRows(list);
 
             await ListItemChangeAsync(list);
         }
@@ -353,7 +404,7 @@ namespace P3tr0viCh.Utils.Presenters
         {
             if (!CanChange) return;
 
-            if (Grants.HasFlag(FrmListGrant.MultiChange) && DataGridView.SelectedCount() > 1)
+            if (Grants.HasFlag(FrmListGrant.MultiChange) && FrmList.DataGridView.SelectedCount() > 1)
             {
                 await ListItemChangeSelectedListAsync();
             }
@@ -373,7 +424,7 @@ namespace P3tr0viCh.Utils.Presenters
 
                 if (!list.Any()) return;
 
-                DataGridView.SetSelectedRows(list);
+                FrmList.DataGridView.SetSelectedRows(list);
 
                 if (!ShowItemDeleteDialog(list)) return;
 

@@ -57,11 +57,17 @@
     <Compile Include="Converters\BooleanTypeConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Comparers\EmptyStringComparer.cs" />
+    <Compile Include="Delegates\ItemChangedEventHandler.cs" />
     <Compile Include="Delegates\ItemChangeDialogEventHandler.cs" />
+    <Compile Include="Delegates\ItemListChangedEventHandler.cs" />
     <Compile Include="Delegates\ItemListChangeDialogEventHandler.cs" />
+    <Compile Include="Delegates\ItemListDeletedEventHandler.cs" />
     <Compile Include="Delegates\ItemListDeleteDialogEventHandler.cs" />
+    <Compile Include="EventArguments\ItemChangedEventArgs.cs" />
     <Compile Include="EventArguments\ItemDialogEventArgs.cs" />
     <Compile Include="Delegates\FrmListChangedEventHandler.cs" />
+    <Compile Include="EventArguments\ItemListChangedEventArgs.cs" />
+    <Compile Include="EventArguments\ItemListDeletedEventArgs.cs" />
     <Compile Include="EventArguments\OkEventArgs.cs" />
     <Compile Include="Extensions\DataGridViewExtensions.cs" />
     <Compile Include="DataTableFile.cs" />

@@ -70,7 +70,7 @@ namespace P3tr0viCh.Utils.Presenters
 
                 BindingSource.Position = 0;
 
-                PerformOnListChanged();
+                OnFrmListChangedEvent();
 
                 Changed = false;
             }
