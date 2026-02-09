@@ -1,4 +1,5 @@
-﻿using System;
+﻿using P3tr0viCh.Utils.EventArguments;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -85,7 +86,7 @@ namespace P3tr0viCh.Utils.Presenters
             }
             catch (Exception e)
             {
-                DatabaseListLoadException(e);
+                OnListLoadExceptionEvent(e);
             }
             finally
             {
@@ -151,10 +152,25 @@ namespace P3tr0viCh.Utils.Presenters
             }
         }
 
-        protected virtual void DatabaseListLoadException(Exception e) { }
+        internal void OnListLoadExceptionEvent(Exception e)
+        {
+            var eventArgs = new ExceptionEventArgs(e);
 
-        protected virtual void DatabaseListItemChangeException(Exception e) { }
+            ListLoadException?.Invoke(this, eventArgs);
+        }
 
-        protected virtual void DatabaseListItemDeleteException(Exception e) { }
+        internal void OnListItemChangeExceptionEvent(Exception e)
+        {
+            var eventArgs = new ExceptionEventArgs(e);
+
+            ListItemChangeException?.Invoke(this, eventArgs);
+        }
+
+        internal void OnListItemDeleteExceptionEvent(Exception e)
+        {
+            var eventArgs = new ExceptionEventArgs(e);
+
+            ListItemDeleteException?.Invoke(this, eventArgs);
+        }
     }
 }

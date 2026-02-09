@@ -29,6 +29,10 @@ namespace P3tr0viCh.Utils.Presenters
 
         public event FrmListChangedEventHandler FrmListChanged;
 
+        public event ListLoadExceptionEventHandler ListLoadException;
+        public event ListItemChangeExceptionEventHandler ListItemChangeException;
+        public event ListItemDeleteExceptionEventHandler ListItemDeleteException;
+
         public event ItemChangeDialogEventHandler<T> ItemChangeDialog;
         public event ItemListChangeDialogEventHandler<T> ItemListChangeDialog;
 
@@ -444,7 +448,7 @@ namespace P3tr0viCh.Utils.Presenters
             }
             catch (Exception e)
             {
-                DatabaseListItemChangeException(e);
+                OnListItemChangeExceptionEvent(e);
             }
         }
 
@@ -487,7 +491,7 @@ namespace P3tr0viCh.Utils.Presenters
             }
             catch (Exception e)
             {
-                DatabaseListItemChangeException(e);
+                OnListItemChangeExceptionEvent(e);
             }
         }
 
@@ -530,7 +534,7 @@ namespace P3tr0viCh.Utils.Presenters
             }
             catch (Exception e)
             {
-                DatabaseListItemDeleteException(e);
+                OnListItemDeleteExceptionEvent(e);
             }
         }
 
