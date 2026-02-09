@@ -13,6 +13,7 @@ using System.Windows.Forms;
 namespace P3tr0viCh.Utils.Presenters
 {
     public abstract partial class PresenterFrmList<T> :
+        IFrmUpdateData,
         IPresenterFrmList,
         IPresenterDataGridViewCompare<T> where T : IBaseId, new()
     {
@@ -150,6 +151,11 @@ namespace P3tr0viCh.Utils.Presenters
 
             UpdateSettings();
 
+            await UpdateDataAsync();
+        }
+
+        public async Task UpdateDataAsync()
+        {
             await PerformListLoadAsync();
         }
 

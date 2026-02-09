@@ -96,6 +96,8 @@
     <Compile Include="Interfaces\IBaseText.cs" />
     <Compile Include="Attributes\LocalizedAttribute.cs" />
     <Compile Include="Interfaces\IFrmList.cs" />
+    <Compile Include="Interfaces\IFrmUpdateSettings.cs" />
+    <Compile Include="Interfaces\IFrmUpdateData.cs" />
     <Compile Include="Interfaces\IPresenterFrmList.cs" />
     <Compile Include="Interfaces\IPresenterDataGridViewCompare.cs" />
     <Compile Include="EventArguments\ItemListDialogEventArgs.cs" />
