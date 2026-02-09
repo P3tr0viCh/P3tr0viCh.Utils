@@ -11,6 +11,7 @@ namespace P3tr0viCh.Utils.Forms
         Delete = 4,
         Sort = 8,
         MultiChange = 16,
+        MultiDelete = 32,
         Default = Add | Change | Delete | Sort,
     }
 }

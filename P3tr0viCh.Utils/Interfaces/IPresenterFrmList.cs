@@ -1,4 +1,5 @@
 ﻿using P3tr0viCh.Utils.Delegates;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace P3tr0viCh.Utils.Interfaces
@@ -16,5 +17,13 @@ namespace P3tr0viCh.Utils.Interfaces
         Task ListItemChangeSelectedAsync();
 
         Task ListItemDeleteSelectedAsync();
+
+        void ListItemChange(IBaseId value);
+
+        void ListItemChange(IEnumerable<IBaseId> list);
+
+        void ListItemDelete(IBaseId value);
+
+        void ListItemDelete(IEnumerable<IBaseId> list);
     }
 }

@@ -2,5 +2,5 @@
 
 namespace P3tr0viCh.Utils.Delegates
 {
-    public delegate void ItemListChangedEventHandler<T>(object sender, ItemListChangedEventArgs<T> e);
+    public delegate void ItemListChangedEventHandler<T>(object sender, ItemListEventArgs<T> e);
 }

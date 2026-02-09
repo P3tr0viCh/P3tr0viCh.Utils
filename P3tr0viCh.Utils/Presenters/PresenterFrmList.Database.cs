@@ -30,27 +30,32 @@ namespace P3tr0viCh.Utils.Presenters
         {
         }
 
-        protected virtual async Task<IEnumerable<T>> ListLoadAsync(CancellationToken cancellationToken)
+        protected virtual async Task<IEnumerable<T>> DatabaseListLoadAsync(CancellationToken cancellationToken)
         {
             return await Task.FromResult(Enumerable.Empty<T>());
         }
 
-        protected virtual async Task ListItemSaveAsync(T value)
+        protected virtual async Task DatabaseListItemSaveAsync(T value)
         {
             await Task.CompletedTask;
         }
 
-        protected virtual async Task ListItemSaveAsync(IEnumerable<T> list)
+        protected virtual async Task DatabaseListItemSaveAsync(IEnumerable<T> list)
         {
             await Task.CompletedTask;
         }
 
-        protected virtual async Task ListItemDeleteAsync(IEnumerable<T> list)
+        protected virtual async Task DatabaseListItemDeleteAsync(T value)
         {
             await Task.CompletedTask;
         }
 
-        private async Task PerformListLoadAsync()
+        protected virtual async Task DatabaseListItemDeleteAsync(IEnumerable<T> list)
+        {
+            await Task.CompletedTask;
+        }
+
+        private async Task PerformDatabaseListLoadAsync()
         {
             ctsListLoad.Start();
 
@@ -60,10 +65,10 @@ namespace P3tr0viCh.Utils.Presenters
             {
                 Application.DoEvents();
 
-                var list = await ListLoadAsync(ctsListLoad.Token);
+                var list = await DatabaseListLoadAsync(ctsListLoad.Token);
 
                 if (ctsListLoad.IsCancellationRequested) return;
-                
+
                 BindingSource.DataSource = list;
 
                 PresenterDataGridView.Sort();
@@ -80,7 +85,7 @@ namespace P3tr0viCh.Utils.Presenters
             }
             catch (Exception e)
             {
-                ListLoadException(e);
+                DatabaseListLoadException(e);
             }
             finally
             {
@@ -90,13 +95,13 @@ namespace P3tr0viCh.Utils.Presenters
             }
         }
 
-        private async Task PerformListItemSaveAsync(T value)
+        private async Task PerformDatabaseListItemSaveAsync(T value)
         {
             var status = StatusStartSave();
 
             try
             {
-                await ListItemSaveAsync(value);
+                await DatabaseListItemSaveAsync(value);
             }
             finally
             {
@@ -104,13 +109,13 @@ namespace P3tr0viCh.Utils.Presenters
             }
         }
 
-        private async Task PerformListItemSaveAsync(IEnumerable<T> list)
+        private async Task PerformDatabaseListItemSaveAsync(IEnumerable<T> list)
         {
             var status = StatusStartSave();
 
             try
             {
-                await ListItemSaveAsync(list);
+                await DatabaseListItemSaveAsync(list);
             }
             finally
             {
@@ -118,18 +123,38 @@ namespace P3tr0viCh.Utils.Presenters
             }
         }
 
-        private async Task PerformListItemDeleteAsync(IEnumerable<T> list)
+        private async Task PerformDatabaseListItemDeleteAsync(T value)
         {
             var status = StatusStartDelete();
 
             try
             {
-                await ListItemDeleteAsync(list);
+                await DatabaseListItemDeleteAsync(value);
             }
             finally
             {
                 StatusStop(status);
             }
         }
+
+        private async Task PerformDatabaseListItemDeleteAsync(IEnumerable<T> list)
+        {
+            var status = StatusStartDelete();
+
+            try
+            {
+                await DatabaseListItemDeleteAsync(list);
+            }
+            finally
+            {
+                StatusStop(status);
+            }
+        }
+
+        protected virtual void DatabaseListLoadException(Exception e) { }
+
+        protected virtual void DatabaseListItemChangeException(Exception e) { }
+
+        protected virtual void DatabaseListItemDeleteException(Exception e) { }
     }
 }
