@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils.Presenters
 {
-    public abstract partial class PresenterFrmList<T>
+    public abstract partial class PresenterFrmListBase<T>
     {
         private readonly WrapperCancellationTokenSource ctsListLoad = new WrapperCancellationTokenSource();
 
@@ -36,12 +36,7 @@ namespace P3tr0viCh.Utils.Presenters
             return await Task.FromResult(Enumerable.Empty<T>());
         }
 
-        protected virtual async Task DatabaseListItemSaveAsync(T value)
-        {
-            await Task.CompletedTask;
-        }
-
-        protected virtual async Task DatabaseListItemSaveAsync(IEnumerable<T> list)
+        protected virtual async Task DatabaseListItemsSaveAsync(IEnumerable<T> list)
         {
             await Task.CompletedTask;
         }
@@ -51,7 +46,7 @@ namespace P3tr0viCh.Utils.Presenters
             await Task.CompletedTask;
         }
 
-        protected virtual async Task DatabaseListItemDeleteAsync(IEnumerable<T> list)
+        protected virtual async Task DatabaseListItemsDeleteAsync(IEnumerable<T> list)
         {
             await Task.CompletedTask;
         }
@@ -76,7 +71,7 @@ namespace P3tr0viCh.Utils.Presenters
 
                 BindingSource.Position = 0;
 
-                OnFrmListChangedEvent();
+                OnListChangedEvent();
 
                 Changed = false;
             }
@@ -86,7 +81,7 @@ namespace P3tr0viCh.Utils.Presenters
             }
             catch (Exception e)
             {
-                OnListLoadExceptionEvent(e);
+                OnItemsExceptionLoadEvent(e);
             }
             finally
             {
@@ -96,13 +91,13 @@ namespace P3tr0viCh.Utils.Presenters
             }
         }
 
-        private async Task PerformDatabaseListItemSaveAsync(T value)
+        private async Task PerformDatabaseListItemsSaveAsync(IEnumerable<T> list)
         {
             var status = StatusStartSave();
 
             try
             {
-                await DatabaseListItemSaveAsync(value);
+                await DatabaseListItemsSaveAsync(list);
             }
             finally
             {
@@ -110,27 +105,13 @@ namespace P3tr0viCh.Utils.Presenters
             }
         }
 
-        private async Task PerformDatabaseListItemSaveAsync(IEnumerable<T> list)
-        {
-            var status = StatusStartSave();
-
-            try
-            {
-                await DatabaseListItemSaveAsync(list);
-            }
-            finally
-            {
-                StatusStop(status);
-            }
-        }
-
-        private async Task PerformDatabaseListItemDeleteAsync(T value)
+        private async Task PerformDatabaseListItemsDeleteAsync(IEnumerable<T> list)
         {
             var status = StatusStartDelete();
 
             try
             {
-                await DatabaseListItemDeleteAsync(value);
+                await DatabaseListItemsDeleteAsync(list);
             }
             finally
             {
@@ -138,39 +119,25 @@ namespace P3tr0viCh.Utils.Presenters
             }
         }
 
-        private async Task PerformDatabaseListItemDeleteAsync(IEnumerable<T> list)
-        {
-            var status = StatusStartDelete();
-
-            try
-            {
-                await DatabaseListItemDeleteAsync(list);
-            }
-            finally
-            {
-                StatusStop(status);
-            }
-        }
-
-        internal void OnListLoadExceptionEvent(Exception e)
+        internal void OnItemsExceptionLoadEvent(Exception e)
         {
             var eventArgs = new ExceptionEventArgs(e);
 
-            ListLoadException?.Invoke(this, eventArgs);
+            ItemsExceptionLoad?.Invoke(this, eventArgs);
         }
 
-        internal void OnListItemChangeExceptionEvent(Exception e)
+        internal void OnItemsExceptionChangeEvent(Exception e)
         {
             var eventArgs = new ExceptionEventArgs(e);
 
-            ListItemChangeException?.Invoke(this, eventArgs);
+            ItemsExceptionChange?.Invoke(this, eventArgs);
         }
 
-        internal void OnListItemDeleteExceptionEvent(Exception e)
+        internal void OnItemsExceptionDeleteEvent(Exception e)
         {
             var eventArgs = new ExceptionEventArgs(e);
 
-            ListItemDeleteException?.Invoke(this, eventArgs);
+            ItemsExceptionDelete?.Invoke(this, eventArgs);
         }
     }
 }
