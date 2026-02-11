@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using P3tr0viCh.Utils.Interfaces;
+using System.Collections;
 
 namespace P3tr0viCh.Utils.Comparers
 {

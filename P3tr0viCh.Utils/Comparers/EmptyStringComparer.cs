@@ -1,4 +1,6 @@
-﻿namespace P3tr0viCh.Utils.Comparers
+﻿using P3tr0viCh.Utils.Interfaces;
+
+namespace P3tr0viCh.Utils.Comparers
 {
     public class EmptyStringComparer: ISortOrderComparer<string>
     {
