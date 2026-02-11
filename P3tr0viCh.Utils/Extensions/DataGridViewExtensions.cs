@@ -113,9 +113,9 @@ namespace P3tr0viCh.Utils.Extensions
         {
             if (dataGridView.IsEmpty()) return Enumerable.Empty<DataGridViewRow>();
 
-            if (values?.Any() != true) return Enumerable.Empty<DataGridViewRow>();
+            if (values == null || values.IsEmpty()) return Enumerable.Empty<DataGridViewRow>();
 
-            var result = Enumerable.Empty<DataGridViewRow>();
+            var result = new List<DataGridViewRow>();
 
             foreach (var row in from value in values
                                 from row in
@@ -124,7 +124,7 @@ namespace P3tr0viCh.Utils.Extensions
                                     select row
                                 select row)
             {
-                result = result.Append(row);
+                result.Add(row);
             }
 
             return result;

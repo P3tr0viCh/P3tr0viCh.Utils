@@ -354,7 +354,7 @@ namespace P3tr0viCh.Utils.Presenters
                     selected = Enumerable.Empty<T>().Append(Selected);
                 }
 
-                if (!selected.Any()) return;
+                if (selected.IsEmpty()) return;
 
                 FrmList.DataGridView.SetSelectedRows(selected);
 
@@ -383,7 +383,7 @@ namespace P3tr0viCh.Utils.Presenters
                     selected = Enumerable.Empty<T>().Append(Selected);
                 }
 
-                if (!selected.Any()) return;
+                if (selected.IsEmpty()) return;
 
                 FrmList.DataGridView.SetSelectedRows(selected);
 

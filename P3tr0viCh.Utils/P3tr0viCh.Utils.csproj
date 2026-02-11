@@ -53,6 +53,7 @@
     <Compile Include="AppOneInstance.cs" />
     <Compile Include="AssemblyDecorator.cs" />
     <Compile Include="Comparers\ComparerSortOrder.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Interfaces\ISortOrderComparer.cs" />
     <Compile Include="Comparers\SortOrderComparer.cs" />
     <Compile Include="Converters\BooleanTypeConverter.cs" />
