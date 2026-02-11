@@ -28,15 +28,15 @@ namespace P3tr0viCh.Utils.Presenters
 
         public event FrmListChangedEventHandler ListChanged;
 
-        public event ItemsExceptionLoadEventHandler ItemsExceptionLoad;
-        public event ItemsExceptionChangeEventHandler ItemsExceptionChange;
-        public event ItemsExceptionDeleteEventHandler ItemsExceptionDelete;
+        public event ItemsExceptionEventHandler ItemsExceptionLoad;
+        public event ItemsExceptionEventHandler ItemsExceptionChange;
+        public event ItemsExceptionEventHandler ItemsExceptionDelete;
 
-        public event ItemsDialogChangeEventHandler<T> ItemsChangeDialog;
-        public event ItemsDialogDeleteEventHandler<T> ItemsDeleteDialog;
+        public event AsyncItemsDialogEventHandler<T> ItemsChangeDialog;
+        public event AsyncItemsDialogEventHandler<T> ItemsDeleteDialog;
 
-        public event ItemsChangedEventHandler<T> ItemsChanged;
-        public event ItemsDeletedEventHandler<T> ItemsDeleted;
+        public event ItemsEventHandler<T> ItemsChanged;
+        public event ItemsEventHandler<T> ItemsDeleted;
 
         public PresenterFrmListBase(IFrmList frmList)
         {
@@ -267,14 +267,20 @@ namespace P3tr0viCh.Utils.Presenters
 
         protected virtual T GetNewItem() => new T();
 
-        internal void OnItemsChangeDialogEvent(ItemsDialogEventArgs<T> e)
+        internal async Task OnItemsChangeDialogEvent(ItemsDialogEventArgs<T> e)
         {
-            ItemsChangeDialog?.Invoke(this, e);
+            if (ItemsChangeDialog != null)
+            {
+                await ItemsChangeDialog.Invoke(this, e);
+            }
         }
 
-        internal void OnItemsDeleteDialogEvent(ItemsDialogEventArgs<T> e)
+        internal async Task OnItemsDeleteDialogEvent(ItemsDialogEventArgs<T> e)
         {
-            ItemsDeleteDialog?.Invoke(this, e);
+            if (ItemsDeleteDialog != null)
+            {
+                await ItemsDeleteDialog.Invoke(this, e);
+            }
         }
 
         internal void OnListChangedEvent()
@@ -294,27 +300,27 @@ namespace P3tr0viCh.Utils.Presenters
             ItemsDeleted?.Invoke(this, e);
         }
 
-        private bool ShowItemsChangeDialog(IEnumerable<T> values)
+        private async Task<bool> ShowItemsChangeDialogAsync(List<T> list)
         {
-            var eventArgs = new ItemsDialogEventArgs<T>(values);
+            var eventArgs = new ItemsDialogEventArgs<T>(list);
 
-            OnItemsChangeDialogEvent(eventArgs);
+            await OnItemsChangeDialogEvent(eventArgs);
 
             return eventArgs.Ok;
         }
 
-        private bool ShowItemsDeleteDialog(IEnumerable<T> values)
+        private async Task<bool> ShowItemsDeleteDialogAsync(List<T> list)
         {
-            var eventArgs = new ItemsDialogEventArgs<T>(values);
+            var eventArgs = new ItemsDialogEventArgs<T>(list);
 
-            OnItemsDeleteDialogEvent(eventArgs);
+            await OnItemsDeleteDialogEvent(eventArgs);
 
             return eventArgs.Ok;
         }
 
-        private async Task ListItemsChangeAsync(IEnumerable<T> list)
+        private async Task ListItemsChangeAsync(List<T> list)
         {
-            if (!ShowItemsChangeDialog(list)) return;
+            if (!await ShowItemsChangeDialogAsync(list)) return;
 
             await PerformDatabaseListItemsSaveAsync(list);
 
@@ -329,7 +335,7 @@ namespace P3tr0viCh.Utils.Presenters
 
             try
             {
-                await ListItemsChangeAsync(Enumerable.Empty<T>().Append(item));
+                await ListItemsChangeAsync(new List<T>() { item });
             }
             catch (Exception e)
             {
@@ -343,15 +349,15 @@ namespace P3tr0viCh.Utils.Presenters
 
             try
             {
-                IEnumerable<T> selected;
+                List<T> selected;
 
                 if (Grants.HasFlag(FrmListGrant.MultiChange) && FrmList.DataGridView.SelectedCount() > 1)
                 {
-                    selected = SelectedList;
+                    selected = SelectedList.ToList();
                 }
                 else
                 {
-                    selected = Enumerable.Empty<T>().Append(Selected);
+                    selected = new List<T>() { Selected };
                 }
 
                 if (selected.IsEmpty()) return;
@@ -372,22 +378,22 @@ namespace P3tr0viCh.Utils.Presenters
 
             try
             {
-                IEnumerable<T> selected;
+                List<T> selected;
 
                 if (Grants.HasFlag(FrmListGrant.MultiDelete) && FrmList.DataGridView.SelectedCount() > 1)
                 {
-                    selected = SelectedList;
+                    selected = SelectedList.ToList();
                 }
                 else
                 {
-                    selected = Enumerable.Empty<T>().Append(Selected);
+                    selected = new List<T>() { Selected };
                 }
 
                 if (selected.IsEmpty()) return;
 
                 FrmList.DataGridView.SetSelectedRows(selected);
 
-                if (!ShowItemsDeleteDialog(selected)) return;
+                if (!await ShowItemsDeleteDialogAsync(selected)) return;
 
                 await PerformDatabaseListItemsDeleteAsync(selected);
 
