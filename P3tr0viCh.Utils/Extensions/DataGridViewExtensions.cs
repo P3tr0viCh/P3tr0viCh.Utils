@@ -34,7 +34,7 @@ namespace P3tr0viCh.Utils.Extensions
                 .Cast<DataGridViewCell>()
                 .Select(cell => cell.OwningRow).Distinct();
 
-            if (selectedRows.Count() == 0) return Enumerable.Empty<T>();
+            if (selectedRows.IsEmpty()) return Enumerable.Empty<T>();
 
             return selectedRows.Select(item => item.Value<T>()).ToList();
         }
