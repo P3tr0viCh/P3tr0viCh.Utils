@@ -26,7 +26,10 @@ namespace P3tr0viCh.Utils.Presenters
 
         public PresenterDataGridView<T> PresenterDataGridView { get; private set; }
 
-        public event FrmListChangedEventHandler ListChanged;
+        public event EventHandler FormOpened;
+        public event EventHandler FormClosed;
+
+        public event EventHandler ListChanged;
 
         public event ItemsExceptionEventHandler ItemsExceptionLoad;
         public event ItemsExceptionEventHandler ItemsExceptionChange;
@@ -122,19 +125,27 @@ namespace P3tr0viCh.Utils.Presenters
 
         protected abstract void SaveFormState();
 
-        protected abstract void UpdateColumns();
+        protected virtual void UpdateColumns()
+        {
+        }
 
         public virtual void UpdateSettings()
         {
         }
 
-        protected virtual void FormOpened()
+        internal void OnFormOpened()
         {
+            FormOpened?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal void OnFormClosed()
+        {
+            FormClosed?.Invoke(this, EventArgs.Empty);
         }
 
         private async Task PerformFormLoadAsync()
         {
-            FormOpened();
+            OnFormOpened();
 
             Form.Text = FormTitle;
 
@@ -156,17 +167,13 @@ namespace P3tr0viCh.Utils.Presenters
             await PerformDatabaseListLoadAsync();
         }
 
-        protected virtual void FormClosed()
-        {
-        }
-
         private void PerformFormClosed()
         {
             ctsListLoad.Cancel();
 
             SaveFormState();
 
-            FormClosed();
+            OnFormClosed();
         }
 
         public T Find(T value)
@@ -287,7 +294,7 @@ namespace P3tr0viCh.Utils.Presenters
         {
             Changed = true;
 
-            ListChanged?.Invoke(this);
+            ListChanged?.Invoke(this, EventArgs.Empty);
         }
 
         internal void OnItemsChangedEvent(ItemsEventArgs<T> e)

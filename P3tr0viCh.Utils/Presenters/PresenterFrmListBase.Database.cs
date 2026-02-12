@@ -1,4 +1,5 @@
-﻿using P3tr0viCh.Utils.EventArguments;
+﻿using P3tr0viCh.Utils.Delegates;
+using P3tr0viCh.Utils.EventArguments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,23 +13,63 @@ namespace P3tr0viCh.Utils.Presenters
     {
         private readonly WrapperCancellationTokenSource ctsListLoad = new WrapperCancellationTokenSource();
 
-        protected virtual object StatusStartLoad()
+        public enum Status
         {
-            return 0;
+            Load,
+            Save,
+            Delete,
         }
 
-        protected virtual object StatusStartSave()
+        public class StatusEventArgs : EventArgs
         {
-            return 0;
+            public Status Status { get; set; } = default;
+
+            public object Object { get; set; } = null;
+
+            public StatusEventArgs()
+            {
+            }
+
+            public StatusEventArgs(Status status)
+            {
+                Status = status;
+            }
         }
 
-        protected virtual object StatusStartDelete()
+        public delegate void StatusEventHandler(object sender, StatusEventArgs e);
+
+        public event StatusEventHandler StatusStart;
+        public event StatusEventHandler StatusStop;
+
+        internal void OnStatusStart(StatusEventArgs e)
         {
-            return 0;
+            StatusStart?.Invoke(this, e);
         }
 
-        protected virtual void StatusStop(object status)
+        internal void OnStatusStop(StatusEventArgs e)
         {
+            StatusStop?.Invoke(this, e);
+        }
+
+        internal void OnItemsExceptionLoadEvent(Exception e)
+        {
+            var eventArgs = new ExceptionEventArgs(e);
+
+            ItemsExceptionLoad?.Invoke(this, eventArgs);
+        }
+
+        internal void OnItemsExceptionChangeEvent(Exception e)
+        {
+            var eventArgs = new ExceptionEventArgs(e);
+
+            ItemsExceptionChange?.Invoke(this, eventArgs);
+        }
+
+        internal void OnItemsExceptionDeleteEvent(Exception e)
+        {
+            var eventArgs = new ExceptionEventArgs(e);
+
+            ItemsExceptionDelete?.Invoke(this, eventArgs);
         }
 
         protected virtual async Task<IEnumerable<T>> DatabaseListLoadAsync(CancellationToken cancellationToken)
@@ -55,7 +96,9 @@ namespace P3tr0viCh.Utils.Presenters
         {
             ctsListLoad.Start();
 
-            var status = StatusStartLoad();
+            var status = new StatusEventArgs(Status.Load);
+
+            OnStatusStart(status);
 
             try
             {
@@ -87,13 +130,15 @@ namespace P3tr0viCh.Utils.Presenters
             {
                 ctsListLoad.Finally();
 
-                StatusStop(status);
+                OnStatusStop(status);
             }
         }
 
         private async Task PerformDatabaseListItemsSaveAsync(IEnumerable<T> list)
         {
-            var status = StatusStartSave();
+            var status = new StatusEventArgs(Status.Save);
+
+            OnStatusStart(status);
 
             try
             {
@@ -101,13 +146,15 @@ namespace P3tr0viCh.Utils.Presenters
             }
             finally
             {
-                StatusStop(status);
+                OnStatusStop(status);
             }
         }
 
         private async Task PerformDatabaseListItemsDeleteAsync(IEnumerable<T> list)
         {
-            var status = StatusStartDelete();
+            var status = new StatusEventArgs(Status.Delete);
+
+            OnStatusStart(status);
 
             try
             {
@@ -115,29 +162,8 @@ namespace P3tr0viCh.Utils.Presenters
             }
             finally
             {
-                StatusStop(status);
+                OnStatusStop(status);
             }
-        }
-
-        internal void OnItemsExceptionLoadEvent(Exception e)
-        {
-            var eventArgs = new ExceptionEventArgs(e);
-
-            ItemsExceptionLoad?.Invoke(this, eventArgs);
-        }
-
-        internal void OnItemsExceptionChangeEvent(Exception e)
-        {
-            var eventArgs = new ExceptionEventArgs(e);
-
-            ItemsExceptionChange?.Invoke(this, eventArgs);
-        }
-
-        internal void OnItemsExceptionDeleteEvent(Exception e)
-        {
-            var eventArgs = new ExceptionEventArgs(e);
-
-            ItemsExceptionDelete?.Invoke(this, eventArgs);
         }
     }
 }

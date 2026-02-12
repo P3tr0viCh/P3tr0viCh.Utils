@@ -1,4 +1,4 @@
-﻿using P3tr0viCh.Utils.Delegates;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace P3tr0viCh.Utils.Interfaces
@@ -7,7 +7,7 @@ namespace P3tr0viCh.Utils.Interfaces
     {
         IFrmList FrmList { get; }
 
-        event FrmListChangedEventHandler ListChanged;
+        event EventHandler ListChanged;
 
         bool Changed { get; }
 

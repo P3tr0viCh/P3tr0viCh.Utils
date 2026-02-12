@@ -64,7 +64,6 @@
     <Compile Include="Delegates\ItemsEventHandler.cs" />
     <Compile Include="EventArguments\ExceptionEventArgs.cs" />
     <Compile Include="EventArguments\ItemsEventArgs.cs" />
-    <Compile Include="Delegates\FrmListChangedEventHandler.cs" />
     <Compile Include="EventArguments\OkEventArgs.cs" />
     <Compile Include="Extensions\DataGridViewExtensions.cs" />
     <Compile Include="DataTableFile.cs" />
