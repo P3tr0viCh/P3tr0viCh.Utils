@@ -55,7 +55,11 @@ namespace P3tr0viCh.Utils.Presenters
 
         private async void FrmList_Load(object sender, EventArgs e)
         {
-            await PerformFormLoadAsync();
+            FormLoad();
+
+            await Task.Delay(10);
+
+            await UpdateDataAsync();
         }
 
         private void FrmList_FormClosed(object sender, FormClosedEventArgs e)
@@ -143,7 +147,7 @@ namespace P3tr0viCh.Utils.Presenters
             FormClosed?.Invoke(this, EventArgs.Empty);
         }
 
-        private async Task PerformFormLoadAsync()
+        private void FormLoad()
         {
             OnFormOpened();
 
@@ -158,8 +162,6 @@ namespace P3tr0viCh.Utils.Presenters
             UpdateColumns();
 
             UpdateSettings();
-
-            await UpdateDataAsync();
         }
 
         public async Task UpdateDataAsync()
