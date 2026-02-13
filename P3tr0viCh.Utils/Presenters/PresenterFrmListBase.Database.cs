@@ -13,7 +13,7 @@ namespace P3tr0viCh.Utils.Presenters
     {
         private readonly WrapperCancellationTokenSource ctsListLoad = new WrapperCancellationTokenSource();
 
-        public enum Status
+        public enum FrmListDatabaseActionStatus
         {
             Load,
             Save,
@@ -22,7 +22,7 @@ namespace P3tr0viCh.Utils.Presenters
 
         public class StatusEventArgs : EventArgs
         {
-            public Status Status { get; set; } = default;
+            public FrmListDatabaseActionStatus Status { get; set; } = default;
 
             public object Object { get; set; } = null;
 
@@ -30,7 +30,7 @@ namespace P3tr0viCh.Utils.Presenters
             {
             }
 
-            public StatusEventArgs(Status status)
+            public StatusEventArgs(FrmListDatabaseActionStatus status)
             {
                 Status = status;
             }
@@ -96,7 +96,7 @@ namespace P3tr0viCh.Utils.Presenters
         {
             ctsListLoad.Start();
 
-            var status = new StatusEventArgs(Status.Load);
+            var status = new StatusEventArgs(FrmListDatabaseActionStatus.Load);
 
             OnStatusStart(status);
 
@@ -136,7 +136,7 @@ namespace P3tr0viCh.Utils.Presenters
 
         private async Task PerformDatabaseListItemsSaveAsync(IEnumerable<T> list)
         {
-            var status = new StatusEventArgs(Status.Save);
+            var status = new StatusEventArgs(FrmListDatabaseActionStatus.Save);
 
             OnStatusStart(status);
 
@@ -152,7 +152,7 @@ namespace P3tr0viCh.Utils.Presenters
 
         private async Task PerformDatabaseListItemsDeleteAsync(IEnumerable<T> list)
         {
-            var status = new StatusEventArgs(Status.Delete);
+            var status = new StatusEventArgs(FrmListDatabaseActionStatus.Delete);
 
             OnStatusStart(status);
 
