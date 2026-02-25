@@ -67,6 +67,16 @@ namespace P3tr0viCh.Utils.Presenters
             PerformFormClosed();
         }
 
+        private bool ToolStripHasItems()
+        {
+            foreach (ToolStripItem item in FrmList.ToolStrip.Items)
+            {
+                if (item.Available) return true;
+            }
+
+            return false;
+        }
+
         private FrmListGrant grants = FrmListGrant.Default;
         protected FrmListGrant Grants
         {
@@ -108,6 +118,8 @@ namespace P3tr0viCh.Utils.Presenters
                         continue;
                     }
                 }
+
+                FrmList.ToolStrip.Visible = ToolStripHasItems();
             }
         }
 
