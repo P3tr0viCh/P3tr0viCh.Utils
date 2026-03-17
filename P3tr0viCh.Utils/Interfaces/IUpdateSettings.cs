@@ -1,6 +1,6 @@
 ﻿namespace P3tr0viCh.Utils.Interfaces
 {
-    public interface IFrmUpdateSettings
+    public interface IUpdateSettings
     {
         void UpdateSettings();
     }

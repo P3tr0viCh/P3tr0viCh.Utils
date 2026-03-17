@@ -92,9 +92,9 @@
     <Compile Include="Interfaces\IBaseText.cs" />
     <Compile Include="Attributes\LocalizedAttribute.cs" />
     <Compile Include="Interfaces\IFrmList.cs" />
-    <Compile Include="Interfaces\IFrmUpdateDataList.cs" />
-    <Compile Include="Interfaces\IFrmUpdateSettings.cs" />
-    <Compile Include="Interfaces\IFrmUpdateData.cs" />
+    <Compile Include="Interfaces\IUpdateDataList.cs" />
+    <Compile Include="Interfaces\IUpdateSettings.cs" />
+    <Compile Include="Interfaces\IUpdateData.cs" />
     <Compile Include="Interfaces\IPresenterFrmListBase.cs" />
     <Compile Include="Interfaces\IPresenterDataGridViewCompare.cs" />
     <Compile Include="EventArguments\ItemsDialogEventArgs.cs" />

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace P3tr0viCh.Utils.Interfaces
 {
-    public interface IPresenterFrmListBase: IFrmUpdateData, IFrmUpdateDataList
+    public interface IPresenterFrmListBase: IUpdateData, IUpdateDataList, IUpdateSettings
     {
         IFrmList FrmList { get; }
 

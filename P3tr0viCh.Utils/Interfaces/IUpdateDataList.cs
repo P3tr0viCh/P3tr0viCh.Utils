@@ -2,7 +2,7 @@
 
 namespace P3tr0viCh.Utils.Interfaces
 {
-    public interface IFrmUpdateDataList
+    public interface IUpdateDataList
     {
         void ListItemsChange(IEnumerable<IBaseId> list);
 
