@@ -35,6 +35,22 @@ namespace P3tr0viCh.Utils
         {
             return Question(string.Format(format, arg0, arg1));
         }
+        
+        public static DialogResult QuestionWithCancel(string text = "To be or not to be?")
+        {
+            return MessageBox.Show(text, Application.ProductName,
+                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+        }
+
+        public static DialogResult QuestionWithCancel(string format, object arg0)
+        {
+            return QuestionWithCancel(string.Format(format, arg0));
+        }
+
+        public static DialogResult QuestionWithCancel(string format, object arg0, object arg1)
+        {
+            return QuestionWithCancel(string.Format(format, arg0, arg1));
+        }
 
         public static void Error(string text = "Error!")
         {
