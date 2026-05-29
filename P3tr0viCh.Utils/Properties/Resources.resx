@@ -194,4 +194,10 @@
   <data name="TextInputBoxErrorEmptyText" xml:space="preserve">
     <value>Пустые значения не допускаются.</value>
   </data>
+  <data name="TextMenuItemCopy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="TextMenuItemPaste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using P3tr0viCh.Utils.Properties;
+using System;
 using System.Collections;
 using System.Drawing;
 using System.Linq;
@@ -140,6 +141,60 @@ namespace P3tr0viCh.Utils.Extensions
             {
                 dateTimePicker.Value = dateTime;
             }
+        }
+
+        public static void AddMenuDateTimeActions(this DateTimePicker dateTimePicker)
+        {
+            if (dateTimePicker.ContextMenuStrip == null)
+            {
+                dateTimePicker.ContextMenuStrip = new ContextMenuStrip();
+            }
+
+            var menuItemCopy = new ToolStripMenuItem()
+            {
+                Text = Resources.TextMenuItemCopy
+            };
+
+            menuItemCopy.Click += MenuItemCopy_Click;
+
+            dateTimePicker.ContextMenuStrip.Items.Add(menuItemCopy);
+
+            var menuItemPaste = new ToolStripMenuItem()
+            {
+                Text = Resources.TextMenuItemPaste
+            };
+
+            menuItemPaste.Click += MenuItemPaste_Click;
+
+            dateTimePicker.ContextMenuStrip.Items.Add(menuItemPaste);
+        }
+
+        private static DateTimePicker GetDateTimePickerFromMenuItem(object sender)
+        {
+            var menuItem = sender as ToolStripMenuItem;
+
+            var contextMenuStrip = menuItem.GetCurrentParent() as ContextMenuStrip;
+
+            if (contextMenuStrip.SourceControl is DateTimePicker dateTimePicker)
+            {
+                return dateTimePicker;
+            }
+
+            return null;
+        }
+
+        private static void MenuItemCopy_Click(object sender, EventArgs e)
+        {
+            var dateTimePicker = GetDateTimePickerFromMenuItem(sender);
+
+            dateTimePicker?.CopyToClipboard();
+        }
+
+        private static void MenuItemPaste_Click(object sender, EventArgs e)
+        {
+            var dateTimePicker = GetDateTimePickerFromMenuItem(sender);
+
+            dateTimePicker?.PasteFromClipboard();
         }
     }
 
