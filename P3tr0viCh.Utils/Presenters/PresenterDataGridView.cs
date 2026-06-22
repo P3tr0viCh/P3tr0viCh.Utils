@@ -97,11 +97,23 @@ namespace P3tr0viCh.Utils.Presenters
 
         private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if (e.Button != MouseButtons.Right) return;
+
+            if (e.RowIndex < 0) return;
+
+            if (e.ColumnIndex < 0)
             {
-                if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+                DataGridView.CurrentCell = DataGridView[0, e.RowIndex];
+
+                DataGridView.Rows[e.RowIndex].Selected = true;
+            }
+            else
+            {
+                var cell = DataGridView[e.ColumnIndex, e.RowIndex];
+
+                if (!cell.Selected)
                 {
-                    DataGridView.CurrentCell = DataGridView[e.ColumnIndex, e.RowIndex];
+                    DataGridView.CurrentCell = cell;
                 }
             }
         }
