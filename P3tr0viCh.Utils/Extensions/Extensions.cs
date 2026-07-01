@@ -1,6 +1,7 @@
 ﻿using P3tr0viCh.Utils.Properties;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -205,6 +206,27 @@ namespace P3tr0viCh.Utils.Extensions
             var customAttribute = property.GetCustomAttribute(typeof(T));
 
             if (customAttribute is T attribute) return attribute;
+
+            return default;
+        }
+    }
+
+    public static class ListExtensions
+    {
+        public static T Prev<T>(this List<T> list, T value)
+        {
+            var index = list.IndexOf(value);
+
+            if (index != -1 && index > 0) return list[index - 1];
+
+            return default;
+        }
+
+        public static T Next<T>(this List<T> list, T value)
+        {
+            var index = list.IndexOf(value);
+
+            if (index != -1 && index < list.Count - 1) return list[index + 1];
 
             return default;
         }
