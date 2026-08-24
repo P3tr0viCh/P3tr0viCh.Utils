@@ -154,6 +154,16 @@ namespace P3tr0viCh.Utils.Settings
             SaveFormState(form, string.Empty, states);
         }
 
+        private static bool IsBoundsOnAnyScreen(Rectangle bounds)
+        {
+            foreach (var screen in Screen.AllScreens)
+            {
+                if (bounds.IntersectsWith(screen.WorkingArea)) return true;
+            }
+
+            return false;
+        }
+
         private static void LoadFormState(Form form, FormState state)
         {
             try
@@ -163,7 +173,7 @@ namespace P3tr0viCh.Utils.Settings
                     state = new FormState();
                 }
 
-                if (state.Bounds == default)
+                if (state.Bounds == default || !IsBoundsOnAnyScreen(state.Bounds))
                 {
                     state.Bounds = new Rectangle(
                         (Screen.FromControl(form).WorkingArea.Width - form.Width) / 2,
