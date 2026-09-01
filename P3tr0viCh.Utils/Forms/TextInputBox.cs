@@ -37,7 +37,7 @@ namespace P3tr0viCh.Utils.Forms
                 frm.MaximizeBox = false;
                 frm.MinimizeBox = false;
                 frm.Size = new Size(312, 152);
-                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.StartPosition = FormStartPosition.CenterScreen;
                 frm.ShowInTaskbar = false;
 
                 if (options.Caption.IsEmpty())
