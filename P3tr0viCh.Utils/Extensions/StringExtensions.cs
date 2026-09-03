@@ -17,10 +17,7 @@ namespace P3tr0viCh.Utils.Extensions
             return s.IndexOfNth(value, --place, s.IndexOf(value, startIndex) + 1);
         }
 
-        public static int IndexOfNth(this string s, string value, int place)
-        {
-            return IndexOfNth(s, value, place, 0);
-        }
+        public static int IndexOfNth(this string s, string value, int place) => IndexOfNth(s, value, place, 0);
 
         public static string JoinExcludeEmpty(this string s, string separator, string value)
         {
@@ -33,21 +30,13 @@ namespace P3tr0viCh.Utils.Extensions
             return s + separator + value;
         }
 
-        public static bool IsEmpty(this string s)
-        {
-            return string.IsNullOrWhiteSpace(s);
-        }
+        public static bool IsEmpty(this string s) => string.IsNullOrWhiteSpace(s);
 
-        public static bool IsInt(this string s)
-        {
-            return int.TryParse(s, out _);
-        }
+        public static bool IsInt(this string s) => int.TryParse(s, out _);
 
-        public static bool IsDouble(this string s)
-        {
-            return double.TryParse(s, out _);
-        }
+        public static bool IsDouble(this string s) => double.TryParse(s, out _);
 
+        [Obsolete()]
         public static string ReplaceEol(this string s)
         {
             return s?.Replace("\r\n", Str.Space).Replace("\n", Str.Space).Replace("\r", Str.Space);

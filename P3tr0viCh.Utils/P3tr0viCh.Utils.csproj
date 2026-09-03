@@ -121,6 +121,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Converters\PropertySortedConverter.cs" />
+    <Compile Include="Properties\ResourcesLog.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourcesLog.resx</DependentUpon>
+    </Compile>
     <Compile Include="SettingsBase.cs" />
     <Compile Include="Str.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -132,6 +137,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ResourcesLog.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesLog.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

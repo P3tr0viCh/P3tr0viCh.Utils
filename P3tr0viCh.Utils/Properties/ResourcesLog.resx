@@ -117,63 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExceptionDirectoryNotExists" xml:space="preserve">
-    <value>Каталог «{0}» не существует.</value>
+  <data name="AppendError" xml:space="preserve">
+    <value>[ERROR]</value>
   </data>
-  <data name="ExceptionFileBadFormat" xml:space="preserve">
-    <value>Файл имеет непарвильный формат.</value>
+  <data name="AppendInfo" xml:space="preserve">
+    <value>[INFO]</value>
   </data>
-  <data name="ExceptionFileNotExists" xml:space="preserve">
-    <value>Файл «{0}» не существует.</value>
+  <data name="Ext" xml:space="preserve">
+    <value>log</value>
   </data>
-  <data name="ExceptionFileZeroLength" xml:space="preserve">
-    <value>Файл имеет нулевую длину.</value>
+  <data name="FormatDateTimeFile" xml:space="preserve">
+    <value>yyyy-MM-dd_HH-mm-ss</value>
   </data>
-  <data name="ExceptionProperty" xml:space="preserve">
-    <value>Ошибка в «{0}».</value>
+  <data name="FormatDateTimeText" xml:space="preserve">
+    <value>yyyy-MM-dd HH:mm:ss.fff</value>
   </data>
-  <data name="ExceptionPropertyWithException" xml:space="preserve">
-    <value>Ошибка в «{0}»:
-
-{1}</value>
+  <data name="FormClose" xml:space="preserve">
+    <value>{0}: close ({1})</value>
   </data>
-  <data name="FrmAboutBtnOk" xml:space="preserve">
-    <value>OK</value>
+  <data name="FormOpen" xml:space="preserve">
+    <value>{0}: open</value>
   </data>
-  <data name="FrmAboutCaption" xml:space="preserve">
-    <value>О программе</value>
+  <data name="MachineName" xml:space="preserve">
+    <value>machine name: {0}</value>
   </data>
-  <data name="FrmAboutEULA_1_1" xml:space="preserve">
-    <value>• Распространяется свободно (FREEWARE).</value>
+  <data name="OSVersion" xml:space="preserve">
+    <value>os version: {0}</value>
   </data>
-  <data name="FrmAboutEULA_1_2" xml:space="preserve">
-    <value>• ЗАПРЕЩЕНО использование программы в коммерческих целях без согласования с автором.</value>
+  <data name="ProgramStart" xml:space="preserve">
+    <value>&gt;&gt;&gt;&gt;&gt;&gt;&gt; START PROGRAM {0} {1}</value>
   </data>
-  <data name="FrmAboutEULA_2" xml:space="preserve">
-    <value>• ЗАПРЕЩЕНО распространение программы в коммерческих целях без согласования с автором.</value>
+  <data name="ProgramStop" xml:space="preserve">
+    <value>&lt;&lt;&lt;&lt;&lt;&lt;&lt; STOP PROGRAM</value>
   </data>
-  <data name="FrmAboutEULA_3" xml:space="preserve">
-    <value>• ЗАПРЕЩЕНО любое изменение, адаптирование, перевод, дизассемблирование данной программы.</value>
-  </data>
-  <data name="FrmAboutEULA_4" xml:space="preserve">
-    <value>• Поставляется «КАК ЕСТЬ», то есть автор не даёт никаких гарантий работоспособности программы, а также не несёт никакой ответственности за любой прямой, косвенный или иной ущерб, понесённый в результате её использования. Вы используете это программное обеспечение на свой риск.</value>
-  </data>
-  <data name="FrmAboutVersion" xml:space="preserve">
-    <value>Версия {0}</value>
-  </data>
-  <data name="TextInputBoxBtnCancel" xml:space="preserve">
-    <value>Отмена</value>
-  </data>
-  <data name="TextInputBoxBtnOk" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="TextInputBoxErrorEmptyText" xml:space="preserve">
-    <value>Пустые значения не допускаются.</value>
-  </data>
-  <data name="TextMenuItemCopy" xml:space="preserve">
-    <value>Копировать</value>
-  </data>
-  <data name="TextMenuItemPaste" xml:space="preserve">
-    <value>Вставить</value>
+  <data name="SubDirectory" xml:space="preserve">
+    <value>logs</value>
   </data>
 </root>
