@@ -18,6 +18,8 @@ namespace P3tr0viCh.Utils.Presenters
             DataGridView.CellMouseDown += new DataGridViewCellMouseEventHandler(DataGridView_CellMouseDown);
 
             DataGridView.ColumnHeaderMouseClick += new DataGridViewCellMouseEventHandler(DataGridView_ColumnHeaderMouseClick);
+
+            DataGridView.KeyDown += new KeyEventHandler(DataGridView_KeyDown);
         }
 
         public T Selected
@@ -127,6 +129,14 @@ namespace P3tr0viCh.Utils.Presenters
             SortColumn = DataGridView.Columns[e.ColumnIndex].Name;
 
             Sort();
+        }
+
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F3)
+            {
+                e.SuppressKeyPress = true;
+            }
         }
     }
 }
