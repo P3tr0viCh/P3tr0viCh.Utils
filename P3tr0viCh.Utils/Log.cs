@@ -97,7 +97,7 @@ namespace P3tr0viCh.Utils
                 DebugWrite.Line($"log write error: {e.Message}");
             }
         }
-        
+
         [Obsolete()]
         public void Write(string s)
         {
@@ -124,7 +124,12 @@ namespace P3tr0viCh.Utils
 
         public void WriteProgramStart()
         {
-            Info(ResourcesLog.ProgramStart, Files.ExecutableName(), new AssemblyDecorator().VersionString());
+            var assemblyDecorator = new AssemblyDecorator();
+
+            Info(ResourcesLog.ProgramStart, Files.ExecutableName());
+
+            Info(ResourcesLog.ProgramVersion, 
+                assemblyDecorator.InformationalVersion, assemblyDecorator.BuildDate.ToString("yyyy-MM-dd"));
 
             Info(ResourcesLog.OSVersion, Environment.OSVersion.ToString());
             Info(ResourcesLog.MachineName, Environment.MachineName);

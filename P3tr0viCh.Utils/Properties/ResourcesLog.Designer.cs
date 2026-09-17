@@ -142,7 +142,7 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &gt;&gt;&gt;&gt;&gt;&gt;&gt; START PROGRAM {0} {1}.
+        ///   Looks up a localized string similar to &gt;&gt;&gt;&gt;&gt;&gt;&gt; START PROGRAM {0}.
         /// </summary>
         internal static string ProgramStart {
             get {
@@ -156,6 +156,15 @@ namespace P3tr0viCh.Utils.Properties {
         internal static string ProgramStop {
             get {
                 return ResourceManager.GetString("ProgramStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to version: {0}/{1}.
+        /// </summary>
+        internal static string ProgramVersion {
+            get {
+                return ResourceManager.GetString("ProgramVersion", resourceCulture);
             }
         }
         

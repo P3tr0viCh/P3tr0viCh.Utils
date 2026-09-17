@@ -145,10 +145,13 @@
     <value>os version: {0}</value>
   </data>
   <data name="ProgramStart" xml:space="preserve">
-    <value>&gt;&gt;&gt;&gt;&gt;&gt;&gt; START PROGRAM {0} {1}</value>
+    <value>&gt;&gt;&gt;&gt;&gt;&gt;&gt; START PROGRAM {0}</value>
   </data>
   <data name="ProgramStop" xml:space="preserve">
     <value>&lt;&lt;&lt;&lt;&lt;&lt;&lt; STOP PROGRAM</value>
+  </data>
+  <data name="ProgramVersion" xml:space="preserve">
+    <value>version: {0}/{1}</value>
   </data>
   <data name="SubDirectory" xml:space="preserve">
     <value>logs</value>

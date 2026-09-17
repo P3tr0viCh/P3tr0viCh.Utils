@@ -1,4 +1,5 @@
 ﻿using P3tr0viCh.Utils.Extensions;
+using P3tr0viCh.Utils.Properties;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -91,7 +92,7 @@ namespace P3tr0viCh.Utils.Forms
                 }
                 else
                 {
-                    caption = Properties.Resources.FrmAboutCaption;
+                    caption = Resources.FrmAboutCaption;
 
                     var assemblyDecorator = new AssemblyDecorator();
 
@@ -101,20 +102,19 @@ namespace P3tr0viCh.Utils.Forms
                     linkLink = options.Link;
                     linkText = options.LinkText;
 
-                    buildDate = new DateTime(2000, 1, 1)
-                        .AddDays(assemblyDecorator.Version.Build).AddSeconds(assemblyDecorator.Version.MinorRevision * 2);
+                    buildDate = assemblyDecorator.BuildDate;
 
                     switch (options.License)
                     {
                         case Options.LicenseType.Free:
-                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Properties.Resources.FrmAboutEULA_1_1 + Str.Eol + Properties.Resources.FrmAboutEULA_2 + Str.Eol + Properties.Resources.FrmAboutEULA_3 + Str.Eol + Properties.Resources.FrmAboutEULA_4);
+                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Resources.FrmAboutEULA_1_1 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4);
                             break;
                         case Options.LicenseType.Commercial:
-                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Properties.Resources.FrmAboutEULA_1_2 + Str.Eol + Properties.Resources.FrmAboutEULA_2 + Str.Eol + Properties.Resources.FrmAboutEULA_3 + Str.Eol + Properties.Resources.FrmAboutEULA_4);
+                            options.Text = options.Text.JoinExcludeEmpty(Str.Eol, Resources.FrmAboutEULA_1_2 + Str.Eol + Resources.FrmAboutEULA_2 + Str.Eol + Resources.FrmAboutEULA_3 + Str.Eol + Resources.FrmAboutEULA_4);
                             break;
                     }
 
-                    version = string.Format(Properties.Resources.FrmAboutVersion, assemblyDecorator.VersionString());
+                    version = string.Format(Resources.FrmAboutVersion, assemblyDecorator.InformationalVersion);
                 }
 
                 if (options.AppNameLineBreak >= 0)
@@ -230,7 +230,7 @@ namespace P3tr0viCh.Utils.Forms
                 lblBuildDate.Font = new Font(frm.Font.Name, 10);
                 lblBuildDate.SetBounds(textWidth - buildDateWidth + 8, lblVersion.Top, buildDateWidth, 32);
                 lblBuildDate.TextAlign = ContentAlignment.TopRight;
-                lblBuildDate.Text = buildDate.ToString("yyyy.MM.dd");
+                lblBuildDate.Text = buildDate.ToString("yyyy-MM-dd");
 
                 lblText.Parent = frm;
                 lblText.BackColor = Color.White;
@@ -244,7 +244,7 @@ namespace P3tr0viCh.Utils.Forms
                 frm.Height += lblCopyright.Height + lblVersion.Height + lblText.Height;
 
                 btnClose.Parent = frm;
-                btnClose.Text = Properties.Resources.FrmAboutBtnOk;
+                btnClose.Text = Resources.FrmAboutBtnOk;
                 btnClose.DialogResult = DialogResult.OK;
                 btnClose.SetBounds(frm.ClientSize.Width - 88, frm.ClientSize.Height - 40, 80, 32);
                 btnClose.TabIndex = 0;
