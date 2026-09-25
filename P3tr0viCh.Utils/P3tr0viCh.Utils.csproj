@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AppOneInstance.cs" />
     <Compile Include="AssemblyDecorator.cs" />
+    <Compile Include="Attributes\AssemblySecurityKeyAttribute.cs" />
     <Compile Include="BroadcastReceiver.cs" />
     <Compile Include="Comparers\ComparerSortOrder.cs" />
     <Compile Include="Delegates\AsyncItemsDialogEventHandler.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="Msg.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Osm.cs" />
-    <Compile Include="PasswordProperty.cs" />
+    <Compile Include="Converters\PasswordConverter.cs" />
     <Compile Include="Comparers\PathComparer.cs" />
     <Compile Include="Presenters\PresenterDataGridView.cs" />
     <Compile Include="Presenters\PresenterStatusStrip.cs" />

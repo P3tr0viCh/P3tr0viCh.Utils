@@ -3,7 +3,6 @@ using P3tr0viCh.Utils.Attributes;
 using P3tr0viCh.Utils.Converters;
 using P3tr0viCh.Utils.Properties;
 using System.ComponentModel;
-using static P3tr0viCh.Utils.PasswordProperty;
 
 namespace P3tr0viCh.Utils
 {
@@ -12,7 +11,7 @@ namespace P3tr0viCh.Utils
     public class Login
     {
         [PropertyOrder(100)]
-        [LocalizedDisplayName("Login.User.DisplayName", Consts.ResourceName)] 
+        [LocalizedDisplayName("Login.User.DisplayName", Consts.ResourceName)]
         public string User { get; set; }
 
         [PropertyOrder(101)]
