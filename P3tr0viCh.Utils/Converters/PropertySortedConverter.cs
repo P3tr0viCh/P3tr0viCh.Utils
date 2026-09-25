@@ -38,9 +38,9 @@ namespace P3tr0viCh.Utils.Converters
 
             var propertyNames = new List<string>();
 
-            foreach (var pop in orderedProperties)
+            foreach (var prop in orderedProperties)
             {
-                propertyNames.Add(pop.Name);
+                propertyNames.Add(prop.Name);
             }
 
             return properties.Sort(propertyNames.ToArray());
