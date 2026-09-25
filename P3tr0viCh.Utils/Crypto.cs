@@ -68,11 +68,13 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static uint Crc32(string value)
+        public static uint Crc32(object value)
         {
-            if (value.IsEmpty()) return 0;
+            var str = value?.ToString();
 
-            var bytes = Encoding.UTF8.GetBytes(value);
+            if (str.IsEmpty()) return 0;
+
+            var bytes = Encoding.UTF8.GetBytes(str);
             
             return Crc32Algorithm.Compute(bytes);
         }
