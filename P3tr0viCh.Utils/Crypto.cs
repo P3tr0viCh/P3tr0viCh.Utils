@@ -1,7 +1,8 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using System;
+﻿using Force.Crc32;
 using P3tr0viCh.Utils.Extensions;
+using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace P3tr0viCh.Utils
 {
@@ -55,7 +56,7 @@ namespace P3tr0viCh.Utils
             }
         }
 
-        public static string Crc(string value)
+        public static string MD5Hash(string value)
         {
             if (value.IsEmpty()) return string.Empty;
 
@@ -65,6 +66,15 @@ namespace P3tr0viCh.Utils
 
                 return BitConverter.ToString(hash);
             }
+        }
+
+        public static uint Crc32(string value)
+        {
+            if (value.IsEmpty()) return 0;
+
+            var bytes = Encoding.UTF8.GetBytes(value);
+            
+            return Crc32Algorithm.Compute(bytes);
         }
     }
 }
