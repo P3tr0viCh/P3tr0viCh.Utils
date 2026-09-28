@@ -24,18 +24,18 @@ namespace P3tr0viCh.Utils.Forms
 
         public PropertyGrid PropertyGrid => propertyGrid;
 
-        private readonly ISettingsStore settings;
+        private readonly ISettingsStore settingsStore;
 
-        public ISettingsStore Settings => settings;
+        public ISettingsStore SettingsStore => settingsStore;
 
         private FrmSettingsBase()
         {
             InitializeComponent();
         }
 
-        public FrmSettingsBase(ISettingsStore settings) : this()
+        public FrmSettingsBase(ISettingsStore settingsStore) : this()
         {
-            this.settings = settings;
+            this.settingsStore = settingsStore;
         }
 
         private void InitializeComponent()
@@ -108,7 +108,7 @@ namespace P3tr0viCh.Utils.Forms
 
         private void Frm_Load(object sender, EventArgs e)
         {
-            propertyGrid.SelectedObject = settings;
+            propertyGrid.SelectedObject = settingsStore.SelectedObject;
 
             propertyGrid.ExpandAllGridItems();
         }
@@ -120,7 +120,7 @@ namespace P3tr0viCh.Utils.Forms
 
         private IEnumerable<PropertyInfo> GetDirectories()
         {
-            var type = Settings.GetType();
+            var type = SettingsStore.GetType();
 
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
@@ -146,7 +146,7 @@ namespace P3tr0viCh.Utils.Forms
 
                 if (checkDirectoryAttribute.SetFullPath)
                 {
-                    directory.SetValue(Settings, GetFullPath(directory.GetValue(Settings) as string));
+                    directory.SetValue(SettingsStore, GetFullPath(directory.GetValue(SettingsStore) as string));
                 }
             }
 
@@ -198,7 +198,7 @@ namespace P3tr0viCh.Utils.Forms
 
                     var checkDirectoryAttribute = GetCheckDirectoryAttribute(directory);
 
-                    var value = directory.GetValue(Settings) as string;
+                    var value = directory.GetValue(SettingsStore) as string;
 
                     if (value.IsEmpty())
                     {
@@ -287,7 +287,7 @@ namespace P3tr0viCh.Utils.Forms
 
             try
             {
-                settings.Save();
+                settingsStore.Save();
 
                 LoadFormState();
 
@@ -297,13 +297,13 @@ namespace P3tr0viCh.Utils.Forms
 
                     BeforeSave();
 
-                    settings.Save();
+                    settingsStore.Save();
 
                     return true;
                 }
                 else
                 {
-                    settings.Load();
+                    settingsStore.Load();
 
                     SaveFormState();
 

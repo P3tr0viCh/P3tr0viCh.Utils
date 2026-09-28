@@ -2,6 +2,8 @@
 {
     public interface ISettingsStore
     {
+        object SelectedObject { get; }
+
         bool Load();
 
         bool Save();

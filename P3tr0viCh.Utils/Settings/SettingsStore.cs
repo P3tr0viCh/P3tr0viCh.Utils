@@ -26,6 +26,8 @@ namespace P3tr0viCh.Utils.Settings
 
         public T Settings => settings;
 
+        public object SelectedObject => settings;
+
         public static string DefaultDirectory => Files.AppDataLocalDirectory();
         public static string DefaultFileName => Files.SettingsFileName();
 
