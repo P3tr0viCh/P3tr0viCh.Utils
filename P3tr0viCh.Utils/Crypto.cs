@@ -1,5 +1,7 @@
-﻿using P3tr0viCh.Utils.Extensions;
+﻿using P3tr0viCh.Utils.Attributes;
+using P3tr0viCh.Utils.Extensions;
 using System;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,6 +9,13 @@ namespace P3tr0viCh.Utils
 {
     public class Crypto
     {
+        private static readonly Lazy<string> lazySecurityKey = new Lazy<string>(() => GetSecurityKey());
+
+        public static string SecurityKey => lazySecurityKey.Value;
+        
+        private static string GetSecurityKey() => 
+            new AssemblyDecorator().Assembly.GetCustomAttribute<AssemblySecurityKeyAttribute>()?.Value;
+
         private static byte[] SecurityKeyToArray(string securityKey)
         {
             using (var MD5CryptoService = new MD5CryptoServiceProvider())
@@ -61,9 +70,27 @@ namespace P3tr0viCh.Utils
 
             using (var MD5CryptoService = new MD5CryptoServiceProvider())
             {
-                var hash = MD5CryptoService.ComputeHash(Encoding.UTF8.GetBytes(value));
+                var buffer = Encoding.UTF8.GetBytes(value);
+
+                var hash = MD5CryptoService.ComputeHash(buffer);
 
                 return BitConverter.ToString(hash);
+            }
+        }
+
+        public static string HMACSHA256Hash(string value, string securityKey)
+        {
+            if (value.IsEmpty() || securityKey.IsEmpty()) return string.Empty;
+
+            var key = Encoding.UTF8.GetBytes(securityKey);
+
+            using (var hmac = new HMACSHA256(key))
+            {
+                var buffer = Encoding.UTF8.GetBytes(value);
+
+                var hash = hmac.ComputeHash(buffer);
+
+                return Convert.ToBase64String(hash);
             }
         }
     }
