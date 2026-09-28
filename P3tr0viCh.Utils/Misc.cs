@@ -9,7 +9,7 @@ using System.Resources;
 
 namespace P3tr0viCh.Utils
 {
-    public static partial class Misc
+    public static class Misc
     {
         public const string P3tr0viCh = "P3tr0viCh";
 
@@ -121,9 +121,9 @@ namespace P3tr0viCh.Utils
                 hex = hex.Substring(1);
             }
 
-            int r = int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
-            int g = int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
-            int b = int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+            var r = int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+            var g = int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+            var b = int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
 
             return Color.FromArgb(r, g, b);
         }
