@@ -2,6 +2,6 @@
 {
     internal class Consts
     {
-        public const string ResourceName = "Properties.Resources.P3tr0viCh.Utils";
+        public const string ResourcesName = "Properties.Resources.P3tr0viCh.Utils";
     }
 }

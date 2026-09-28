@@ -87,11 +87,11 @@ namespace P3tr0viCh.Utils
                 out _);
         }
 
-        public static string GetResourceString(string ResourceKey, string ResourcesName)
+        public static string GetResourceString(string resourceKey, string resourcesName)
         {
-            if (ResourcesName.IsEmpty())
+            if (resourcesName.IsEmpty())
             {
-                return ResourceKey;
+                return resourceKey;
             }
 
             var str = string.Empty;
@@ -100,17 +100,18 @@ namespace P3tr0viCh.Utils
             {
                 var assembly = Assembly.GetEntryAssembly();
 
-                var baseName = $"{assembly.GetName().Name}.{ResourcesName}";
+                var baseName = $"{assembly.GetName().Name}.{resourcesName}";
 
                 var res = new ResourceManager(baseName, assembly);
 
-                str = res.GetString(ResourceKey);
+                str = res.GetString(resourceKey);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                DebugWrite.Error($"{resourcesName}/{resourceKey}: {e.Message}");
             }
 
-            return str.IsEmpty() ? ResourceKey : str;
+            return str.IsEmpty() ? resourceKey : str;
         }
 
         public static Color HexToColor(string hex)
