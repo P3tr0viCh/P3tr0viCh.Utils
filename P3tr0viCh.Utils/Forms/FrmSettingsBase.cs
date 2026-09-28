@@ -24,16 +24,16 @@ namespace P3tr0viCh.Utils.Forms
 
         public PropertyGrid PropertyGrid => propertyGrid;
 
-        private readonly ISettingsBase settings;
+        private readonly ISettingsStore settings;
 
-        public ISettingsBase Settings => settings;
+        public ISettingsStore Settings => settings;
 
         private FrmSettingsBase()
         {
             InitializeComponent();
         }
 
-        public FrmSettingsBase(ISettingsBase settings) : this()
+        public FrmSettingsBase(ISettingsStore settings) : this()
         {
             this.settings = settings;
         }

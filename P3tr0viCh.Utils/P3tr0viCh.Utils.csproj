@@ -129,7 +129,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourcesLog.resx</DependentUpon>
     </Compile>
-    <Compile Include="SettingsBase.cs" />
+    <Compile Include="Settings\ColumnState.cs" />
+    <Compile Include="Settings\ColumnStates.cs" />
+    <Compile Include="Settings\FormState.cs" />
+    <Compile Include="Settings\FormStates.cs" />
+    <Compile Include="Settings\ISettings.cs" />
+    <Compile Include="Settings\ISettingsStore.cs" />
+    <Compile Include="Settings\SettingsBase.cs" />
+    <Compile Include="Settings\SettingsStore.cs" />
     <Compile Include="Str.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Forms\TextInputBox.cs" />

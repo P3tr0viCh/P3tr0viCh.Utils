@@ -1,108 +1,76 @@
-﻿using Newtonsoft.Json;
+﻿#if DEBUG
+#define ENABLE_CHECK_HASH
+#endif
+
+using Newtonsoft.Json;
 using P3tr0viCh.Utils.Exceptions;
 using P3tr0viCh.Utils.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils.Settings
 {
-    public interface ISettingsBase
+    public class SettingsStore<T> : ISettingsStore where T : SettingsBase, new()
     {
-        bool Load();
+        private T settings = new T();
 
-        bool Save();
-    }
+        private string directory = DefaultDirectory;
 
-    public class FormState
-    {
-        public Rectangle Bounds { get; set; } = default;
-        public bool Maximized { get; set; } = false;
-    }
+        private string fileName = DefaultFileName;
 
-    public class FormStates : Dictionary<string, FormState>
-    {
-    }
+        private string filePath = string.Empty;
 
-    public class ColumnState
-    {
-        public int Index { get; set; } = default;
-        public string Name { get; set; } = default;
-        public int Width { get; set; } = default;
-        public bool Visible { get; set; } = true;
-        public int DisplayIndex { get; set; } = default;
-    }
+        private string filePathHash = string.Empty;
 
-    public class ColumnStates : Dictionary<string, ColumnState[]>
-    {
-    }
+        public T Settings => settings;
 
-    public class SettingsBase<T> : ISettingsBase where T : new()
-    {
-        private static T defaultInstance = new T();
-        public static T Default => defaultInstance;
+        public static string DefaultDirectory => Files.AppDataLocalDirectory();
+        public static string DefaultFileName => Files.SettingsFileName();
 
-        private static string directory = string.Empty;
-        public static string Directory
+        public string Directory
         {
             get => directory;
             set
             {
-                directory = value;
-                filePath = string.Empty;
+                directory = value.IsEmpty() ? DefaultDirectory : value;
+
+                UpdateFilePath();
             }
         }
 
-        private static string fileName = string.Empty;
-        public static string FileName
+        public string FileName
         {
             get => fileName;
             set
             {
-                fileName = value;
-                filePath = string.Empty;
+                fileName = value.IsEmpty() ? DefaultFileName : value;
+
+                UpdateFilePath();
             }
         }
 
-        private static string filePath = string.Empty;
-        public static string FilePath
+        public string FilePath => filePath;
+
+        public string FilePathHash => filePathHash;
+
+        public bool UseHash { get; set; } = false;
+
+        public Exception LastError { get; private set; } = null;
+
+        private void UpdateFilePath()
         {
-            get
-            {
-                if (filePath.IsEmpty())
-                {
-                    if (Directory.IsEmpty())
-                    {
-                        directory = Files.AppDataLocalDirectory();
-                    }
+            filePath = Path.Combine(Directory, FileName);
 
-                    if (FileName.IsEmpty())
-                    {
-                        fileName = Files.SettingsFileName();
-                    }
-
-                    filePath = Path.Combine(Directory, FileName);
-                }
-
-                return filePath;
-            }
+            filePathHash = filePath + "." + Files.ExtConfigHash;
         }
 
-        public static Exception LastError { get; private set; } = null;
+        private string GetFormName(Form form) => form.GetType().Name;
 
-        private static string GetFormName(Form form)
-        {
-            return form.GetType().Name;
-        }
+        private string GetDataGridViewName(DataGridView dataGridView) => dataGridView.Name;
 
-        private static string GetDataGridViewName(DataGridView dataGridView)
-        {
-            return dataGridView.Name;
-        }
-
-        private static FormState SaveFormState(Form form)
+        private FormState SaveFormState(Form form)
         {
             var state = new FormState();
 
@@ -140,7 +108,7 @@ namespace P3tr0viCh.Utils.Settings
             return state;
         }
 
-        public static void SaveFormState(Form form, string name, FormStates states)
+        public void SaveFormState(Form form, string name, FormStates states)
         {
             if (name.IsEmpty()) name = GetFormName(form);
 
@@ -149,12 +117,12 @@ namespace P3tr0viCh.Utils.Settings
             states[name] = state;
         }
 
-        public static void SaveFormState(Form form, FormStates states)
+        public void SaveFormState(Form form, FormStates states)
         {
             SaveFormState(form, string.Empty, states);
         }
 
-        private static bool IsBoundsOnAnyScreen(Rectangle bounds)
+        private bool IsBoundsOnAnyScreen(Rectangle bounds)
         {
             foreach (var screen in Screen.AllScreens)
             {
@@ -164,7 +132,7 @@ namespace P3tr0viCh.Utils.Settings
             return false;
         }
 
-        private static void LoadFormState(Form form, FormState state)
+        private void LoadFormState(Form form, FormState state)
         {
             try
             {
@@ -215,7 +183,7 @@ namespace P3tr0viCh.Utils.Settings
             }
         }
 
-        public static void LoadFormState(Form form, string name, FormStates states)
+        public void LoadFormState(Form form, string name, FormStates states)
         {
             if (name.IsEmpty()) name = GetFormName(form);
 
@@ -224,12 +192,12 @@ namespace P3tr0viCh.Utils.Settings
             LoadFormState(form, state);
         }
 
-        public static void LoadFormState(Form form, FormStates states)
+        public void LoadFormState(Form form, FormStates states)
         {
             LoadFormState(form, string.Empty, states);
         }
 
-        private static ColumnState[] SaveDataGridColumns(DataGridView dataGridView)
+        private ColumnState[] SaveDataGridColumns(DataGridView dataGridView)
         {
             var columns = new ColumnState[dataGridView.Columns.Count];
 
@@ -248,7 +216,7 @@ namespace P3tr0viCh.Utils.Settings
             return columns;
         }
 
-        public static void SaveDataGridColumns(DataGridView dataGridView, string name, ColumnStates states)
+        public void SaveDataGridColumns(DataGridView dataGridView, string name, ColumnStates states)
         {
             if (name.IsEmpty()) name = GetDataGridViewName(dataGridView);
 
@@ -257,12 +225,12 @@ namespace P3tr0viCh.Utils.Settings
             states[name] = state;
         }
 
-        public static void SaveDataGridColumns(DataGridView dataGridView, ColumnStates states)
+        public void SaveDataGridColumns(DataGridView dataGridView, ColumnStates states)
         {
             SaveDataGridColumns(dataGridView, string.Empty, states);
         }
 
-        private static void LoadDataGridColumns(DataGridView dataGridView, ColumnState[] columns)
+        private void LoadDataGridColumns(DataGridView dataGridView, ColumnState[] columns)
         {
             try
             {
@@ -290,7 +258,7 @@ namespace P3tr0viCh.Utils.Settings
             }
         }
 
-        public static void LoadDataGridColumns(DataGridView dataGridView, string name, ColumnStates columnStates)
+        public void LoadDataGridColumns(DataGridView dataGridView, string name, ColumnStates columnStates)
         {
             if (name.IsEmpty()) name = GetDataGridViewName(dataGridView);
 
@@ -299,7 +267,7 @@ namespace P3tr0viCh.Utils.Settings
             LoadDataGridColumns(dataGridView, columns);
         }
 
-        public static void LoadDataGridColumns(DataGridView dataGridView, ColumnStates columnStates)
+        public void LoadDataGridColumns(DataGridView dataGridView, ColumnStates columnStates)
         {
             LoadDataGridColumns(dataGridView, string.Empty, columnStates);
         }
@@ -308,23 +276,43 @@ namespace P3tr0viCh.Utils.Settings
         {
         }
 
+
+        private string GetHash(string value) => Crypto.HMACSHA256Hash(value, Crypto.SecurityKey);
+
+        private void SaveSettings()
+        {
+            var content = JsonConvert.SerializeObject(settings, Formatting.Indented);
+
+            File.WriteAllText(FilePath, content);
+        }
+
+        private void SaveHash()
+        {
+            if (UseHash)
+            {
+                var content = File.ReadAllText(FilePath);
+
+                var hash = GetHash(content);
+
+                File.WriteAllText(FilePathHash, hash);
+            }
+            else
+            {
+                File.Delete(FilePathHash);
+            }
+        }
+
         public bool Save()
         {
             LastError = null;
 
             try
             {
-                if (!System.IO.Directory.Exists(Directory))
-                {
-                    System.IO.Directory.CreateDirectory(Directory);
-                }
+                System.IO.Directory.CreateDirectory(Directory);
 
-                using (var writer = File.CreateText(FilePath))
-                {
-                    var content = JsonConvert.SerializeObject(defaultInstance, Formatting.Indented);
+                SaveSettings();
 
-                    writer.Write(content);
-                }
+                SaveHash();
 
                 return true;
             }
@@ -336,24 +324,56 @@ namespace P3tr0viCh.Utils.Settings
             }
         }
 
+#if ENABLE_CHECK_HASH
+        private void LoadHash()
+        {
+            if (!UseHash) return;
+
+            if (!File.Exists(FilePath)) return;
+
+            Files.CheckFileExists(FilePathHash);
+
+            if (Files.FileLength(FilePathHash) == 0) throw new FileZeroLengthException();
+
+            var content = File.ReadAllText(FilePath);
+
+            var hash = GetHash(content);
+
+            var hashSaved = File.ReadAllText(FilePathHash);
+
+            if (hashSaved != hash)
+            {
+                throw new WrongHashException();
+            }
+        }
+#endif
+
+        private void LoadSettings()
+        {
+            Files.CheckFileExists(FilePath);
+
+            if (Files.FileLength(FilePath) == 0) throw new FileZeroLengthException();
+
+            var content = File.ReadAllText(FilePath);
+
+            settings = JsonConvert.DeserializeObject<T>(content);
+
+            if (settings == null) throw new NullReferenceException();
+
+            Check();
+        }
+
         public bool Load()
         {
             LastError = null;
 
             try
             {
-                Files.CheckFileExists(FilePath);
+#if ENABLE_CHECK_HASH
+                LoadHash();
+#endif
 
-                if (Files.FileLength(FilePath) == 0) throw new FileZeroLengthException();
-
-                using (var reader = File.OpenText(FilePath))
-                {
-                    defaultInstance = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
-                }
-
-                if (defaultInstance == null) throw new NullReferenceException();
-
-                Check();
+                LoadSettings();
 
                 return true;
             }
@@ -361,7 +381,7 @@ namespace P3tr0viCh.Utils.Settings
             {
                 LastError = e;
 
-                defaultInstance = new T();
+                settings = new T();
 
                 return false;
             }

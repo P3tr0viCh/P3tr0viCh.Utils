@@ -84,4 +84,8 @@ namespace P3tr0viCh.Utils.Exceptions
             PropertyName = propertyName;
         }
     }
+
+    public class WrongHashException : Exception
+    {
+    }
 }

@@ -15,6 +15,7 @@ namespace P3tr0viCh.Utils
     {
         public const string ExtConfig = "config";
         public const string ExtSqLite = "sqlite";
+        public const string ExtConfigHash = "hash";
 
         public static string ExecutableName()
         {
