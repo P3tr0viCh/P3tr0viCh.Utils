@@ -1,5 +1,4 @@
-﻿using Force.Crc32;
-using P3tr0viCh.Utils.Extensions;
+﻿using P3tr0viCh.Utils.Extensions;
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -66,17 +65,6 @@ namespace P3tr0viCh.Utils
 
                 return BitConverter.ToString(hash);
             }
-        }
-
-        public static uint Crc32(object value)
-        {
-            var str = value?.ToString();
-
-            if (str.IsEmpty()) return 0;
-
-            var bytes = Encoding.UTF8.GetBytes(str);
-            
-            return Crc32Algorithm.Compute(bytes);
         }
     }
 }
