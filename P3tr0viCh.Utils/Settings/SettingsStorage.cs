@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils.Settings
 {
-    public class SettingsStorage<T> : ObjectStorage<T> where T : ObjectPersistenceBase, new()
+    public class SettingsStorage<T> : ObjectStorage<T> where T : SettingsPersistenceBase, new()
     {
         public T Settings => Data;
 
@@ -18,7 +18,7 @@ namespace P3tr0viCh.Utils.Settings
 
         private string GetDataGridViewName(DataGridView dataGridView) => dataGridView.Name;
 
-        private FormState SaveFormState(Form form)
+        private FormState GetFormState(Form form)
         {
             var state = new FormState();
 
@@ -60,7 +60,7 @@ namespace P3tr0viCh.Utils.Settings
         {
             if (name.IsEmpty()) name = GetFormName(form);
 
-            var state = SaveFormState(form);
+            var state = GetFormState(form);
 
             states[name] = state;
         }
@@ -68,6 +68,23 @@ namespace P3tr0viCh.Utils.Settings
         public void SaveFormState(Form form, FormStates states)
         {
             SaveFormState(form, string.Empty, states);
+        }
+
+        public void SaveFormState(Form form, string name)
+        {
+            if (Settings is IFormStates formStates)
+            {
+                SaveFormState(form, name, formStates.FormStates);
+            }
+            else
+            {
+                throw new InvalidCastException(Settings.GetType().FullName);
+            }
+        }
+
+        public void SaveFormState(Form form)
+        {
+            SaveFormState(form, string.Empty);
         }
 
         private bool IsBoundsOnAnyScreen(Rectangle bounds)
@@ -146,7 +163,24 @@ namespace P3tr0viCh.Utils.Settings
             LoadFormState(form, string.Empty, states);
         }
 
-        private ColumnState[] SaveDataGridColumns(DataGridView dataGridView)
+        public void LoadFormState(Form form, string name)
+        {
+            if (Settings is IFormStates formStates)
+            {
+                LoadFormState(form, name, formStates.FormStates);
+            }
+            else
+            {
+                throw new InvalidCastException(Settings.GetType().FullName);
+            }
+        }
+
+        public void LoadFormState(Form form)
+        {
+            LoadFormState(form, string.Empty);
+        }
+
+        private ColumnState[] GetDataGridColumns(DataGridView dataGridView)
         {
             var columns = new ColumnState[dataGridView.Columns.Count];
 
@@ -169,7 +203,7 @@ namespace P3tr0viCh.Utils.Settings
         {
             if (name.IsEmpty()) name = GetDataGridViewName(dataGridView);
 
-            var state = SaveDataGridColumns(dataGridView);
+            var state = GetDataGridColumns(dataGridView);
 
             states[name] = state;
         }
@@ -177,6 +211,23 @@ namespace P3tr0viCh.Utils.Settings
         public void SaveDataGridColumns(DataGridView dataGridView, ColumnStates states)
         {
             SaveDataGridColumns(dataGridView, string.Empty, states);
+        }
+
+        public void SaveDataGridColumns(DataGridView dataGridView, string name)
+        {
+            if (Settings is IColumnStates columnStates)
+            {
+                SaveDataGridColumns(dataGridView, name, columnStates.ColumnStates);
+            }
+            else
+            {
+                throw new InvalidCastException(Settings.GetType().FullName);
+            }
+        }
+        
+        public void SaveDataGridColumns(DataGridView dataGridView)
+        {
+            SaveDataGridColumns(dataGridView, string.Empty);
         }
 
         private void LoadDataGridColumns(DataGridView dataGridView, ColumnState[] columns)
@@ -220,6 +271,23 @@ namespace P3tr0viCh.Utils.Settings
         public void LoadDataGridColumns(DataGridView dataGridView, ColumnStates columnStates)
         {
             LoadDataGridColumns(dataGridView, string.Empty, columnStates);
+        }
+
+        public void LoadDataGridColumns(DataGridView dataGridView, string name)
+        {
+            if (Settings is IColumnStates columnStates)
+            {
+                LoadDataGridColumns(dataGridView, name, columnStates.ColumnStates);
+            }
+            else
+            {
+                throw new InvalidCastException(Settings.GetType().FullName);
+            }
+        }
+
+        public void LoadDataGridColumns(DataGridView dataGridView)
+        {
+            LoadDataGridColumns(dataGridView, string.Empty);
         }
     }
 }
