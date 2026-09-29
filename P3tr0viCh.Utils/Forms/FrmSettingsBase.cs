@@ -1,7 +1,7 @@
 ﻿using P3tr0viCh.Utils.Attributes;
 using P3tr0viCh.Utils.Exceptions;
 using P3tr0viCh.Utils.Extensions;
-using P3tr0viCh.Utils.Settings;
+using P3tr0viCh.Utils.Storage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,18 +24,18 @@ namespace P3tr0viCh.Utils.Forms
 
         public PropertyGrid PropertyGrid => propertyGrid;
 
-        private readonly ISettingsStore settingsStore;
+        private readonly IObjectStorage objectStorage;
 
-        public ISettingsStore SettingsStore => settingsStore;
+        public IObjectStorage ObjectStorage => objectStorage;
 
         private FrmSettingsBase()
         {
             InitializeComponent();
         }
 
-        public FrmSettingsBase(ISettingsStore settingsStore) : this()
+        public FrmSettingsBase(IObjectStorage objectStorage) : this()
         {
-            this.settingsStore = settingsStore;
+            this.objectStorage = objectStorage;
         }
 
         private void InitializeComponent()
@@ -108,7 +108,7 @@ namespace P3tr0viCh.Utils.Forms
 
         private void Frm_Load(object sender, EventArgs e)
         {
-            propertyGrid.SelectedObject = settingsStore.SelectedObject;
+            propertyGrid.SelectedObject = objectStorage.Object;
 
             propertyGrid.ExpandAllGridItems();
         }
@@ -120,7 +120,7 @@ namespace P3tr0viCh.Utils.Forms
 
         private IEnumerable<PropertyInfo> GetDirectories()
         {
-            var type = SettingsStore.GetType();
+            var type = ObjectStorage.GetType();
 
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
@@ -146,7 +146,7 @@ namespace P3tr0viCh.Utils.Forms
 
                 if (checkDirectoryAttribute.SetFullPath)
                 {
-                    directory.SetValue(SettingsStore, GetFullPath(directory.GetValue(SettingsStore) as string));
+                    directory.SetValue(ObjectStorage, GetFullPath(directory.GetValue(ObjectStorage) as string));
                 }
             }
 
@@ -198,7 +198,7 @@ namespace P3tr0viCh.Utils.Forms
 
                     var checkDirectoryAttribute = GetCheckDirectoryAttribute(directory);
 
-                    var value = directory.GetValue(SettingsStore) as string;
+                    var value = directory.GetValue(ObjectStorage) as string;
 
                     if (value.IsEmpty())
                     {
@@ -287,7 +287,7 @@ namespace P3tr0viCh.Utils.Forms
 
             try
             {
-                settingsStore.Save();
+                objectStorage.Save();
 
                 LoadFormState();
 
@@ -297,13 +297,13 @@ namespace P3tr0viCh.Utils.Forms
 
                     BeforeSave();
 
-                    settingsStore.Save();
+                    objectStorage.Save();
 
                     return true;
                 }
                 else
                 {
-                    settingsStore.Load();
+                    objectStorage.Load();
 
                     SaveFormState();
 

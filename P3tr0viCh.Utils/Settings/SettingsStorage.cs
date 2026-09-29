@@ -2,71 +2,17 @@
 #define ENABLE_CHECK_HASH
 #endif
 
-using Newtonsoft.Json;
-using P3tr0viCh.Utils.Exceptions;
 using P3tr0viCh.Utils.Extensions;
+using P3tr0viCh.Utils.Storage;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils.Settings
 {
-    public class SettingsStore<T> : ISettingsStore where T : SettingsBase, new()
+    public class SettingsStorage<T> : ObjectStorage<T> where T : ObjectPersistenceBase, new()
     {
-        private T settings = new T();
-
-        private string directory = DefaultDirectory;
-
-        private string fileName = DefaultFileName;
-
-        private string filePath = string.Empty;
-
-        private string filePathHash = string.Empty;
-
-        public T Settings => settings;
-
-        public object SelectedObject => settings;
-
-        public static string DefaultDirectory => Files.AppDataLocalDirectory();
-        public static string DefaultFileName => Files.SettingsFileName();
-
-        public string Directory
-        {
-            get => directory;
-            set
-            {
-                directory = value.IsEmpty() ? DefaultDirectory : value;
-
-                UpdateFilePath();
-            }
-        }
-
-        public string FileName
-        {
-            get => fileName;
-            set
-            {
-                fileName = value.IsEmpty() ? DefaultFileName : value;
-
-                UpdateFilePath();
-            }
-        }
-
-        public string FilePath => filePath;
-
-        public string FilePathHash => filePathHash;
-
-        public bool UseHash { get; set; } = false;
-
-        public Exception LastError { get; private set; } = null;
-
-        private void UpdateFilePath()
-        {
-            filePath = Path.Combine(Directory, FileName);
-
-            filePathHash = filePath + "." + Files.ExtConfigHash;
-        }
+        public T Settings => Data;
 
         private string GetFormName(Form form) => form.GetType().Name;
 
@@ -180,8 +126,9 @@ namespace P3tr0viCh.Utils.Settings
                         break;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                DebugWrite.Error(e);
             }
         }
 
@@ -255,8 +202,9 @@ namespace P3tr0viCh.Utils.Settings
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                DebugWrite.Error(e);
             }
         }
 
@@ -272,121 +220,6 @@ namespace P3tr0viCh.Utils.Settings
         public void LoadDataGridColumns(DataGridView dataGridView, ColumnStates columnStates)
         {
             LoadDataGridColumns(dataGridView, string.Empty, columnStates);
-        }
-
-        protected virtual void Check()
-        {
-        }
-
-
-        private string GetHash(string value) => Crypto.HMACSHA256Hash(value, Crypto.SecurityKey);
-
-        private void SaveSettings()
-        {
-            var content = JsonConvert.SerializeObject(settings, Formatting.Indented);
-
-            File.WriteAllText(FilePath, content);
-        }
-
-        private void SaveHash()
-        {
-            if (UseHash)
-            {
-                var content = File.ReadAllText(FilePath);
-
-                var hash = GetHash(content);
-
-                File.WriteAllText(FilePathHash, hash);
-            }
-            else
-            {
-                File.Delete(FilePathHash);
-            }
-        }
-
-        public bool Save()
-        {
-            LastError = null;
-
-            try
-            {
-                System.IO.Directory.CreateDirectory(Directory);
-
-                SaveSettings();
-
-                SaveHash();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                LastError = e;
-
-                return false;
-            }
-        }
-
-#if ENABLE_CHECK_HASH
-        private void LoadHash()
-        {
-            if (!UseHash) return;
-
-            if (!File.Exists(FilePath)) return;
-
-            Files.CheckFileExists(FilePathHash);
-
-            if (Files.FileLength(FilePathHash) == 0) throw new FileZeroLengthException();
-
-            var content = File.ReadAllText(FilePath);
-
-            var hash = GetHash(content);
-
-            var hashSaved = File.ReadAllText(FilePathHash);
-
-            if (hashSaved != hash)
-            {
-                throw new WrongHashException();
-            }
-        }
-#endif
-
-        private void LoadSettings()
-        {
-            Files.CheckFileExists(FilePath);
-
-            if (Files.FileLength(FilePath) == 0) throw new FileZeroLengthException();
-
-            var content = File.ReadAllText(FilePath);
-
-            settings = JsonConvert.DeserializeObject<T>(content);
-
-            if (settings == null) throw new NullReferenceException();
-
-            Check();
-        }
-
-        public bool Load()
-        {
-            LastError = null;
-
-            try
-            {
-#if ENABLE_CHECK_HASH
-                LoadHash();
-#endif
-
-                LoadSettings();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                LastError = e;
-
-                settings = new T();
-
-                return false;
-            }
         }
     }
 }

@@ -102,6 +102,9 @@
     <Compile Include="Interfaces\IPresenterFrmListBase.cs" />
     <Compile Include="Interfaces\IPresenterDataGridViewCompare.cs" />
     <Compile Include="EventArguments\ItemsDialogEventArgs.cs" />
+    <Compile Include="Storage\IObjectPersistence.cs" />
+    <Compile Include="Storage\IObjectStorage.cs" />
+    <Compile Include="Storage\ObjectStorage.cs" />
     <Compile Include="Presenters\PresenterDataGridViewFrmList.cs" />
     <Compile Include="Presenters\PresenterFrmListBase.cs" />
     <Compile Include="Presenters\PresenterFrmListBase.Database.cs" />
@@ -133,10 +136,8 @@
     <Compile Include="Settings\ColumnStates.cs" />
     <Compile Include="Settings\FormState.cs" />
     <Compile Include="Settings\FormStates.cs" />
-    <Compile Include="Settings\ISettings.cs" />
-    <Compile Include="Settings\ISettingsStore.cs" />
-    <Compile Include="Settings\SettingsBase.cs" />
-    <Compile Include="Settings\SettingsStore.cs" />
+    <Compile Include="Storage\ObjectPersistenceBase.cs" />
+    <Compile Include="Settings\SettingsStorage.cs" />
     <Compile Include="Str.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Forms\TextInputBox.cs" />
