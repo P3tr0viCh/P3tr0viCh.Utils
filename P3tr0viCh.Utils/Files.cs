@@ -97,6 +97,11 @@ namespace P3tr0viCh.Utils
         {
             return new FileInfo(fileName).Length;
         }
+        
+        public static bool IsFileEmpty(string fileName)
+        {
+            return FileLength(fileName) == 0;
+        }
 
         public static void DirectoryRename(string sourceDirFullName, string destDirOnlyName)
         {

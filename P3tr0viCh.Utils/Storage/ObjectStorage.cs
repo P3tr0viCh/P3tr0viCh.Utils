@@ -120,7 +120,7 @@ namespace P3tr0viCh.Utils.Storage
 
             Files.CheckFileExists(FilePathHash);
 
-            if (Files.FileLength(FilePathHash) == 0) throw new FileZeroLengthException();
+            if (Files.IsFileEmpty(FilePathHash)) throw new FileZeroLengthException();
 
             var content = File.ReadAllText(FilePath);
 
@@ -139,7 +139,7 @@ namespace P3tr0viCh.Utils.Storage
         {
             Files.CheckFileExists(FilePath);
 
-            if (Files.FileLength(FilePath) == 0) throw new FileZeroLengthException();
+            if (Files.IsFileEmpty(FilePath)) throw new FileZeroLengthException();
 
             var content = File.ReadAllText(FilePath);
 
