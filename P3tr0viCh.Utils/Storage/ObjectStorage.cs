@@ -1,6 +1,4 @@
-﻿#if DEBUG
-#define ENABLE_CHECK_HASH
-#endif
+﻿#define ENABLE_CHECK_HASH
 
 using Newtonsoft.Json;
 using P3tr0viCh.Utils.Exceptions;
@@ -170,7 +168,7 @@ namespace P3tr0viCh.Utils.Storage
             {
                 LastError = e;
 
-                data = default;
+                data = new T();
 
                 return false;
             }
