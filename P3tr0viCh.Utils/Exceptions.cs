@@ -15,7 +15,7 @@ namespace P3tr0viCh.Utils.Exceptions
         { }
 
         public FileNotExistsException(string fileName) :
-            this(Resources.ExceptionFileNotExists, fileName)
+            this(ResourcesExceptions.FileNotExists, fileName)
         { }
     }
 
@@ -32,22 +32,30 @@ namespace P3tr0viCh.Utils.Exceptions
         }
 
         public DirectoryNotExistsException(string path) :
-            this(Resources.ExceptionDirectoryNotExists, path)
+            this(ResourcesExceptions.DirectoryNotExists, path)
         { }
     }
 
     public class FileBadFormatException : FileNotFoundException
     {
-        public FileBadFormatException() : base(Resources.ExceptionFileBadFormat) { }
-        public FileBadFormatException(string message) : base(message) { }
-        public FileBadFormatException(string message, string fileName) : base(message, fileName) { }
+        public FileBadFormatException() : base(ResourcesExceptions.FileBadFormat) { }
+        
+        public FileBadFormatException(string message, string fileName) :
+            base(string.Format(message, fileName), fileName)
+        { }
+        
+        public FileBadFormatException(string fileName) :
+            this(ResourcesExceptions.FileBadFormatWithFileName, fileName)
+        { }
     }
 
     public class FileZeroLengthException : FileBadFormatException
     {
-        public FileZeroLengthException() : base(Resources.ExceptionFileZeroLength) { }
-        public FileZeroLengthException(string message) : base(message) { }
-        public FileZeroLengthException(string message, string fileName) : base(message, fileName) { }
+        public FileZeroLengthException() : base(ResourcesExceptions.FileZeroLength) { }
+        
+        public FileZeroLengthException(string fileName) :
+            base(ResourcesExceptions.FileZeroLengthWithFileName, fileName)
+        { }
     }
 
     public class HttpStatusCodeException : Exception
@@ -68,18 +76,18 @@ namespace P3tr0viCh.Utils.Exceptions
 
         public PropertyException() : base() { }
 
-        public PropertyException(Exception e) : base("", e)
+        public PropertyException(Exception e) : base(string.Empty, e)
         {
         }
 
         public PropertyException(string propertyName) :
-            base(string.Format(Resources.ExceptionProperty, propertyName))
+            base(string.Format(ResourcesExceptions.Property, propertyName))
         {
             PropertyName = propertyName;
         }
 
         public PropertyException(string propertyName, Exception e) :
-            base(string.Format(Resources.ExceptionPropertyWithException, propertyName, e.Message))
+            base(string.Format(ResourcesExceptions.PropertyWithException, propertyName, e.Message))
         {
             PropertyName = propertyName;
         }

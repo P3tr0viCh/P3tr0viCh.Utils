@@ -57,6 +57,8 @@ namespace P3tr0viCh.Utils.Storage
 
         public Exception LastError { get; private set; } = null;
 
+        public bool HasError => LastError != null;
+
         private void UpdateFilePath()
         {
             filePath = Path.Combine(Directory, FileName);
@@ -89,7 +91,7 @@ namespace P3tr0viCh.Utils.Storage
             }
         }
 
-        public bool Save()
+        public virtual bool Save()
         {
             LastError = null;
 
@@ -120,7 +122,7 @@ namespace P3tr0viCh.Utils.Storage
 
             Files.CheckFileExists(FilePathHash);
 
-            if (Files.IsFileEmpty(FilePathHash)) throw new FileZeroLengthException();
+            if (Files.IsFileEmpty(FilePathHash)) throw new FileZeroLengthException(FilePathHash);
 
             var content = File.ReadAllText(FilePath);
 
@@ -139,7 +141,7 @@ namespace P3tr0viCh.Utils.Storage
         {
             Files.CheckFileExists(FilePath);
 
-            if (Files.IsFileEmpty(FilePath)) throw new FileZeroLengthException();
+            if (Files.IsFileEmpty(FilePath)) throw new FileZeroLengthException(FilePath);
 
             var content = File.ReadAllText(FilePath);
 
@@ -150,7 +152,7 @@ namespace P3tr0viCh.Utils.Storage
             data.Check();
         }
 
-        public bool Load()
+        public virtual bool Load()
         {
             LastError = null;
 

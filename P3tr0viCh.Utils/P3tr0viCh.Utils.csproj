@@ -102,6 +102,11 @@
     <Compile Include="Interfaces\IPresenterFrmListBase.cs" />
     <Compile Include="Interfaces\IPresenterDataGridViewCompare.cs" />
     <Compile Include="EventArguments\ItemsDialogEventArgs.cs" />
+    <Compile Include="Properties\ResourcesExceptions.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourcesExceptions.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\IColumnStates.cs" />
     <Compile Include="Settings\IFormStates.cs" />
     <Compile Include="Settings\SettingsPersistenceBase.cs" />
@@ -151,6 +156,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ResourcesExceptions.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesExceptions.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\ResourcesLog.resx">
       <Generator>ResXFileCodeGenerator</Generator>

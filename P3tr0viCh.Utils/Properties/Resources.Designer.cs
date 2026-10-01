@@ -61,62 +61,6 @@ namespace P3tr0viCh.Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Каталог «{0}» не существует..
-        /// </summary>
-        internal static string ExceptionDirectoryNotExists {
-            get {
-                return ResourceManager.GetString("ExceptionDirectoryNotExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Файл имеет непарвильный формат..
-        /// </summary>
-        internal static string ExceptionFileBadFormat {
-            get {
-                return ResourceManager.GetString("ExceptionFileBadFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Файл «{0}» не существует..
-        /// </summary>
-        internal static string ExceptionFileNotExists {
-            get {
-                return ResourceManager.GetString("ExceptionFileNotExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Файл имеет нулевую длину..
-        /// </summary>
-        internal static string ExceptionFileZeroLength {
-            get {
-                return ResourceManager.GetString("ExceptionFileZeroLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ошибка в «{0}»..
-        /// </summary>
-        internal static string ExceptionProperty {
-            get {
-                return ResourceManager.GetString("ExceptionProperty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ошибка в «{0}»:
-        ///
-        ///{1}.
-        /// </summary>
-        internal static string ExceptionPropertyWithException {
-            get {
-                return ResourceManager.GetString("ExceptionPropertyWithException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string FrmAboutBtnOk {
