@@ -11,6 +11,8 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static bool IsDouble(this TextBox textBox) => textBox.Text.IsDouble();
 
+        public static bool IsFloat(this TextBox textBox) => textBox.Text.IsFloat();
+
         public static string GetTrimText(this TextBox textBox) => textBox.Text.Trim();
 
         public static string GetTrimTextNullable(this TextBox textBox)
@@ -32,6 +34,8 @@ namespace P3tr0viCh.Utils.Extensions
             return double.TryParse(textBox.Text, out var result) ? result : 0.0;
         }
 
+        public static float GetFloat(this TextBox textBox) => (float)textBox.GetDouble();
+
         public static double? GetDoubleNullable(this TextBox textBox)
         {
             var result = GetDouble(textBox);
@@ -43,6 +47,8 @@ namespace P3tr0viCh.Utils.Extensions
 
             return result;
         }
+
+        public static float? GetFloatNullable(this TextBox textBox) => (float?)textBox.GetDoubleNullable();
 
         public static int GetInt(this TextBox textBox)
         {
@@ -215,6 +221,20 @@ namespace P3tr0viCh.Utils.Extensions
             if (textBox.IsEmpty()) return;
 
             var value = double.Parse(textBox.Text);
+
+            if (value < 0 && !canNegative)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return;
+        }
+
+        public static void CheckFloat(this TextBox textBox, bool canNegative = false)
+        {
+            if (textBox.IsEmpty()) return;
+
+            var value = float.Parse(textBox.Text);
 
             if (value < 0 && !canNegative)
             {

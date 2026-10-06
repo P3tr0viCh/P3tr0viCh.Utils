@@ -36,6 +36,8 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static bool IsDouble(this string s) => double.TryParse(s, out _);
 
+        public static bool IsFloat(this string s) => float.TryParse(s, out _);
+
         [Obsolete()]
         public static string ReplaceEol(this string s)
         {
