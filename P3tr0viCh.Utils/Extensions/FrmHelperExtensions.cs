@@ -68,7 +68,7 @@ namespace P3tr0viCh.Utils.Extensions
         public static T GetSelectedItem<T>(this ComboBox comboBox)
         {
             if (comboBox.SelectedItem == null) return default;
-            
+
             if (comboBox.SelectedItem is T selected) return selected;
 
             throw new InvalidCastException();
@@ -194,6 +194,34 @@ namespace P3tr0viCh.Utils.Extensions
         public static void SetShowText(this ToolStrip toolStrip, bool show)
         {
             toolStrip.SetDispayStyle(show ? ToolStripItemDisplayStyle.ImageAndText : ToolStripItemDisplayStyle.Image);
+        }
+
+        public static void CheckInt(this TextBox textBox, bool canNegative = false)
+        {
+            if (textBox.IsEmpty()) return;
+
+            var value = int.Parse(textBox.Text);
+
+            if (value < 0 && !canNegative)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return;
+        }
+
+        public static void CheckDouble(this TextBox textBox, bool canNegative = false)
+        {
+            if (textBox.IsEmpty()) return;
+
+            var value = double.Parse(textBox.Text);
+
+            if (value < 0 && !canNegative)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return;
         }
     }
 }
