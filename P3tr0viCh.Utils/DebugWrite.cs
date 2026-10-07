@@ -25,7 +25,7 @@ namespace P3tr0viCh.Utils
         [Conditional("DEBUG")]
         public static void Error(string err, [CallerMemberName] string memberName = "")
         {
-            Debug.WriteLine($"{memberName} fail: {err}");
+            Debug.WriteLine($"[ERROR] {memberName}: {err}");
         }
     }
 }
