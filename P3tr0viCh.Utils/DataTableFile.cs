@@ -110,7 +110,7 @@ namespace P3tr0viCh.Utils
 
         public void WriteToExcelXml()
         {
-            if (Table == null)
+            if (Table is null)
             {
                 throw new NullReferenceException();
             }
@@ -238,7 +238,7 @@ namespace P3tr0viCh.Utils
 
         public void ReadFromExcelXml()
         {
-            if (Table == null)
+            if (Table is null)
             {
                 throw new NullReferenceException();
             }
@@ -298,7 +298,7 @@ namespace P3tr0viCh.Utils
 
         public void ReadFromCsv()
         {
-            if (Table == null)
+            if (Table is null)
             {
                 throw new NullReferenceException();
             }

@@ -15,7 +15,7 @@ namespace P3tr0viCh.Utils
         [Conditional("DEBUG")]
         public static void Error(Exception e, [CallerMemberName] string memberName = "")
         {
-            if (e == null) return;
+            if (e is null) return;
 
             Error(e.Message, memberName);
 

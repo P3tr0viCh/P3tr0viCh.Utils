@@ -11,12 +11,12 @@ namespace P3tr0viCh.Utils.Settings
 
         public virtual void Check()
         {
-            if (this is IFormStates formStates && formStates.FormStates == null)
+            if (this is IFormStates formStates && formStates.FormStates is null)
             {
                 formStates.FormStates = new FormStates();
             }
 
-            if (this is IColumnStates columnStates && columnStates.ColumnStates == null)
+            if (this is IColumnStates columnStates && columnStates.ColumnStates is null)
             {
                 columnStates.ColumnStates = new ColumnStates();
             }

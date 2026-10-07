@@ -15,7 +15,7 @@ namespace P3tr0viCh.Utils
                 seed = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
             }
 
-            if (rnd == null) rnd = new Random();
+            if (rnd is null) rnd = new Random();
 
             var result = string.Empty;
 

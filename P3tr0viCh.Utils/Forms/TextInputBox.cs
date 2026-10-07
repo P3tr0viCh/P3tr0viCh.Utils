@@ -21,7 +21,7 @@ namespace P3tr0viCh.Utils.Forms
 
         public static bool Show(ref string text, Settings options = null)
         {
-            if (options == null)
+            if (options is null)
             {
                 options = new Settings();
             }

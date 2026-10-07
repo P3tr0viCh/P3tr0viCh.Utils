@@ -101,7 +101,7 @@ namespace P3tr0viCh.Utils.Settings
         {
             try
             {
-                if (state == null)
+                if (state is null)
                 {
                     state = new FormState();
                 }
@@ -234,7 +234,7 @@ namespace P3tr0viCh.Utils.Settings
         {
             try
             {
-                if (columns == null) return;
+                if (columns is null) return;
 
                 if (columns.Length < dataGridView.Columns.Count) return;
 

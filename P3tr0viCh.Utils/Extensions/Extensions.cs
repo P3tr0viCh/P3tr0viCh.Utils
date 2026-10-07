@@ -146,7 +146,7 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static void AddMenuDateTimeActions(this DateTimePicker dateTimePicker)
         {
-            if (dateTimePicker.ContextMenuStrip == null)
+            if (dateTimePicker.ContextMenuStrip is null)
             {
                 dateTimePicker.ContextMenuStrip = new ContextMenuStrip();
             }

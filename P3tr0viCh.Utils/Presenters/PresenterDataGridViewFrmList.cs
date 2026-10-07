@@ -2,7 +2,7 @@
 
 namespace P3tr0viCh.Utils.Presenters
 {
-    internal class PresenterDataGridViewFrmList<T> : PresenterDataGridView<T> where T : IBaseId, new()
+    internal class PresenterDataGridViewFrmList<T> : PresenterDataGridView<T> where T : class, IBaseId, new()
     {
         private readonly PresenterFrmListBase<T> presenterFrmList;
 

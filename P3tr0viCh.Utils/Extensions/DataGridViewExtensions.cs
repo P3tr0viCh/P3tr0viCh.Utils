@@ -24,7 +24,7 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static bool IsEmpty(this DataGridView dataGridView) => Count(dataGridView) == 0;
 
-        public static IEnumerable<T> GetSelectedList<T>(this DataGridView dataGridView) where T : IBaseId
+        public static IEnumerable<T> GetSelectedList<T>(this DataGridView dataGridView) where T : class, IBaseId
         {
             if (dataGridView.IsEmpty()) return Enumerable.Empty<T>();
 
@@ -39,7 +39,7 @@ namespace P3tr0viCh.Utils.Extensions
             return selectedRows.Select(item => item.Value<T>()).ToList();
         }
 
-        public static void SetSelectedList<T>(this DataGridView dataGridView, IEnumerable<T> values) where T : IBaseId
+        public static void SetSelectedList<T>(this DataGridView dataGridView, IEnumerable<T> values) where T : class, IBaseId
         {
             if (dataGridView.IsEmpty()) return;
 
@@ -59,16 +59,16 @@ namespace P3tr0viCh.Utils.Extensions
             return dataGridView.Columns[columnName] != null;
         }
 
-        public static T GetSelected<T>(this DataGridView dataGridView) where T : IBaseId
+        public static T GetSelected<T>(this DataGridView dataGridView) where T : class, IBaseId
         {
             return dataGridView.BindingSource()?.Current is T current ? current : default;
         }
 
-        public static int GetPosition<T>(this DataGridView dataGridView, T value) where T : IBaseId
+        public static int GetPosition<T>(this DataGridView dataGridView, T value) where T : class, IBaseId
         {
             var binding = dataGridView.BindingSource();
 
-            if (binding == null) return -1;
+            if (binding is null) return -1;
 
             var item = binding.List.Cast<T>().Where(i => i.Id == value.Id).FirstOrDefault();
 
@@ -81,21 +81,21 @@ namespace P3tr0viCh.Utils.Extensions
 
             var binding = dataGridView.BindingSource();
 
-            if (binding == null) return;
+            if (binding is null) return;
 
             binding.Position = position;
         }
 
-        public static void SetSelected<T>(this DataGridView dataGridView, T value) where T : IBaseId
+        public static void SetSelected<T>(this DataGridView dataGridView, T value) where T : class, IBaseId
         {
             var index = dataGridView.GetPosition(value);
 
             dataGridView.SetPosition(index);
         }
 
-        public static DataGridViewRow Find<T>(this DataGridView dataGridView, T value) where T : IBaseId
+        public static DataGridViewRow Find<T>(this DataGridView dataGridView, T value) where T : class, IBaseId
         {
-            if (value == null) return null;
+            if (value is null) return null;
 
             if (dataGridView.IsEmpty()) return null;
 
@@ -109,11 +109,11 @@ namespace P3tr0viCh.Utils.Extensions
             return null;
         }
 
-        public static IEnumerable<DataGridViewRow> Find<T>(this DataGridView dataGridView, IEnumerable<T> values) where T : IBaseId
+        public static IEnumerable<DataGridViewRow> Find<T>(this DataGridView dataGridView, IEnumerable<T> values) where T : class, IBaseId
         {
             if (dataGridView.IsEmpty()) return Enumerable.Empty<DataGridViewRow>();
 
-            if (values == null || values.IsEmpty()) return Enumerable.Empty<DataGridViewRow>();
+            if (values is null || values.IsEmpty()) return Enumerable.Empty<DataGridViewRow>();
 
             var result = new List<DataGridViewRow>();
 
@@ -130,7 +130,7 @@ namespace P3tr0viCh.Utils.Extensions
             return result;
         }
 
-        public static void SetSelectedRows<T>(this DataGridView dataGridView, IEnumerable<T> values) where T : IBaseId
+        public static void SetSelectedRows<T>(this DataGridView dataGridView, IEnumerable<T> values) where T : class, IBaseId
         {
             dataGridView.ClearSelection();
 
@@ -144,7 +144,7 @@ namespace P3tr0viCh.Utils.Extensions
             }
         }
 
-        public static void SetSelectedRows<T>(this DataGridView dataGridView, T value) where T : IBaseId
+        public static void SetSelectedRows<T>(this DataGridView dataGridView, T value) where T : class, IBaseId
         {
             dataGridView.ClearSelection();
 

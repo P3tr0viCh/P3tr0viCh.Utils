@@ -8,7 +8,7 @@ using System.IO;
 
 namespace P3tr0viCh.Utils.Storage
 {
-    public class ObjectStorage<T> : IObjectStorage where T : IObjectPersistence, new()
+    public class ObjectStorage<T> : IObjectStorage where T : class, IObjectPersistence, new()
     {
         private T data = new T();
 
@@ -147,7 +147,7 @@ namespace P3tr0viCh.Utils.Storage
 
             data = JsonConvert.DeserializeObject<T>(content);
 
-            if (data == null) throw new NullReferenceException();
+            if (data is null) throw new NullReferenceException();
 
             data.Check();
         }

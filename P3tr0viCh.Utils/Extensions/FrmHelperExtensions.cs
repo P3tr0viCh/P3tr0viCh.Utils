@@ -73,7 +73,7 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static T GetSelectedItem<T>(this ComboBox comboBox)
         {
-            if (comboBox.SelectedItem == null) return default;
+            if (comboBox.SelectedItem is null) return default;
 
             if (comboBox.SelectedItem is T selected) return selected;
 
@@ -112,9 +112,9 @@ namespace P3tr0viCh.Utils.Extensions
         {
             string s;
 
-            if (value == null || value == 0)
+            if (value is null || value == 0)
             {
-                s = showZero ? 0d.ToString(format) : string.Empty;
+                s = showZero ? 0D.ToString(format) : string.Empty;
             }
             else
             {
@@ -133,7 +133,7 @@ namespace P3tr0viCh.Utils.Extensions
         {
             string s;
 
-            if (value == null || value == 0)
+            if (value is null || value == 0)
             {
                 s = showZero ? 0.ToString() : string.Empty;
             }
@@ -161,7 +161,7 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static void SetDateTime(this DateTimePicker dateTimePicker, DateTime? dateTime, DateTime defaultValue)
         {
-            if (dateTime == default || dateTime == null || dateTime < dateTimePicker.MinDate)
+            if (dateTime == default || dateTime is null || dateTime < dateTimePicker.MinDate)
             {
                 dateTimePicker.Value = defaultValue;
                 dateTimePicker.Checked = false;

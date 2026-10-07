@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace P3tr0viCh.Utils.Presenters
 {
-    public abstract class PresenterDataGridView<T> : IPresenterDataGridViewCompare<T> where T : IBaseId
+    public abstract class PresenterDataGridView<T> : IPresenterDataGridViewCompare<T> where T : class, IBaseId
     {
         public DataGridView DataGridView { get; private set; }
 
@@ -74,7 +74,7 @@ namespace P3tr0viCh.Utils.Presenters
 
             var bindingSource = DataGridView.BindingSource();
 
-            if (bindingSource == null) return;
+            if (bindingSource is null) return;
 
             var selectedList = SelectedList;
 

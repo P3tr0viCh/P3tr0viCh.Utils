@@ -42,7 +42,7 @@ namespace P3tr0viCh.Utils.Forms
 
         public static void Show(Options options = null)
         {
-            if (options == null)
+            if (options is null)
             {
                 options = new Options();
             }

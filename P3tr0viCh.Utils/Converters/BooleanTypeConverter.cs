@@ -37,7 +37,7 @@ namespace P3tr0viCh.Utils.Converters
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            if (values == null)
+            if (values is null)
             {
                 values = new StandardValuesCollection(new object[2] { true, false });
             }

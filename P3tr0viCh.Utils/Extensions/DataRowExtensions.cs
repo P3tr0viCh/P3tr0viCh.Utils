@@ -8,7 +8,7 @@ namespace P3tr0viCh.Utils.Extensions
         public static string AsString(this DataRow row, string columnName) => Convert.ToString(row[columnName]);
         
         public static string AsStringNullable(this DataRow row, string columnName) {
-            if (row[columnName] == null) return null;
+            if (row[columnName] is null) return null;
 
             var s = row.AsString(columnName);
 
@@ -20,7 +20,7 @@ namespace P3tr0viCh.Utils.Extensions
         public static DateTime AsDateTime(this DataRow row, string columnName) => Convert.ToDateTime(row[columnName]);
 
         public static DateTime? AsDateTimeNullable(this DataRow row, string columnName) {
-            if (row[columnName] == null) return null;
+            if (row[columnName] is null) return null;
 
             var dt = row.AsDateTime(columnName);
 
@@ -33,7 +33,7 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static double? AsDoubleNullable(this DataRow row, string columnName)
         {
-            if (row[columnName] == null) return null;
+            if (row[columnName] is null) return null;
 
             var d = row.AsDouble(columnName);
 

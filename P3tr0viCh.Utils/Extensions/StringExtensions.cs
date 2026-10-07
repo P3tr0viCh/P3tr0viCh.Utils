@@ -46,7 +46,7 @@ namespace P3tr0viCh.Utils.Extensions
 
         public static string TrimText(this string s)
         {
-            if (s == null) return null;
+            if (s is null) return null;
 
             if (s.IsEmpty()) return null;
 

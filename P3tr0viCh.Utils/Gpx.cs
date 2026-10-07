@@ -39,7 +39,7 @@ namespace P3tr0viCh.Utils
 
             public void Assign(Point source)
             {
-                if (source == null)
+                if (source is null)
                 {
                     Clear();
 
@@ -137,7 +137,7 @@ namespace P3tr0viCh.Utils
 
             public void Assign(Track source)
             {
-                if (source == null)
+                if (source is null)
                 {
                     Clear();
 
@@ -162,13 +162,13 @@ namespace P3tr0viCh.Utils
                 EleDescent = source.EleDescent;
                 calcEleDescent = source.calcEleDescent;
 
-                if (source.Points == null)
+                if (source.Points is null)
                 {
                     Points = null;
                 }
                 else
                 {
-                    if (Points == null)
+                    if (Points is null)
                     {
                         Points = new List<Point>();
                     }

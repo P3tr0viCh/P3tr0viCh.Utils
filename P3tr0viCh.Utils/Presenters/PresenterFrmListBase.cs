@@ -14,7 +14,7 @@ namespace P3tr0viCh.Utils.Presenters
 {
     public abstract partial class PresenterFrmListBase<T> :
         IPresenterFrmListBase,
-        IPresenterDataGridViewCompare<T> where T : IBaseId, new()
+        IPresenterDataGridViewCompare<T> where T : class, IBaseId, new()
     {
         public IFrmList FrmList { get; private set; }
 
@@ -213,7 +213,7 @@ namespace P3tr0viCh.Utils.Presenters
         {
             var item = Find(value);
 
-            if (item == null)
+            if (item is null)
             {
                 BindingSource.Add(value);
             }
