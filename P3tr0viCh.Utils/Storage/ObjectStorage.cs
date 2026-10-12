@@ -1,6 +1,4 @@
-﻿#define ENABLE_CHECK_HASH
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using P3tr0viCh.Utils.Exceptions;
 using P3tr0viCh.Utils.Extensions;
 using System;
@@ -68,19 +66,15 @@ namespace P3tr0viCh.Utils.Storage
 
         private string GetHash(string value) => Crypto.HMACSHA256Hash(value, Crypto.SecurityKey);
 
-        private void SaveObject()
+        private void SaveObject(string content)
         {
-            var content = JsonConvert.SerializeObject(data, Formatting.Indented);
-
             File.WriteAllText(FilePath, content);
         }
 
-        private void SaveHash()
+        private void SaveHash(string content)
         {
             if (UseHash)
             {
-                var content = File.ReadAllText(FilePath);
-
                 var hash = GetHash(content);
 
                 File.WriteAllText(FilePathHash, hash);
@@ -99,9 +93,11 @@ namespace P3tr0viCh.Utils.Storage
             {
                 System.IO.Directory.CreateDirectory(Directory);
 
-                SaveObject();
+                var content = JsonConvert.SerializeObject(data, Formatting.Indented);
 
-                SaveHash();
+                SaveHash(content);
+
+                SaveObject(content);
 
                 return true;
             }
@@ -113,31 +109,7 @@ namespace P3tr0viCh.Utils.Storage
             }
         }
 
-#if ENABLE_CHECK_HASH
-        private void LoadHash()
-        {
-            if (!UseHash) return;
-
-            if (!File.Exists(FilePath)) return;
-
-            Files.CheckFileExists(FilePathHash);
-
-            if (Files.IsFileEmpty(FilePathHash)) throw new FileZeroLengthException(FilePathHash);
-
-            var content = File.ReadAllText(FilePath);
-
-            var hash = GetHash(content);
-
-            var hashSaved = File.ReadAllText(FilePathHash);
-
-            if (hashSaved != hash)
-            {
-                throw new WrongHashException();
-            }
-        }
-#endif
-
-        private void LoadObject()
+        private string LoadObject()
         {
             Files.CheckFileExists(FilePath);
 
@@ -150,6 +122,26 @@ namespace P3tr0viCh.Utils.Storage
             if (data is null) throw new NullReferenceException();
 
             data.Check();
+
+            return content;
+        }
+
+        private void CheckHash(string content)
+        {
+            if (!UseHash) return;
+
+            Files.CheckFileExists(FilePathHash);
+
+            var hash = GetHash(content);
+
+            var hashSaved = File.ReadAllText(FilePathHash);
+
+            if (hashSaved.IsEmpty()) throw new FileZeroLengthException(FilePathHash);
+
+            if (hashSaved != hash)
+            {
+                throw new WrongHashException();
+            }
         }
 
         public virtual bool Load()
@@ -158,11 +150,9 @@ namespace P3tr0viCh.Utils.Storage
 
             try
             {
-#if ENABLE_CHECK_HASH
-                LoadHash();
-#endif
+                var content = LoadObject();
 
-                LoadObject();
+                CheckHash(content);
 
                 return true;
             }
