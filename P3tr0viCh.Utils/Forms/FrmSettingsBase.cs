@@ -108,7 +108,7 @@ namespace P3tr0viCh.Utils.Forms
 
         private void Frm_Load(object sender, EventArgs e)
         {
-            propertyGrid.SelectedObject = objectStorage.Object;
+            propertyGrid.SelectedObject = ObjectStorage?.Object;
 
             propertyGrid.ExpandAllGridItems();
         }

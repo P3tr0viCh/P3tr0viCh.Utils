@@ -85,7 +85,7 @@ namespace P3tr0viCh.Utils.Forms
                     options.AppNameLineBreak = 0;
 
                     options.Text = Str.Random(35, rnd);
-                    for (int i = 0; i < 9; i++)
+                    for (var i = 0; i < 9; i++)
                     {
                         options.Text += Str.Eol + Str.Random(35, rnd);
                     }
@@ -230,7 +230,7 @@ namespace P3tr0viCh.Utils.Forms
                 lblBuildDate.Font = new Font(frm.Font.Name, 10);
                 lblBuildDate.SetBounds(textWidth - buildDateWidth + 8, lblVersion.Top, buildDateWidth, 32);
                 lblBuildDate.TextAlign = ContentAlignment.TopRight;
-                lblBuildDate.Text = buildDate.ToString("yyyy-MM-dd");
+                lblBuildDate.Text = buildDate.ToString();
 
                 lblText.Parent = frm;
                 lblText.BackColor = Color.White;
