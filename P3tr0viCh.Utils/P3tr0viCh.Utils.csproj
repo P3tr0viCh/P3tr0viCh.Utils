@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>false</Deterministic>
-    <BaseIntermediateOutputPath>..\..\..\..\Projects.exe\vs-obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\..\Projects.exe\vs-obj\P3tr0viCh.Utils\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
